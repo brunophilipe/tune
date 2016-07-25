@@ -8,5 +8,5 @@
 
 import Foundation
 
-print("Hello, World!")
-
+let controller = iTunesController()
+controller.parseArguments(Process.arguments)

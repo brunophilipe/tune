@@ -8,6 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		150FEB571D46ACF100147D0C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150FEB561D46ACF100147D0C /* main.swift */; };
+		150FEB5F1D46AD1A00147D0C /* iTunes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150FEB5D1D46AD1A00147D0C /* iTunes.swift */; };
+		150FEB601D46AD1A00147D0C /* iTunesScripting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150FEB5E1D46AD1A00147D0C /* iTunesScripting.swift */; };
+		150FEB621D46AE2F00147D0C /* iTunesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150FEB611D46AE2F00147D0C /* iTunesController.swift */; };
+		150FEB641D46B50900147D0C /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150FEB631D46B50900147D0C /* ScriptingBridge.framework */; };
+		15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */; };
+		15E8EE231D46C18B00B8C266 /* CodesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE181D46C18B00B8C266 /* CodesParser.swift */; };
+		15E8EE241D46C18B00B8C266 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE191D46C18B00B8C266 /* Color.swift */; };
+		15E8EE251D46C18B00B8C266 /* ControlCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1A1D46C18B00B8C266 /* ControlCode.swift */; };
+		15E8EE261D46C18B00B8C266 /* ModesExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1B1D46C18B00B8C266 /* ModesExtractor.swift */; };
+		15E8EE271D46C18B00B8C266 /* OutputTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1C1D46C18B00B8C266 /* OutputTarget.swift */; };
+		15E8EE281D46C18B00B8C266 /* Rainbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1D1D46C18B00B8C266 /* Rainbow.swift */; };
+		15E8EE291D46C18B00B8C266 /* String+Rainbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1E1D46C18B00B8C266 /* String+Rainbow.swift */; };
+		15E8EE2A1D46C18B00B8C266 /* StringGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1F1D46C18B00B8C266 /* StringGenerator.swift */; };
+		15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE201D46C18B00B8C266 /* Style.swift */; };
+		15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +40,21 @@
 /* Begin PBXFileReference section */
 		150FEB531D46ACF100147D0C /* tune */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tune; sourceTree = BUILT_PRODUCTS_DIR; };
 		150FEB561D46ACF100147D0C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		150FEB5D1D46AD1A00147D0C /* iTunes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iTunes.swift; sourceTree = "<group>"; };
+		150FEB5E1D46AD1A00147D0C /* iTunesScripting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iTunesScripting.swift; sourceTree = "<group>"; };
+		150FEB611D46AE2F00147D0C /* iTunesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iTunesController.swift; sourceTree = "<group>"; };
+		150FEB631D46B50900147D0C /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
+		15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundColor.swift; sourceTree = "<group>"; };
+		15E8EE181D46C18B00B8C266 /* CodesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodesParser.swift; sourceTree = "<group>"; };
+		15E8EE191D46C18B00B8C266 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		15E8EE1A1D46C18B00B8C266 /* ControlCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlCode.swift; sourceTree = "<group>"; };
+		15E8EE1B1D46C18B00B8C266 /* ModesExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModesExtractor.swift; sourceTree = "<group>"; };
+		15E8EE1C1D46C18B00B8C266 /* OutputTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputTarget.swift; sourceTree = "<group>"; };
+		15E8EE1D1D46C18B00B8C266 /* Rainbow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rainbow.swift; sourceTree = "<group>"; };
+		15E8EE1E1D46C18B00B8C266 /* String+Rainbow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Rainbow.swift"; sourceTree = "<group>"; };
+		15E8EE1F1D46C18B00B8C266 /* StringGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringGenerator.swift; sourceTree = "<group>"; };
+		15E8EE201D46C18B00B8C266 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XcodeColorsSupport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				150FEB641D46B50900147D0C /* ScriptingBridge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,7 +72,9 @@
 		150FEB4A1D46ACF100147D0C = {
 			isa = PBXGroup;
 			children = (
+				150FEB631D46B50900147D0C /* ScriptingBridge.framework */,
 				150FEB551D46ACF100147D0C /* tune */,
+				15E8EE151D46C18B00B8C266 /* dep */,
 				150FEB541D46ACF100147D0C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,8 +91,37 @@
 			isa = PBXGroup;
 			children = (
 				150FEB561D46ACF100147D0C /* main.swift */,
+				150FEB5D1D46AD1A00147D0C /* iTunes.swift */,
+				150FEB5E1D46AD1A00147D0C /* iTunesScripting.swift */,
+				150FEB611D46AE2F00147D0C /* iTunesController.swift */,
 			);
 			path = tune;
+			sourceTree = "<group>";
+		};
+		15E8EE151D46C18B00B8C266 /* dep */ = {
+			isa = PBXGroup;
+			children = (
+				15E8EE161D46C18B00B8C266 /* RainbowSwift */,
+			);
+			path = dep;
+			sourceTree = "<group>";
+		};
+		15E8EE161D46C18B00B8C266 /* RainbowSwift */ = {
+			isa = PBXGroup;
+			children = (
+				15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */,
+				15E8EE181D46C18B00B8C266 /* CodesParser.swift */,
+				15E8EE191D46C18B00B8C266 /* Color.swift */,
+				15E8EE1A1D46C18B00B8C266 /* ControlCode.swift */,
+				15E8EE1B1D46C18B00B8C266 /* ModesExtractor.swift */,
+				15E8EE1C1D46C18B00B8C266 /* OutputTarget.swift */,
+				15E8EE1D1D46C18B00B8C266 /* Rainbow.swift */,
+				15E8EE1E1D46C18B00B8C266 /* String+Rainbow.swift */,
+				15E8EE1F1D46C18B00B8C266 /* StringGenerator.swift */,
+				15E8EE201D46C18B00B8C266 /* Style.swift */,
+				15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */,
+			);
+			path = RainbowSwift;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,7 +181,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15E8EE251D46C18B00B8C266 /* ControlCode.swift in Sources */,
+				15E8EE271D46C18B00B8C266 /* OutputTarget.swift in Sources */,
+				15E8EE281D46C18B00B8C266 /* Rainbow.swift in Sources */,
+				15E8EE291D46C18B00B8C266 /* String+Rainbow.swift in Sources */,
+				150FEB601D46AD1A00147D0C /* iTunesScripting.swift in Sources */,
+				15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */,
+				15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */,
 				150FEB571D46ACF100147D0C /* main.swift in Sources */,
+				15E8EE241D46C18B00B8C266 /* Color.swift in Sources */,
+				15E8EE261D46C18B00B8C266 /* ModesExtractor.swift in Sources */,
+				15E8EE2A1D46C18B00B8C266 /* StringGenerator.swift in Sources */,
+				15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */,
+				150FEB5F1D46AD1A00147D0C /* iTunes.swift in Sources */,
+				150FEB621D46AE2F00147D0C /* iTunesController.swift in Sources */,
+				15E8EE231D46C18B00B8C266 /* CodesParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +317,7 @@
 				150FEB5C1D46ACF100147D0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
