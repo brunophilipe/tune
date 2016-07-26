@@ -23,6 +23,7 @@
 		15E8EE2A1D46C18B00B8C266 /* StringGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1F1D46C18B00B8C266 /* StringGenerator.swift */; };
 		15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE201D46C18B00B8C266 /* Style.swift */; };
 		15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */; };
+		15E8EE311D4728B300B8C266 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE301D4728B300B8C266 /* Tools.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,6 +56,9 @@
 		15E8EE1F1D46C18B00B8C266 /* StringGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringGenerator.swift; sourceTree = "<group>"; };
 		15E8EE201D46C18B00B8C266 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XcodeColorsSupport.swift; sourceTree = "<group>"; };
+		15E8EE2E1D4728B200B8C266 /* tune-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tune-Bridging-Header.h"; sourceTree = "<group>"; };
+		15E8EE2F1D4728B300B8C266 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
+		15E8EE301D4728B300B8C266 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,9 @@
 				150FEB5D1D46AD1A00147D0C /* iTunes.swift */,
 				150FEB5E1D46AD1A00147D0C /* iTunesScripting.swift */,
 				150FEB611D46AE2F00147D0C /* iTunesController.swift */,
+				15E8EE2F1D4728B300B8C266 /* Tools.h */,
+				15E8EE301D4728B300B8C266 /* Tools.m */,
+				15E8EE2E1D4728B200B8C266 /* tune-Bridging-Header.h */,
 			);
 			path = tune;
 			sourceTree = "<group>";
@@ -184,6 +191,7 @@
 				15E8EE251D46C18B00B8C266 /* ControlCode.swift in Sources */,
 				15E8EE271D46C18B00B8C266 /* OutputTarget.swift in Sources */,
 				15E8EE281D46C18B00B8C266 /* Rainbow.swift in Sources */,
+				15E8EE311D4728B300B8C266 /* Tools.m in Sources */,
 				15E8EE291D46C18B00B8C266 /* String+Rainbow.swift in Sources */,
 				150FEB601D46AD1A00147D0C /* iTunesScripting.swift in Sources */,
 				15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */,
@@ -287,14 +295,21 @@
 		150FEB5B1D46ACF100147D0C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "tune/tune-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		150FEB5C1D46ACF100147D0C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "tune/tune-Bridging-Header.h";
 			};
 			name = Release;
 		};

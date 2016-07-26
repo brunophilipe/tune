@@ -71,6 +71,14 @@ class iTunesController
 				"Requires search string argument."
 			],
 			"search string"
+		), (
+			["album", "a"],
+			"Search for albums.",
+			[
+				"Searches for albums by name.",
+				"Requires search string argument."
+			],
+			"search string"
 		)
 	]
 	
@@ -147,7 +155,10 @@ class iTunesController
 			iTunesApp?.previousTrack!()
 			
 		case "search", "s":
-			runSearch(arguments)
+			runTrackSearch(arguments)
+			
+		case "album", "a":
+			runAlbumSearch(arguments)
 			
 		case "info", "i":
 			printCurrentTrackInfo()
@@ -160,7 +171,7 @@ class iTunesController
 		return true
 	}
 	
-	private func runSearch(arguments: [String])
+	private func runTrackSearch(arguments: [String])
 	{
 		if arguments.count < 3
 		{
@@ -266,6 +277,115 @@ class iTunesController
 		}
 	}
 	
+	private func runAlbumSearch(arguments: [String])
+	{
+		if arguments.count < 3
+		{
+			print("No search arguments provided!\n")
+			return
+		}
+		
+		let searchString = arguments.suffixFrom(2).joinWithSeparator(" ")
+		
+		if searchString.characters.count == 0
+		{
+			print("No search arguments provided!\n")
+			return
+		}
+		
+		if let libraryPlaylist = getLibraryPlaylist()
+		{
+			print("Searching albums for \"\(searchString)\"...")
+			
+			let results = libraryPlaylist.searchFor!(searchString, only: .Albums)
+			var albums: [(human: String, query: String)] = []
+			
+			for result in results
+			{
+				if let track = result as? iTunesTrack,
+					   albumDesc = track.prettyAlbumDescription,
+					   albumQuery = track.searchableAlbumDescription
+				   where !albums.contains(
+					{ entry in
+						return albumQuery == entry.query
+					})
+				{
+					albums.append((albumDesc, albumQuery))
+				}
+			}
+			
+			let maxCount = 9
+			let displayCount = min(albums.count, maxCount)
+			
+			if albums.count == 0
+			{
+				print("Got no results for your search. Please try a different search argument.\n")
+				return
+			}
+			else
+			{
+				let word = albums.count > displayCount ? "top" : "all"
+				print("Listing \(displayCount != 1 ? word+" " : "")\(displayCount) result\(displayCount != 1 ? "s" : ""):")
+			}
+			
+			for i in 0 ..< displayCount
+			{
+				let listItem = "[\(i+1)]".bold
+				print("\t\(listItem): \(albums[i].human)")
+			}
+			
+			print("\nInsert value [1-\(displayCount)] to pick album to play or 0 to cancel: ")
+			
+			if let input = getUserInput(), number = Int(input)
+			{
+				if number == 0
+				{
+					print("Exiting on user request.")
+					return
+				}
+				else if number > 0 && number <= displayCount
+				{
+					let album = albums[number-1].query
+					let albumResults = libraryPlaylist.searchFor!(album, only: .All)
+					
+					if albumResults.count > 0, let queue = getQueuePlaylist()
+					{
+						for i in 0 ..< results.count
+						{
+							let track = results[i] as! iTunesTrack
+							if track.searchableAlbumDescription == albums[number-1].query
+							{
+								track.duplicateTo!(queue as! SBObject)
+							}
+						}
+						
+						queue.playOnce!(true)
+						
+						print("Now playing \(albums[number-1].human). Enjoy the music!")
+						return
+					}
+					else
+					{
+						print("Could not load album... Exiting.")
+						return
+					}
+				}
+				else
+				{
+					print("Invalid user input \"\(number)\". Exiting.")
+					return
+				}
+			}
+			
+			print("Invalid user input.. Exiting.")
+			return
+		}
+		else
+		{
+			print("Could not get iTunes library!\n")
+		}
+	}
+	
 	private func printCurrentTrackInfo()
 	{
 		if let track = iTunesApp?.currentTrack where track.size > 0
@@ -349,6 +469,48 @@ class iTunesController
 		return nil
 	}
 	
+	private func getQueuePlaylist() -> iTunesPlaylist?
+	{
+		var librarySource: iTunesSource? = nil
+		
+		for sourceElement in iTunesApp?.sources!() as SBElementArray!
+		{
+			if let source = sourceElement as? iTunesSource where source.kind == .Library
+			{
+				librarySource = source
+				break
+			}
+		}
+		
+		if librarySource == nil
+		{
+			return nil
+		}
+		
+		// Try using existing playlist
+		for playlistElement in librarySource?.playlists!() as SBElementArray!
+		{
+			if let playlist = playlistElement as? iTunesPlaylist where playlist.name == "tune"
+			{
+				let tracks = playlist.tracks!() as NSMutableArray
+				tracks.removeAllObjects()
+				
+				return playlist
+			}
+		}
+		
+		// Create new playlist
+		if let object = Tools.instantiateObjectFromApplication(iTunesApp as! SBApplication, typeName: "playlist", andProperties: ["name": "tune"])
+		{
+			let playlists = (librarySource?.playlists!() as SBElementArray!) as NSMutableArray
+			playlists.addObject(object)
+			
+			return object as iTunesPlaylist
+		}
+		
+		return nil
+	}
+	
 	private func getUserInput() -> String?
 	{
 		let stdin = NSFileHandle.fileHandleWithStandardInput()
@@ -374,4 +536,54 @@ class iTunesController
 func pprint(string: String)
 {
 	print(string.stringByReplacingOccurrencesOfString("\t", withString: "        "))
+}
+
+extension iTunesTrack
+{
+	var prettyAlbumDescription: String?
+	{
+		var artistName = self.artist
+		
+		if artistName == nil || artistName == ""
+		{
+			artistName = kUnknownArtist
+		}
+		
+		if let albumName = self.album where albumName.characters.count > 0
+		{
+			let yearString = ((year != nil && year != 0) ? " (\(year!))" : "")
+			
+			return "\"\(albumName)\" by \(artistName!)\(yearString)"
+		}
+		else
+		{
+			return nil
+		}
+	}
+	
+	var searchableAlbumDescription: String?
+	{
+		var string = ""
+		
+		let artistName = self.artist
+		if artistName != nil && artistName != ""
+		{
+			string += artistName! + " "
+		}
+		
+		let albumName = self.album
+		if albumName != nil && albumName != ""
+		{
+			string += albumName! + " "
+		}
+		
+		if string == ""
+		{
+			return nil
+		}
+		else
+		{
+			return string
+		}
+	}
 }
