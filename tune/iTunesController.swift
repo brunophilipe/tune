@@ -243,28 +243,46 @@ class iTunesController
 				print("\t\(listItem): \(desc)")
 			}
 			
-			print("\nInsert value [1-\(displayCount)] to pick song to play or 0 to cancel: ")
+			print("\nInsert [1-\(displayCount)] to pick song to play, 'a' to play all in a queue, or 0 to cancel: ")
 			
-			if let input = getUserInput(), number = Int(input)
+			if let input = getUserInput()
 			{
-				if number == 0
+				if input == "a", let queue = getQueuePlaylist()
 				{
-					print("Exiting on user request.")
+					for i in 0 ..< displayCount
+					{
+						if let track = results[i] as? iTunesTrack
+						{
+							track.duplicateTo!(queue as! SBObject)
+						}
+					}
+					
+					queue.playOnce!(true)
+					
+					print("Playing all results as a queue. Enjoy the music!")
 					return
 				}
-				else if number > 0 && number <= displayCount
+				else if let number = Int(input)
 				{
-					if let track = results[number-1] as? iTunesTrack
+					if number == 0
 					{
-						track.playOnce!(true)
-						print("Enjoy the music!")
+						print("Exiting on user request.")
 						return
 					}
-				}
-				else
-				{
-					print("Invalid user input \"\(number)\". Exiting.")
-					return
+					else if number > 0 && number <= displayCount
+					{
+						if let track = results[number-1] as? iTunesTrack
+						{
+							track.playOnce!(true)
+							print("Enjoy the music!")
+							return
+						}
+					}
+					else
+					{
+						print("Invalid user input \"\(number)\". Exiting.")
+						return
+					}
 				}
 			}
 			
