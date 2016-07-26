@@ -297,7 +297,7 @@ class iTunesController
 		{
 			print("Searching albums for \"\(searchString)\"...")
 			
-			let results = libraryPlaylist.searchFor!(searchString, only: .Albums)
+			let results = libraryPlaylist.searchFor!(searchString, only: .All)
 			var albums: [(human: String, query: String)] = []
 			
 			for result in results
