@@ -84,7 +84,7 @@ class iTunesController
 		
 		print("Usage:".bold)
 		print("\ttune <verb> [extra arguments]\n")
-		print("Where <verb> is (\("underlined".underline) text denotes extra argument(s)):\n")
+		print("Where <verb> is one of: (\("underlined".underline) text denotes extra argument(s))\n")
 		
 		for verb in verbs
 		{
