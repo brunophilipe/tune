@@ -22,7 +22,7 @@
 import Foundation
 import ScriptingBridge
 
-typealias Verb = (names: [String], brief: String, description: [String])
+typealias Verb = (names: [String], brief: String, description: [String], extra: String?)
 
 class iTunesController
 {
@@ -32,19 +32,31 @@ class iTunesController
 		(
 			["play"],
 			"Start playing music.",
-			["If paused, will resume playing. If stopped, will play the last", "played song."]
+			["If paused, will resume playing. If stopped, will play the last", "played song."],
+			nil
 		), (
 			["pause"],
 			"Pause playback.",
-			["If playing, will pause playback. If stopped, does nothing."]
+			["If playing, will pause playback. If stopped, does nothing."],
+			nil
 		), (
 			["next", "n"],
 			"Go to the next track.",
-			["Goes to the next track in the \"Up Next\" list or in the Apple", "Music stream."]
+			["Goes to the next track in the \"Up Next\" list or in the Apple", "Music stream."],
+			nil
 		), (
 			["prev", "p", "previous"],
 			"Go to the previous track.",
-			["Goes to the previously played track (if possible)."]
+			["Goes to the previously played track (if possible)."],
+			nil
+		), (
+			["search", "s"],
+			"Search for tracks.",
+			[
+				"Searches for tracks by name.",
+				"Requires search string argument."
+			],
+			"search string"
 		)
 	]
 	
@@ -67,13 +79,19 @@ class iTunesController
 		
 		print("Usage:".bold)
 		print("\ttune <verb> [extra arguments]\n")
-		print("Where <verb> is:")
+		print("Where <verb> is (\("underlined".underline) text denotes extra argument(s)):\n")
 		
 		for verb in verbs
 		{
-			let names = verb.names.joinWithSeparator(", ")
+			var names = verb.names.map({arg in return arg.bold}).joinWithSeparator(", ")
+			let hasExtra = verb.extra != nil
 			
-			print("\t\(names.bold): \(verb.brief)")
+			if hasExtra
+			{
+				names = "(\(names))"
+			}
+			
+			print("\t\(names)\(hasExtra ? " \(verb.extra!.underline)" : ""): \(verb.brief)")
 			
 			for descLine in verb.description
 			{
@@ -111,12 +129,144 @@ class iTunesController
 		case "prev", "p", "previous":
 			iTunesApp?.previousTrack!()
 			
+		case "search", "s":
+			runSearch(arguments)
+			
 		default:
 			print("Bad argument provided: \(arguments[1])\n")
 			return false
 		}
 		
 		return true
+	}
+	
+	private func runSearch(arguments: [String])
+	{
+		if arguments.count < 3
+		{
+			print("No search arguments provided!\n")
+			return
+		}
+		
+		let searchString = arguments.suffixFrom(2).joinWithSeparator(" ")
+		
+		if searchString.characters.count == 0
+		{
+			print("No search arguments provided!\n")
+			return
+		}
+		
+		if let libraryPlaylist = getLibraryPlaylist()
+		{
+			print("Searching for \"\(searchString)\"...")
+			
+			let results = libraryPlaylist.searchFor!(searchString, only: .All)
+			let maxCount = 9
+			let displayCount = min(results.count, maxCount)
+			
+			if results.count == 0
+			{
+				print("Got no results for your search. Please try a different search argument.\n")
+				return
+			}
+			else
+			{
+				let word = results.count > displayCount ? "top" : "all"
+				print("Listing \(displayCount != 1 ? word+" " : "")\(displayCount) result\(displayCount != 1 ? "s" : ""):")
+			}
+			
+			for i in 0 ..< displayCount
+			{
+				let desc: String!
+				
+				if let track = results[i] as? iTunesTrack
+				{
+					let artist = track.artist ?? "Unknown Artist"
+					let title = track.name ?? "Unknown Track"
+					let album = track.album ?? "Unknown Album"
+					
+					desc = "\(artist) - \"\(title)\" (\(album))"
+				}
+				else
+				{
+					desc = "Unknwon track (could not parse...)"
+				}
+				
+				let listItem = "[\(i+1)]".bold
+				
+				print("\t\(listItem): \(desc)")
+			}
+			
+			print("\nInsert value [1-\(displayCount)] to pick song to play or 0 to cancel: ")
+			
+			if let input = getUserInput(), number = Int(input)
+			{
+				if number == 0
+				{
+					print("Exiting on user request.")
+					return
+				}
+				else if number > 0 && number <= displayCount
+				{
+					if let track = results[number-1] as? iTunesTrack
+					{
+						track.playOnce!(true)
+						print("Enjoy the music!")
+						return
+					}
+				}
+				else
+				{
+					print("Invalid user input \"\(number)\". Exiting.")
+					return
+				}
+			}
+			
+			print("Invalid user input.. Exiting.")
+			return
+		}
+		else
+		{
+			print("Could not get iTunes library!\n")
+		}
+	}
+	
+	private func getLibraryPlaylist() -> iTunesLibraryPlaylist?
+	{
+		var librarySource: iTunesSource? = nil
+		
+		for sourceElement in iTunesApp?.sources!() as SBElementArray!
+		{
+			if let source = sourceElement as? iTunesSource where source.kind == .Library
+			{
+				librarySource = source
+				break
+			}
+		}
+		
+		if librarySource == nil
+		{
+			return nil
+		}
+		
+		for playlistElement in librarySource?.playlists!() as SBElementArray!
+		{
+			if let playlist = playlistElement as? iTunesPlaylist where playlist.specialKind == .Library,
+			   let libraryPlaylist = playlist as? iTunesLibraryPlaylist
+			{
+				return libraryPlaylist
+			}
+		}
+		
+		return nil
+	}
+	
+	private func getUserInput() -> String?
+	{
+		let stdin = NSFileHandle.fileHandleWithStandardInput()
+		var capture = NSString(data: stdin.availableData, encoding: NSUTF8StringEncoding) as? String ?? nil
+		capture = capture?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+		return capture
 	}
 	
 	private func printLogo()

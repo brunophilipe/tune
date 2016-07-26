@@ -300,7 +300,7 @@ extension SBObject: iTunesEQPreset {}
     optional var time: String { get } // the length of all songs in MM:SS format
     optional var visible: Bool { get } // is this playlist visible in the Source list?
     optional func moveTo(to: SBObject!) // Move playlist(s) to a new location
-    optional func searchFor(for_: String!, only: iTunesESrA) -> iTunesTrack // search a playlist for tracks matching the search string. Identical to entering search text in the Search field in iTunes.
+    optional func searchFor(for_: String!, only: iTunesESrA) -> SBElementArray // search a playlist for tracks matching the search string. Identical to entering search text in the Search field in iTunes.
     optional func setName(name: String!) // the name of the playlist
     optional func setLoved(loved: Bool) // is this playlist loved?
     optional func setShuffle(shuffle: Bool) // play the songs in this playlist in random order?
