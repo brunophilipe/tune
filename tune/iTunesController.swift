@@ -24,12 +24,21 @@ import ScriptingBridge
 
 typealias Verb = (names: [String], brief: String, description: [String], extra: String?)
 
+let kUnknownArtist = "Unknown Artist".italic
+let kUnknownTrack = "Unknown Track".italic
+let kUnknownAlbum = "Unknown Album".italic
+
 class iTunesController
 {
 	private var iTunesApp: iTunesApplication?
 	
 	private let verbs: [Verb] = [
 		(
+			["info", "i"],
+			"Information on the current track.",
+			["If playing, will display info on the current track."],
+			nil
+		),(
 			["play"],
 			"Start playing music.",
 			["If paused, will resume playing. If stopped, will play the last", "played song."],
@@ -140,6 +149,9 @@ class iTunesController
 		case "search", "s":
 			runSearch(arguments)
 			
+		case "info", "i":
+			printCurrentTrackInfo()
+			
 		default:
 			print("Bad argument provided: \(arguments[1])\n")
 			return false
@@ -189,11 +201,26 @@ class iTunesController
 				
 				if let track = results[i] as? iTunesTrack
 				{
-					let artist = track.artist ?? "Unknown Artist"
-					let title = track.name ?? "Unknown Track"
-					let album = track.album ?? "Unknown Album"
+					var artist = track.artist
+					var title = track.name
+					var album = track.album
 					
-					desc = "\(artist) - \"\(title)\" (\(album))"
+					if artist == nil || artist?.characters.count == 0
+					{
+						artist = kUnknownArtist
+					}
+					
+					if title == nil || title?.characters.count == 0
+					{
+						title = kUnknownTrack
+					}
+					
+					if album == nil || album?.characters.count == 0
+					{
+						album = kUnknownAlbum
+					}
+					
+					desc = "\(artist!) - \"\(title!)\" (\(album!))"
 				}
 				else
 				{
@@ -237,6 +264,59 @@ class iTunesController
 		{
 			print("Could not get iTunes library!\n")
 		}
+	}
+	
+	private func printCurrentTrackInfo()
+	{
+		if let track = iTunesApp?.currentTrack where track.size > 0
+		{
+			print("Current track information:")
+			printTrackInfo(track)
+		}
+		else
+		{
+			print("No track currently being played.")
+			print("Use \("tune s <string>".underline) to lookup songs.")
+		}
+	}
+	
+	private func printTrackInfo(track: iTunesTrack)
+	{
+		var artist = track.artist
+		var title = track.name
+		var album = track.album
+		
+		if artist == nil || artist?.characters.count == 0
+		{
+			artist = kUnknownArtist
+		}
+		
+		if title == nil || title?.characters.count == 0
+		{
+			title = kUnknownTrack
+		}
+		
+		if album == nil || album?.characters.count == 0
+		{
+			album = kUnknownAlbum
+		}
+		
+		let duration = track.duration ?? 0.0
+		let durMin = Int(duration/60)
+		let durSec = Int(duration%60)
+		let durString = "\(durMin < 10 ? "0\(durMin)" : "\(durMin)"):" + "\(durSec < 10 ? "0\(durSec)" : "\(durSec)")"
+		
+		var year = track.year
+		
+		if year == 0
+		{
+			year = nil
+		}
+		
+		print("\t   \("title".bold): \(title!)")
+		print("\t  \("artist".bold): \(artist!)")
+		print("\t   \("album".bold): \(album!) \(year != nil ? "(\(year!))" :"")")
+		print("\t\("duration".bold): \(durString)")
 	}
 	
 	private func getLibraryPlaylist() -> iTunesLibraryPlaylist?
