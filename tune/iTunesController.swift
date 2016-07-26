@@ -40,6 +40,11 @@ class iTunesController
 			["If playing, will pause playback. If stopped, does nothing."],
 			nil
 		), (
+			["stop"],
+			"Stop playback.",
+			["If playing, will stop playback. If stopped, does nothing."],
+			nil
+		), (
 			["next", "n"],
 			"Go to the next track.",
 			["Goes to the next track in the \"Up Next\" list or in the Apple", "Music stream."],
@@ -122,6 +127,9 @@ class iTunesController
 			
 		case "pause":
 			iTunesApp?.pause!()
+			
+		case "stop":
+			iTunesApp?.stop!()
 			
 		case "next", "n":
 			iTunesApp?.nextTrack!()
