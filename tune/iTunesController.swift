@@ -21,6 +21,30 @@
 
 import Foundation
 import ScriptingBridge
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 typealias Verb = (names: [String], brief: String, description: [String], extra: String?)
 
@@ -30,9 +54,9 @@ let kUnknownAlbum = "Unknown Album".italic
 
 class iTunesController
 {
-	private var iTunesApp: iTunesApplication?
+	fileprivate var iTunesApp: iTunesApplication?
 	
-	private let verbs: [Verb] = [
+	fileprivate let verbs: [Verb] = [
 		(
 			["info", "i"],
 			"Information on the current track.",
@@ -84,10 +108,10 @@ class iTunesController
 	
 	init()
 	{
-		iTunesApp = SBApplication(bundleIdentifier: "com.apple.iTunes") as? iTunesApplication
+		iTunesApp = SBApplication(bundleIdentifier: "com.apple.iTunes")
 	}
 	
-	func parseArguments(arguments: [String])
+	func parseArguments(_ arguments: [String])
 	{
 		if !runParser(arguments)
 		{
@@ -95,7 +119,7 @@ class iTunesController
 		}
 	}
 	
-	private func printUsage()
+	fileprivate func printUsage()
 	{
 		printLogo()
 		
@@ -105,7 +129,7 @@ class iTunesController
 		
 		for verb in verbs
 		{
-			var names = verb.names.map({arg in return arg.bold}).joinWithSeparator(", ")
+			var names = verb.names.map({arg in return arg.bold}).joined(separator: ", ")
 			let hasExtra = verb.extra != nil
 			
 			if hasExtra
@@ -126,7 +150,7 @@ class iTunesController
 		print("\t")
 	}
 	
-	private func runParser(arguments: [String]) -> Bool
+	fileprivate func runParser(_ arguments: [String]) -> Bool
 	{
 		if arguments.count < 2
 		{
@@ -171,7 +195,7 @@ class iTunesController
 		return true
 	}
 	
-	private func runTrackSearch(arguments: [String])
+	fileprivate func runTrackSearch(_ arguments: [String])
 	{
 		if arguments.count < 3
 		{
@@ -179,7 +203,7 @@ class iTunesController
 			return
 		}
 		
-		let searchString = arguments.suffixFrom(2).joinWithSeparator(" ")
+		let searchString = arguments.suffix(from: 2).joined(separator: " ")
 		
 		if searchString.characters.count == 0
 		{
@@ -191,7 +215,7 @@ class iTunesController
 		{
 			print("Searching for \"\(searchString)\"...")
 			
-			let results = libraryPlaylist.searchFor!(searchString, only: .All)
+			let results = libraryPlaylist.searchFor!(searchString, only: .all)
 			let maxCount = 9
 			let displayCount = min(results.count, maxCount)
 			
@@ -253,7 +277,7 @@ class iTunesController
 					{
 						if let track = results[i] as? iTunesTrack
 						{
-							track.duplicateTo!(queue as! SBObject)
+							_ = track.duplicateTo!(queue as! SBObject)
 						}
 					}
 					
@@ -295,7 +319,7 @@ class iTunesController
 		}
 	}
 	
-	private func runAlbumSearch(arguments: [String])
+	fileprivate func runAlbumSearch(_ arguments: [String])
 	{
 		if arguments.count < 3
 		{
@@ -303,7 +327,7 @@ class iTunesController
 			return
 		}
 		
-		let searchString = arguments.suffixFrom(2).joinWithSeparator(" ")
+		let searchString = arguments.suffix(from: 2).joined(separator: " ")
 		
 		if searchString.characters.count == 0
 		{
@@ -315,16 +339,15 @@ class iTunesController
 		{
 			print("Searching albums for \"\(searchString)\"...")
 			
-			let results = libraryPlaylist.searchFor!(searchString, only: .All)
+			let results = libraryPlaylist.searchFor!(searchString, only: .all)
 			var albums: [(human: String, query: String)] = []
 			
 			for result in results
 			{
 				if let track = result as? iTunesTrack,
-					   albumDesc = track.prettyAlbumDescription,
-					   albumQuery = track.searchableAlbumDescription
-				   where !albums.contains(
-					{ entry in
+					   let albumDesc = track.prettyAlbumDescription,
+					   let albumQuery = track.searchableAlbumDescription, !albums.contains(
+					where: { entry in
 						return albumQuery == entry.query
 					})
 				{
@@ -354,7 +377,7 @@ class iTunesController
 			
 			print("\nInsert value [1-\(displayCount)] to pick album to play or 0 to cancel: ")
 			
-			if let input = getUserInput(), number = Int(input)
+			if let input = getUserInput(), let number = Int(input)
 			{
 				if number == 0
 				{
@@ -364,7 +387,7 @@ class iTunesController
 				else if number > 0 && number <= displayCount
 				{
 					let album = albums[number-1].query
-					let albumResults = libraryPlaylist.searchFor!(album, only: .All)
+					let albumResults = libraryPlaylist.searchFor!(album, only: .all)
 					
 					if albumResults.count > 0, let queue = getQueuePlaylist()
 					{
@@ -373,7 +396,7 @@ class iTunesController
 							let track = results[i] as! iTunesTrack
 							if track.searchableAlbumDescription == albums[number-1].query
 							{
-								track.duplicateTo!(queue as! SBObject)
+								_ = track.duplicateTo!(queue as! SBObject)
 							}
 						}
 						
@@ -404,9 +427,9 @@ class iTunesController
 		}
 	}
 	
-	private func printCurrentTrackInfo()
+	fileprivate func printCurrentTrackInfo()
 	{
-		if let track = iTunesApp?.currentTrack where track.size > 0
+		if let track = iTunesApp?.currentTrack, track.size > 0
 		{
 			print("Current track information:")
 			printTrackInfo(track)
@@ -418,7 +441,7 @@ class iTunesController
 		}
 	}
 	
-	private func printTrackInfo(track: iTunesTrack)
+	fileprivate func printTrackInfo(_ track: iTunesTrack)
 	{
 		var artist = track.artist
 		var title = track.name
@@ -441,7 +464,7 @@ class iTunesController
 		
 		let duration = track.duration ?? 0.0
 		let durMin = Int(duration/60)
-		let durSec = Int(duration%60)
+		let durSec = Int(duration.truncatingRemainder(dividingBy: 60))
 		let durString = "\(durMin < 10 ? "0\(durMin)" : "\(durMin)"):" + "\(durSec < 10 ? "0\(durSec)" : "\(durSec)")"
 		
 		var year = track.year
@@ -457,13 +480,13 @@ class iTunesController
 		print("\t\("duration".bold): \(durString)")
 	}
 	
-	private func getLibraryPlaylist() -> iTunesLibraryPlaylist?
+	fileprivate func getLibraryPlaylist() -> iTunesLibraryPlaylist?
 	{
 		var librarySource: iTunesSource? = nil
 		
 		for sourceElement in iTunesApp?.sources!() as SBElementArray!
 		{
-			if let source = sourceElement as? iTunesSource where source.kind == .Library
+			if let source = sourceElement as? iTunesSource, source.kind == .library
 			{
 				librarySource = source
 				break
@@ -477,7 +500,7 @@ class iTunesController
 		
 		for playlistElement in librarySource?.playlists!() as SBElementArray!
 		{
-			if let playlist = playlistElement as? iTunesPlaylist where playlist.specialKind == .Library,
+			if let playlist = playlistElement as? iTunesPlaylist, playlist.specialKind == .library,
 			   let libraryPlaylist = playlist as? iTunesLibraryPlaylist
 			{
 				return libraryPlaylist
@@ -487,13 +510,13 @@ class iTunesController
 		return nil
 	}
 	
-	private func getQueuePlaylist() -> iTunesPlaylist?
+	fileprivate func getQueuePlaylist() -> iTunesPlaylist?
 	{
 		var librarySource: iTunesSource? = nil
 		
 		for sourceElement in iTunesApp?.sources!() as SBElementArray!
 		{
-			if let source = sourceElement as? iTunesSource where source.kind == .Library
+			if let source = sourceElement as? iTunesSource, source.kind == .library
 			{
 				librarySource = source
 				break
@@ -508,7 +531,7 @@ class iTunesController
 		// Try using existing playlist
 		for playlistElement in librarySource?.playlists!() as SBElementArray!
 		{
-			if let playlist = playlistElement as? iTunesPlaylist where playlist.name == "tune"
+			if let playlist = playlistElement as? iTunesPlaylist, playlist.name == "tune"
 			{
 				let tracks = playlist.tracks!() as NSMutableArray
 				tracks.removeAllObjects()
@@ -518,10 +541,10 @@ class iTunesController
 		}
 		
 		// Create new playlist
-		if let object = Tools.instantiateObjectFromApplication(iTunesApp as! SBApplication, typeName: "playlist", andProperties: ["name": "tune"])
+		if let object = Tools.instantiateObject(from: iTunesApp as! SBApplication, typeName: "playlist", andProperties: ["name": "tune"])
 		{
 			let playlists = (librarySource?.playlists!() as SBElementArray!) as NSMutableArray
-			playlists.addObject(object)
+			playlists.add(object)
 			
 			return object as iTunesPlaylist
 		}
@@ -529,15 +552,15 @@ class iTunesController
 		return nil
 	}
 	
-	private func getUserInput() -> String?
+	fileprivate func getUserInput() -> String?
 	{
-		let stdin = NSFileHandle.fileHandleWithStandardInput()
-		var capture = NSString(data: stdin.availableData, encoding: NSUTF8StringEncoding) as? String ?? nil
-		capture = capture?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+		let stdin = FileHandle.standardInput
+		var capture = String(data: stdin.availableData, encoding: .utf8)
+		capture = capture?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
 		return capture
 	}
 	
-	private func printLogo()
+	fileprivate func printLogo()
 	{
 		print("  dP                              ".red)
 		print("  88                              ".lightRed)
@@ -551,9 +574,9 @@ class iTunesController
 	}
 }
 
-func pprint(string: String)
+func pprint(_ string: String)
 {
-	print(string.stringByReplacingOccurrencesOfString("\t", withString: "        "))
+	print(string.replacingOccurrences(of: "\t", with: "        "))
 }
 
 extension iTunesTrack
@@ -567,7 +590,7 @@ extension iTunesTrack
 			artistName = kUnknownArtist
 		}
 		
-		if let albumName = self.album where albumName.characters.count > 0
+		if let albumName = self.album, albumName.characters.count > 0
 		{
 			let yearString = ((year != nil && year != 0) ? " (\(year!))" : "")
 			

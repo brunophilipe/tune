@@ -22,4 +22,4 @@
 import Foundation
 
 let controller = iTunesController()
-controller.parseArguments(Process.arguments)
+controller.parseArguments(CommandLine.arguments)
