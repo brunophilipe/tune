@@ -122,6 +122,8 @@ class iTunesController
 	fileprivate func printUsage()
 	{
 		printLogo()
+		print("Quick iTunes control from the command line.".underline)
+		print("\n")
 		
 		print("Usage:".bold)
 		print("\ttune <verb> [extra arguments]\n")
@@ -232,7 +234,7 @@ class iTunesController
 			
 			for i in 0 ..< displayCount
 			{
-				let desc: String!
+				var desc: String
 				
 				if let track = results[i] as? iTunesTrack
 				{
@@ -429,6 +431,7 @@ class iTunesController
 	
 	fileprivate func printCurrentTrackInfo()
 	{
+		printLogo()
 		if let track = iTunesApp?.currentTrack, track.size > 0
 		{
 			print("Current track information:")
@@ -568,8 +571,6 @@ class iTunesController
 		print("  88   88    88 88'  `88 88ooood8 ".green)
 		print("  88   88.  .88 88    88 88.  ... ".lightBlue)
 		print("  dP   `88888P' dP    dP `88888P' ".blue)
-		print("\n")
-		print("Quick iTunes control from the command line.".underline)
 		print("\n")
 	}
 }
