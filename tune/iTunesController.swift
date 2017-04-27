@@ -242,17 +242,17 @@ class iTunesController
 					var title = track.name
 					var album = track.album
 					
-					if artist == nil || artist?.characters.count == 0
+					if artist == nil || artist == ""
 					{
 						artist = kUnknownArtist
 					}
 					
-					if title == nil || title?.characters.count == 0
+					if title == nil || title == ""
 					{
 						title = kUnknownTrack
 					}
 					
-					if album == nil || album?.characters.count == 0
+					if album == nil || album == ""
 					{
 						album = kUnknownAlbum
 					}
