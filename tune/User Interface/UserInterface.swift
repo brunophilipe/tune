@@ -20,47 +20,86 @@
 //
 
 import Foundation
-import Darwin
 import Darwin.ncurses
+
+typealias UIColorPair = Int16
+
+struct UIPoint
+{
+	let x: Int32
+	let y: Int32
+
+	init(_ x: Int32, _ y: Int32)
+	{
+		self.x = x
+		self.y = y
+	}
+}
 
 class UserInterface
 {
+	private var registeredColorsCount: Int16 = 0
+
 	func setup()
 	{
 		initscr()
 		start_color()
 		noecho()
-		curs_set(1)
-
-		init_pair(1, Int16(COLOR_BLACK), Int16(COLOR_GREEN))
+		curs_set(0)
 
 		clear()
 	}
 
-	func showWelcome()
+	func registerColorPair(fore: Int32, back: Int32) -> UIColorPair
+	{
+		registeredColorsCount += 1
+
+		init_pair(registeredColorsCount, Int16(fore), Int16(back))
+
+		return registeredColorsCount
+	}
+
+	func drawText(_ text: String, at point: UIPoint, withColorPair colorPair: UIColorPair)
+	{
+		enableColorPair(colorPair)
+		move(point.y, point.x)
+		addstr(text)
+		disableColorPair(colorPair)
+	}
+
+	func commit()
+	{
+		refresh()
+	}
+
+	func clean()
 	{
 		clear()
-		move(10, 10)
+	}
 
-		attron(COLOR_PAIR(1))
-		addstr("tune")
-		attroff(COLOR_PAIR(1))
+	private func enableColorPair(_ pair: UIColorPair)
+	{
+		attron(COLOR_PAIR(Int32(pair)))
+	}
 
-		refresh()
-		getchar()
+	private func disableColorPair(_ pair: UIColorPair)
+	{
+		attroff(COLOR_PAIR(Int32(pair)))
 	}
 
 	func finalize()
 	{
+		curs_set(1)
+		clear()
 		endwin()
 	}
 
-	private var width: Int32
+	var width: Int32
 	{
 		return getmaxx(stdscr)
 	}
 
-	private var height: Int32
+	var height: Int32
 	{
 		return getmaxy(stdscr)
 	}

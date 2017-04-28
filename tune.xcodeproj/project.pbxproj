@@ -24,8 +24,11 @@
 		15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE201D46C18B00B8C266 /* Style.swift */; };
 		15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */; };
 		15E8EE311D4728B300B8C266 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE301D4728B300B8C266 /* Tools.m */; };
-		15FFB3BC1EB16EC300634F1A /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3BB1EB16EC300634F1A /* UserInterface.swift */; };
 		15FFB3BF1EB1706200634F1A /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */; };
+		15FFB3C51EB2D06600634F1A /* UIMainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3C41EB2D06600634F1A /* UIMainModule.swift */; };
+		15FFB3C81EB2D09D00634F1A /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3C61EB2D09D00634F1A /* UserInterface.swift */; };
+		15FFB3C91EB2D09D00634F1A /* UserInterfaceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3C71EB2D09D00634F1A /* UserInterfaceModule.swift */; };
+		15FFB3CB1EB2D10000634F1A /* UILogoModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3CA1EB2D10000634F1A /* UILogoModule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,8 +64,11 @@
 		15E8EE2E1D4728B200B8C266 /* tune-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tune-Bridging-Header.h"; sourceTree = "<group>"; };
 		15E8EE2F1D4728B300B8C266 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		15E8EE301D4728B300B8C266 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
-		15FFB3BB1EB16EC300634F1A /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
 		15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.5.tbd; path = usr/lib/libncurses.5.tbd; sourceTree = SDKROOT; };
+		15FFB3C41EB2D06600634F1A /* UIMainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIMainModule.swift; path = "User Interface/Modules/UIMainModule.swift"; sourceTree = "<group>"; };
+		15FFB3C61EB2D09D00634F1A /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterface.swift; path = "User Interface/UserInterface.swift"; sourceTree = "<group>"; };
+		15FFB3C71EB2D09D00634F1A /* UserInterfaceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterfaceModule.swift; path = "User Interface/UserInterfaceModule.swift"; sourceTree = "<group>"; };
+		15FFB3CA1EB2D10000634F1A /* UILogoModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UILogoModule.swift; path = "User Interface/Modules/UILogoModule.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,11 +106,11 @@
 		150FEB551D46ACF100147D0C /* tune */ = {
 			isa = PBXGroup;
 			children = (
+				15FFB3C21EB2D01B00634F1A /* User Interface */,
 				150FEB561D46ACF100147D0C /* main.swift */,
 				150FEB5D1D46AD1A00147D0C /* iTunes.swift */,
 				150FEB5E1D46AD1A00147D0C /* iTunesScripting.swift */,
 				150FEB611D46AE2F00147D0C /* iTunesController.swift */,
-				15FFB3BB1EB16EC300634F1A /* UserInterface.swift */,
 				15E8EE2F1D4728B300B8C266 /* Tools.h */,
 				15E8EE301D4728B300B8C266 /* Tools.m */,
 				15E8EE2E1D4728B200B8C266 /* tune-Bridging-Header.h */,
@@ -144,6 +150,25 @@
 				15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		15FFB3C21EB2D01B00634F1A /* User Interface */ = {
+			isa = PBXGroup;
+			children = (
+				15FFB3C61EB2D09D00634F1A /* UserInterface.swift */,
+				15FFB3C71EB2D09D00634F1A /* UserInterfaceModule.swift */,
+				15FFB3C31EB2D02600634F1A /* Modules */,
+			);
+			name = "User Interface";
+			sourceTree = "<group>";
+		};
+		15FFB3C31EB2D02600634F1A /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				15FFB3C41EB2D06600634F1A /* UIMainModule.swift */,
+				15FFB3CA1EB2D10000634F1A /* UILogoModule.swift */,
+			);
+			name = Modules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15FFB3C51EB2D06600634F1A /* UIMainModule.swift in Sources */,
 				15E8EE251D46C18B00B8C266 /* ControlCode.swift in Sources */,
 				15E8EE271D46C18B00B8C266 /* OutputTarget.swift in Sources */,
 				15E8EE281D46C18B00B8C266 /* Rainbow.swift in Sources */,
@@ -213,13 +239,15 @@
 				15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */,
 				15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */,
 				150FEB571D46ACF100147D0C /* main.swift in Sources */,
+				15FFB3CB1EB2D10000634F1A /* UILogoModule.swift in Sources */,
 				15E8EE241D46C18B00B8C266 /* Color.swift in Sources */,
 				15E8EE261D46C18B00B8C266 /* ModesExtractor.swift in Sources */,
 				15E8EE2A1D46C18B00B8C266 /* StringGenerator.swift in Sources */,
 				15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */,
 				150FEB5F1D46AD1A00147D0C /* iTunes.swift in Sources */,
+				15FFB3C91EB2D09D00634F1A /* UserInterfaceModule.swift in Sources */,
 				150FEB621D46AE2F00147D0C /* iTunesController.swift in Sources */,
-				15FFB3BC1EB16EC300634F1A /* UserInterface.swift in Sources */,
+				15FFB3C81EB2D09D00634F1A /* UserInterface.swift in Sources */,
 				15E8EE231D46C18B00B8C266 /* CodesParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

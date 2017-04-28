@@ -55,6 +55,7 @@ let kUnknownAlbum = "Unknown Album".italic
 class iTunesController
 {
 	private let userInterface = UserInterface()
+	private let uiMainModule: UIMainModule
 
 	fileprivate var iTunesApp: iTunesApplication?
 	
@@ -113,6 +114,8 @@ class iTunesController
 		iTunesApp = SBApplication(bundleIdentifier: "com.apple.iTunes")
 
 		userInterface.setup()
+
+		uiMainModule = UIMainModule(userInterface: userInterface)
 	}
 	
 	func parseArguments(_ arguments: [String])
@@ -125,7 +128,8 @@ class iTunesController
 	
 	fileprivate func printUsage()
 	{
-		userInterface.showWelcome()
+		uiMainModule.draw()
+		getchar()
 		userInterface.finalize()
 //		printLogo()
 //		print("Quick iTunes control from the command line.".underline)
