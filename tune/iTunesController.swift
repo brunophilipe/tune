@@ -111,6 +111,8 @@ class iTunesController
 	
 	init()
 	{
+		setlocale(LC_ALL, "en_US.UTF-8")
+
 		iTunesApp = SBApplication(bundleIdentifier: "com.apple.iTunes")
 
 		userInterface.setup()
