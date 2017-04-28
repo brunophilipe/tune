@@ -24,6 +24,8 @@
 		15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE201D46C18B00B8C266 /* Style.swift */; };
 		15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */; };
 		15E8EE311D4728B300B8C266 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE301D4728B300B8C266 /* Tools.m */; };
+		15FFB3BC1EB16EC300634F1A /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3BB1EB16EC300634F1A /* UserInterface.swift */; };
+		15FFB3BF1EB1706200634F1A /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -59,6 +61,8 @@
 		15E8EE2E1D4728B200B8C266 /* tune-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tune-Bridging-Header.h"; sourceTree = "<group>"; };
 		15E8EE2F1D4728B300B8C266 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		15E8EE301D4728B300B8C266 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
+		15FFB3BB1EB16EC300634F1A /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
+		15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.5.tbd; path = usr/lib/libncurses.5.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15FFB3BF1EB1706200634F1A /* libncurses.5.tbd in Frameworks */,
 				150FEB641D46B50900147D0C /* ScriptingBridge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -80,6 +85,7 @@
 				150FEB551D46ACF100147D0C /* tune */,
 				15E8EE151D46C18B00B8C266 /* dep */,
 				150FEB541D46ACF100147D0C /* Products */,
+				15FFB3BD1EB1706200634F1A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -98,6 +104,7 @@
 				150FEB5D1D46AD1A00147D0C /* iTunes.swift */,
 				150FEB5E1D46AD1A00147D0C /* iTunesScripting.swift */,
 				150FEB611D46AE2F00147D0C /* iTunesController.swift */,
+				15FFB3BB1EB16EC300634F1A /* UserInterface.swift */,
 				15E8EE2F1D4728B300B8C266 /* Tools.h */,
 				15E8EE301D4728B300B8C266 /* Tools.m */,
 				15E8EE2E1D4728B200B8C266 /* tune-Bridging-Header.h */,
@@ -129,6 +136,14 @@
 				15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */,
 			);
 			path = RainbowSwift;
+			sourceTree = "<group>";
+		};
+		15FFB3BD1EB1706200634F1A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,6 +219,7 @@
 				15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */,
 				150FEB5F1D46AD1A00147D0C /* iTunes.swift in Sources */,
 				150FEB621D46AE2F00147D0C /* iTunesController.swift in Sources */,
+				15FFB3BC1EB16EC300634F1A /* UserInterface.swift in Sources */,
 				15E8EE231D46C18B00B8C266 /* CodesParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

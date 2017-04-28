@@ -54,6 +54,8 @@ let kUnknownAlbum = "Unknown Album".italic
 
 class iTunesController
 {
+	private let userInterface = UserInterface()
+
 	fileprivate var iTunesApp: iTunesApplication?
 	
 	fileprivate let verbs: [Verb] = [
@@ -109,6 +111,8 @@ class iTunesController
 	init()
 	{
 		iTunesApp = SBApplication(bundleIdentifier: "com.apple.iTunes")
+
+		userInterface.setup()
 	}
 	
 	func parseArguments(_ arguments: [String])
@@ -121,42 +125,43 @@ class iTunesController
 	
 	fileprivate func printUsage()
 	{
-		printLogo()
-		print("Quick iTunes control from the command line.".underline)
-		print("\n")
-		
-		print("Usage:".bold)
-		print("\ttune <verb> [extra arguments]\n")
-		print("Where <verb> is one of: (\("underlined".underline) text denotes extra argument(s))\n")
-		
-		for verb in verbs
-		{
-			var names = verb.names.map({arg in return arg.bold}).joined(separator: ", ")
-			let hasExtra = verb.extra != nil
-			
-			if hasExtra
-			{
-				names = "(\(names))"
-			}
-			
-			print("\t\(names)\(hasExtra ? " \(verb.extra!.underline)" : ""): \(verb.brief)")
-			
-			for descLine in verb.description
-			{
-				print("\t\t\(descLine)")
-			}
-			
-			print("")
-		}
-		
-		print("\t")
+		userInterface.showWelcome()
+		userInterface.finalize()
+//		printLogo()
+//		print("Quick iTunes control from the command line.".underline)
+//		print("\n")
+//		
+//		print("Usage:".bold)
+//		print("\ttune <verb> [extra arguments]\n")
+//		print("Where <verb> is one of: (\("underlined".underline) text denotes extra argument(s))\n")
+//		
+//		for verb in verbs
+//		{
+//			var names = verb.names.map({arg in return arg.bold}).joined(separator: ", ")
+//			let hasExtra = verb.extra != nil
+//			
+//			if hasExtra
+//			{
+//				names = "(\(names))"
+//			}
+//			
+//			print("\t\(names)\(hasExtra ? " \(verb.extra!.underline)" : ""): \(verb.brief)")
+//			
+//			for descLine in verb.description
+//			{
+//				print("\t\t\(descLine)")
+//			}
+//			
+//			print("")
+//		}
+//		
+//		print("\t")
 	}
 	
 	fileprivate func runParser(_ arguments: [String]) -> Bool
 	{
 		if arguments.count < 2
 		{
-			print("No arguments provided!\n")
 			return false
 		}
 		
@@ -190,7 +195,6 @@ class iTunesController
 			printCurrentTrackInfo()
 			
 		default:
-			print("Bad argument provided: \(arguments[1])\n")
 			return false
 		}
 		
