@@ -28,6 +28,8 @@ class UIMainModule: UserInterfaceModule
 	var currentTrack: iTunesTrack? = nil
 	var currentState: UIState? = nil
 
+	private var isDrawing = false
+
 	required init(userInterface: UserInterface)
 	{
 		self.userInterface = userInterface
@@ -77,8 +79,10 @@ class UIMainModule: UserInterfaceModule
 
 	func draw()
 	{
-		if let ui = self.userInterface
+		if let ui = self.userInterface, !isDrawing
 		{
+			isDrawing = true
+
 			reframeBoxModules(ui)
 
 			ui.clean()
@@ -89,8 +93,8 @@ class UIMainModule: UserInterfaceModule
 			let nowPlayingModuleOrigin = UIPoint(minLogoModuleWidth, 0)
 
 			boxModuleNowPlaying.draw(at: nowPlayingModuleOrigin)
-			nowPlayingModule.width = ui.width - minLogoModuleWidth
-			nowPlayingModule.draw(at: nowPlayingModuleOrigin.offset(x: 1, y: 1), forTrack: currentTrack)
+			nowPlayingModule.width = ui.width - (boxModulePlaylist.width + 1)
+			nowPlayingModule.draw(at: nowPlayingModuleOrigin, forTrack: currentTrack)
 
 			let playlistModuleOrigin = UIPoint(0, (logoModule.height + 3))
 
@@ -100,6 +104,8 @@ class UIMainModule: UserInterfaceModule
 			controlBarModule.draw()
 
 			ui.commit()
+
+			isDrawing = false
 		}
 	}
 }
