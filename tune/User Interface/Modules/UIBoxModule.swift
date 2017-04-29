@@ -105,9 +105,9 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 			}
 
 			// Draw right bar
-			if point.x + width <= maxWidth, let char = frameChars.vertical
+			if point.x + lengthX <= ui.width, let char = frameChars.vertical
 			{
-				for i in startY ..< lengthY
+				for i in startY ..< startY + lengthY
 				{
 					ui.drawText(String(char),
 					            at: UIPoint(point.x + width - 1, i),
@@ -118,9 +118,9 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 			}
 
 			// Draw bottom bar
-			if point.y + height <= maxHeight, let char = frameChars.horizontal
+			if point.y + lengthY <= ui.height, let char = frameChars.horizontal
 			{
-				for i in startX ..< lengthX
+				for i in startX ..< startX + lengthX
 				{
 					ui.drawText(String(char),
 					            at: UIPoint(i, point.y + height - 1),
