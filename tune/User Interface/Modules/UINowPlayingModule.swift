@@ -14,10 +14,14 @@ let kUnknownAlbum = "Unknown Album"
 
 class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 {
-	private weak var userInterface: UserInterface?
 	private let labelTextAttributes: UserInterface.TextAttributes = [.underline]
 
+	private var lastTrackHash: Int? = nil
+
+	weak var userInterface: UserInterface?
+
 	var textColor: UIColorPair
+	var needsRedraw: Bool = true
 
 	required init(userInterface: UserInterface)
 	{
@@ -29,7 +33,7 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 	var width: Int32
 	var height: Int32
 	{
-		return 12
+		return 10
 	}
 
 	func draw()
@@ -59,6 +63,13 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 
 		if truncationLength > 11, let track = track
 		{
+			if track.hash != lastTrackHash
+			{
+				cleanModule(origin: point)
+
+				lastTrackHash = track.hash
+			}
+
 			let info = processTrackInformation(track)
 
 			// Title background
@@ -90,10 +101,10 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 			ui.drawText(info.album.truncated(to: truncationLength),		at: point.offset(x: 10, y: 4), withColorPair: textColor)
 
 			// Separator
-			ui.drawText("─" * (width - 2), at: UIPoint(point.x + 1, height - 5), withColorPair: textColor)
+			ui.drawText("─" * (width - 2), at: UIPoint(point.x + 1, height - 3), withColorPair: textColor)
 
 			// Track progress + duration bar
-			let pY = height - 3
+			let pY = height - 1
 			let availableWidth = width - 4
 			let lengthStr = info.duration
 			let progressStr = (playbackInfo?.progress ?? 0.0).durationString
@@ -147,6 +158,14 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 		return false
 	}
 
+	private func cleanModule(origin: UIPoint)
+	{
+		if let ui = self.userInterface
+		{
+			ui.cleanRegion(origin: origin, size: UISize(width, height))
+		}
+	}
+
 	private func processTrackInformation(_ track: iTunesTrack) -> ProcessedTrackInfo
 	{
 		var artist = track.artist
@@ -191,14 +210,6 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 	private struct ProcessedTrackInfo
 	{
 		let title, artist, album, duration: String
-	}
-}
-
-private extension String
-{
-	var width: Int32
-	{
-		return Int32(characters.count)
 	}
 }
 

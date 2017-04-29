@@ -32,4 +32,10 @@ extension String
 	{
 		return String.init(repeating: lhs, count: Int(rhn))
 	}
+
+	/// Width of the string in a monospaced font
+	var width: Int32
+	{
+		return Int32(characters.count)
+	}
 }

@@ -13,6 +13,7 @@
 		150FEB621D46AE2F00147D0C /* iTunesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150FEB611D46AE2F00147D0C /* iTunesController.swift */; };
 		150FEB641D46B50900147D0C /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150FEB631D46B50900147D0C /* ScriptingBridge.framework */; };
 		15231C5D1EB4078D001CD2B8 /* UIBoxModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15231C5C1EB4078D001CD2B8 /* UIBoxModule.swift */; };
+		1564DF771EB54A290042EA7F /* UIPlayQueueModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF761EB54A290042EA7F /* UIPlayQueueModule.swift */; };
 		15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */; };
 		15E8EE231D46C18B00B8C266 /* CodesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE181D46C18B00B8C266 /* CodesParser.swift */; };
 		15E8EE241D46C18B00B8C266 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE191D46C18B00B8C266 /* Color.swift */; };
@@ -58,6 +59,7 @@
 		150FEB611D46AE2F00147D0C /* iTunesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iTunesController.swift; sourceTree = "<group>"; };
 		150FEB631D46B50900147D0C /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		15231C5C1EB4078D001CD2B8 /* UIBoxModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIBoxModule.swift; path = "User Interface/Modules/UIBoxModule.swift"; sourceTree = "<group>"; };
+		1564DF761EB54A290042EA7F /* UIPlayQueueModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIPlayQueueModule.swift; path = "User Interface/Modules/UIPlayQueueModule.swift"; sourceTree = "<group>"; };
 		15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundColor.swift; sourceTree = "<group>"; };
 		15E8EE181D46C18B00B8C266 /* CodesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodesParser.swift; sourceTree = "<group>"; };
 		15E8EE191D46C18B00B8C266 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				15231C5C1EB4078D001CD2B8 /* UIBoxModule.swift */,
 				15F0CDDA1EB41C53009B13CA /* UINowPlayingModule.swift */,
 				15F0CDE81EB4DD74009B13CA /* UIControlBarModule.swift */,
+				1564DF761EB54A290042EA7F /* UIPlayQueueModule.swift */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				150FEB571D46ACF100147D0C /* main.swift in Sources */,
 				15FFB3CB1EB2D10000634F1A /* UILogoModule.swift in Sources */,
 				15F0CDE71EB4D638009B13CA /* UIState.swift in Sources */,
+				1564DF771EB54A290042EA7F /* UIPlayQueueModule.swift in Sources */,
 				15E8EE241D46C18B00B8C266 /* Color.swift in Sources */,
 				15E8EE261D46C18B00B8C266 /* ModesExtractor.swift in Sources */,
 				15E8EE2A1D46C18B00B8C266 /* StringGenerator.swift in Sources */,

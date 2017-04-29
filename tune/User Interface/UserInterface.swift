@@ -43,6 +43,14 @@ struct UIPoint
 	static var zero = UIPoint(0, 0)
 }
 
+extension UIPoint: Equatable
+{
+	static func ==(lhp: UIPoint, rhp: UIPoint) -> Bool
+	{
+		return lhp.x == rhp.x && lhp.y == rhp.y
+	}
+}
+
 typealias UISize = UIPoint
 
 class UserInterface
@@ -70,6 +78,8 @@ class UserInterface
 			}
 		}
 	}
+
+	var isCleanDraw: Bool = true
 
 	var currentState: UIState?
 	{
@@ -137,6 +147,26 @@ class UserInterface
 	func clean()
 	{
 		clear()
+		isCleanDraw = true
+	}
+
+	func cleanRegion(origin: UIPoint, size: UISize, usingColorPair color: UIColorPair = 0)
+	{
+		let fillColor: UIColorPair
+
+		if color > 0
+		{
+			fillColor = color
+		}
+		else
+		{
+			fillColor = sharedColorWhiteOnBlack
+		}
+
+		for row in 0 ..< size.y
+		{
+			drawText(" " * size.x, at: origin.offset(y: row), withColorPair: fillColor)
+		}
 	}
 
 	/// Will apply the parameter attributes to all text drawn inside the parameter block. The block runs immediatelly and is non-escaping.
@@ -165,7 +195,7 @@ class UserInterface
 		if let mainModule = self.mainUIModule
 		{
 			dispatchDraw(toModule: mainModule)
-			redrawQueue.asyncAfter(deadline: DispatchTime.now() + 0.75, execute: self.draw)
+			redrawQueue.asyncAfter(deadline: DispatchTime.now() + 0.65, execute: self.draw)
 		}
 		else
 		{
@@ -197,6 +227,7 @@ class UserInterface
 	{
 		preDrawHook?()
 		mainModule.draw()
+		isCleanDraw = false
 	}
 
 	func finalize()
@@ -233,6 +264,7 @@ extension UserInterface: UIResizeEventObserver
 	{
 		if let mainModule = self.mainUIModule
 		{
+			clean()
 			dispatchDraw(toModule: mainModule)
 		}
 	}

@@ -8,38 +8,68 @@
 
 import Foundation
 
-class UIControlBarModule: UserInterfaceModule
+class UIControlBarModule: UserInterfaceSizableModule, UserInterfacePositionableModule
 {
-	private weak var userInterface: UserInterface? = nil
-
 	private var textColor: UIColorPair
+	private var lastDrawnPoint: UIPoint? = nil
+
+	weak var userInterface: UserInterface? = nil
+
+	var width: Int32
+	{
+		didSet
+		{
+			self.needsRedraw = true
+		}
+	}
+
+	var height: Int32
+	{
+		return 1
+	}
 
 	var currentState: UIState? = nil
+	{
+		didSet
+		{
+			self.needsRedraw = true
+		}
+	}
+
+	var needsRedraw: Bool = true
 
 	required init(userInterface: UserInterface)
 	{
 		self.userInterface = userInterface
 
 		textColor = userInterface.registerColorPair(fore: COLOR_BLACK, back: COLOR_WHITE)
+
+		width = userInterface.width
 	}
 
 	func draw()
 	{
-		if let ui = self.userInterface, let state = self.currentState
-		{
-			let pY = ui.height - 1
+		draw(at: UIPoint.zero)
+	}
 
+	func draw(at point: UIPoint)
+	{
+		if (shouldDraw() || lastDrawnPoint != point), let ui = self.userInterface, let state = self.currentState
+		{
 			// First draw the whole BG
-			ui.drawText(" " * ui.width, at: UIPoint(0, pY), withColorPair: textColor)
-			ui.drawText("Controls:",at: UIPoint(1, pY), withColorPair: textColor)
+			ui.drawText(" " * width, at: point, withColorPair: textColor)
+			ui.drawText("Controls:",at: point.offset(x: 1), withColorPair: textColor)
 
 			var usedLength: Int32 = 9
 
 			for (keyCode, subState) in state.allSubStates
 			{
-				usedLength += drawControlInfo(forState: subState, keyCode: keyCode, onUI: ui, startingAt: UIPoint(usedLength + 2, pY))
+				usedLength += drawControlInfo(forState: subState, keyCode: keyCode, onUI: ui, startingAt: UIPoint(usedLength + 2, point.y))
 				usedLength += 2
 			}
+
+			lastDrawnPoint = point
+			needsRedraw = false
 		}
 	}
 

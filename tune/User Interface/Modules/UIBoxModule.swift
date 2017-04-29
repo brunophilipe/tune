@@ -10,11 +10,27 @@ import Foundation
 
 class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 {
-	private weak var userInterface: UserInterface?
 	private let frameColor: UIColorPair
 
+	weak var userInterface: UserInterface?
+
 	var width: Int32
+	{
+		didSet
+		{
+			self.needsRedraw = true
+		}
+	}
+
 	var height: Int32
+	{
+		didSet
+		{
+			self.needsRedraw = true
+		}
+	}
+
+	var needsRedraw: Bool = true
 
 	var frameChars: FrameChars = .singleLine
 
@@ -44,7 +60,7 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 
 	func draw(at point: UIPoint)
 	{
-		if let ui = self.userInterface
+		if shouldDraw(), let ui = self.userInterface
 		{
 			let maxWidth = ui.width - point.x
 			let maxHeight = ui.height - point.y
@@ -161,6 +177,8 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 				            at: UIPoint(startX + lengthX - 1, startY + lengthY - 1),
 				            withColorPair: frameColor)
 			}
+
+			needsRedraw = false
 		}
 	}
 

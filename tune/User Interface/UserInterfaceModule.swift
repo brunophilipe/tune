@@ -11,9 +11,13 @@ import Darwin.ncurses
 
 protocol UserInterfaceModule
 {
+	weak var userInterface: UserInterface? { get }
+
 	init(userInterface: UserInterface)
 
 	func draw()
+
+	var needsRedraw: Bool { get set }
 }
 
 protocol UserInterfacePositionableModule: UserInterfaceModule
@@ -25,4 +29,12 @@ protocol UserInterfaceSizableModule: UserInterfaceModule
 {
 	var width: Int32 { get }
 	var height: Int32 { get }
+}
+
+extension UserInterfaceModule
+{
+	func shouldDraw() -> Bool
+	{
+		return needsRedraw || (userInterface?.isCleanDraw ?? false)
+	}
 }

@@ -10,9 +10,10 @@ import Foundation
 
 class UILogoModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 {
-	private weak var userInterface: UserInterface?
-
 	private let logoColors: UILogoColors
+
+	weak var userInterface: UserInterface?
+	var needsRedraw: Bool = true
 
 	var width: Int32
 	{
@@ -43,7 +44,7 @@ class UILogoModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 
 	func draw(at point: UIPoint)
 	{
-		if let ui = self.userInterface
+		if shouldDraw(), let ui = self.userInterface
 		{
 			// Draw logo
 			ui.drawText("888   ", at: point,				withColorPair: logoColors.char1)
@@ -81,6 +82,8 @@ class UILogoModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 			ui.drawText("88888888", at: point.offset(x: 25, y: 5),	withColorPair: logoColors.char4)
 			ui.drawText("Y8b.    ", at: point.offset(x: 25, y: 6),	withColorPair: logoColors.char4)
 			ui.drawText(" \"Y8888 ", at: point.offset(x: 25, y: 7),	withColorPair: logoColors.char4)
+
+			needsRedraw = false
 		}
 	}
 }
