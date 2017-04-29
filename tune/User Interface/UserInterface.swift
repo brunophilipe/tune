@@ -91,6 +91,13 @@ class UserInterface
 		clear()
 	}
 
+	func usingTextAttributes(_ attributes: TextAttributes, _ block: @convention(block) () -> Swift.Void)
+	{
+		enableTextAttributes(attributes)
+		block()
+		disableTextAttributes(attributes)
+	}
+
 	private func enableColorPair(_ pair: UIColorPair)
 	{
 		attron(COLOR_PAIR(Int32(pair)))
@@ -99,6 +106,16 @@ class UserInterface
 	private func disableColorPair(_ pair: UIColorPair)
 	{
 		attroff(COLOR_PAIR(Int32(pair)))
+	}
+
+	private func enableTextAttributes(_ attributes: TextAttributes)
+	{
+		attron(attributes.rawValue)
+	}
+
+	private func disableTextAttributes(_ attributes: TextAttributes)
+	{
+		attroff(attributes.rawValue)
 	}
 
 	func finalize()
@@ -116,5 +133,15 @@ class UserInterface
 	var height: Int32
 	{
 		return getmaxy(stdscr)
+	}
+
+	struct TextAttributes: OptionSet
+	{
+		let rawValue: Int32
+
+		static let bold			= TextAttributes(rawValue: A_BOLD)
+		static let underline	= TextAttributes(rawValue: A_UNDERLINE)
+		static let blink		= TextAttributes(rawValue: A_BLINK)
+		static let standout		= TextAttributes(rawValue: A_STANDOUT)
 	}
 }
