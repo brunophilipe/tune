@@ -130,6 +130,7 @@ class iTunesController
 	
 	fileprivate func printUsage()
 	{
+		uiMainModule.currentTrack = iTunesApp?.currentTrack
 		uiMainModule.draw()
 		getchar()
 		userInterface.finalize()
