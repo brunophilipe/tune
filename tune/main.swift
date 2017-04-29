@@ -33,19 +33,6 @@ struct Main
 		func buildStatesChain() -> UIState
 		{
 			let rootState = UIState(label: "Root")
-			var state: UIState
-
-			state = UIState(label: "one")
-			rootState.setSubState(state, forKeyCode: KEY_1)
-
-			state = UIState(label: "two")
-			rootState.setSubState(state, forKeyCode: KEY_2)
-
-			state = UIState(label: "three")
-			rootState.setSubState(state, forKeyCode: KEY_3)
-
-			state = UIState(label: "four")
-			rootState.setSubState(state, forKeyCode: KEY_4)
 
 			rootState.setSubState(UIState.quitState, forKeyCode: KEY_Q_LOWER)
 
