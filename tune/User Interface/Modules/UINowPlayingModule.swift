@@ -70,10 +70,10 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 
 			ui.usingTextAttributes(labelTextAttributes)
 			{
-				ui.drawText("title:",  at: point.offset(x: 3, y: 2), withColorPair: textColor)
-				ui.drawText("artist:", at: point.offset(x: 2, y: 3), withColorPair: textColor)
-				ui.drawText("album:",  at: point.offset(x: 3, y: 4), withColorPair: textColor)
-				ui.drawText("duration:",  at: point.offset(y: 5),	 withColorPair: textColor)
+				ui.drawText("title:",		at: point.offset(x: 3, y: 2),	withColorPair: textColor)
+				ui.drawText("artist:",		at: point.offset(x: 2, y: 3),	withColorPair: textColor)
+				ui.drawText("album:",		at: point.offset(x: 3, y: 4),	withColorPair: textColor)
+				ui.drawText("duration:",	at: point.offset(y: 5),			withColorPair: textColor)
 			}
 
 			ui.drawText(info.title.truncated(to: truncationLength),		at: point.offset(x: 10, y: 2), withColorPair: textColor)

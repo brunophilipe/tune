@@ -26,10 +26,11 @@
 		15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */; };
 		15E8EE311D4728B300B8C266 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE301D4728B300B8C266 /* Tools.m */; };
 		15F0CDDB1EB41C53009B13CA /* UINowPlayingModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDDA1EB41C53009B13CA /* UINowPlayingModule.swift */; };
-		15F0CDDE1EB42011009B13CA /* String+Truncation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDDD1EB42011009B13CA /* String+Truncation.swift */; };
+		15F0CDDE1EB42011009B13CA /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDDD1EB42011009B13CA /* String+Additions.swift */; };
 		15F0CDE01EB426A4009B13CA /* ncurses+missingdefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDDF1EB426A4009B13CA /* ncurses+missingdefs.swift */; };
 		15F0CDE41EB4CAE3009B13CA /* UserInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDE31EB4CAE3009B13CA /* UserInterfaceController.swift */; };
 		15F0CDE71EB4D638009B13CA /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDE61EB4D638009B13CA /* UIState.swift */; };
+		15F0CDE91EB4DD74009B13CA /* UIControlBarModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDE81EB4DD74009B13CA /* UIControlBarModule.swift */; };
 		15FFB3BF1EB1706200634F1A /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */; };
 		15FFB3C51EB2D06600634F1A /* UIMainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3C41EB2D06600634F1A /* UIMainModule.swift */; };
 		15FFB3C81EB2D09D00634F1A /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3C61EB2D09D00634F1A /* UserInterface.swift */; };
@@ -72,10 +73,11 @@
 		15E8EE2F1D4728B300B8C266 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		15E8EE301D4728B300B8C266 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
 		15F0CDDA1EB41C53009B13CA /* UINowPlayingModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UINowPlayingModule.swift; path = "User Interface/Modules/UINowPlayingModule.swift"; sourceTree = "<group>"; };
-		15F0CDDD1EB42011009B13CA /* String+Truncation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Truncation.swift"; sourceTree = "<group>"; };
+		15F0CDDD1EB42011009B13CA /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		15F0CDDF1EB426A4009B13CA /* ncurses+missingdefs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ncurses+missingdefs.swift"; sourceTree = "<group>"; };
 		15F0CDE31EB4CAE3009B13CA /* UserInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterfaceController.swift; path = "User Interface/UserInterfaceController.swift"; sourceTree = "<group>"; };
 		15F0CDE61EB4D638009B13CA /* UIState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIState.swift; path = "User Interface/UIState.swift"; sourceTree = "<group>"; };
+		15F0CDE81EB4DD74009B13CA /* UIControlBarModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIControlBarModule.swift; path = "User Interface/Modules/UIControlBarModule.swift"; sourceTree = "<group>"; };
 		15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.5.tbd; path = usr/lib/libncurses.5.tbd; sourceTree = SDKROOT; };
 		15FFB3C41EB2D06600634F1A /* UIMainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIMainModule.swift; path = "User Interface/Modules/UIMainModule.swift"; sourceTree = "<group>"; };
 		15FFB3C61EB2D09D00634F1A /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterface.swift; path = "User Interface/UserInterface.swift"; sourceTree = "<group>"; };
@@ -159,7 +161,7 @@
 		15F0CDDC1EB42001009B13CA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				15F0CDDD1EB42011009B13CA /* String+Truncation.swift */,
+				15F0CDDD1EB42011009B13CA /* String+Additions.swift */,
 				15F0CDDF1EB426A4009B13CA /* ncurses+missingdefs.swift */,
 			);
 			path = Extensions;
@@ -193,6 +195,7 @@
 				15FFB3CA1EB2D10000634F1A /* UILogoModule.swift */,
 				15231C5C1EB4078D001CD2B8 /* UIBoxModule.swift */,
 				15F0CDDA1EB41C53009B13CA /* UINowPlayingModule.swift */,
+				15F0CDE81EB4DD74009B13CA /* UIControlBarModule.swift */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -258,12 +261,13 @@
 				15FFB3C51EB2D06600634F1A /* UIMainModule.swift in Sources */,
 				15E8EE251D46C18B00B8C266 /* ControlCode.swift in Sources */,
 				15E8EE271D46C18B00B8C266 /* OutputTarget.swift in Sources */,
+				15F0CDE91EB4DD74009B13CA /* UIControlBarModule.swift in Sources */,
 				15E8EE281D46C18B00B8C266 /* Rainbow.swift in Sources */,
 				15E8EE311D4728B300B8C266 /* Tools.m in Sources */,
 				15E8EE291D46C18B00B8C266 /* String+Rainbow.swift in Sources */,
 				15F0CDE01EB426A4009B13CA /* ncurses+missingdefs.swift in Sources */,
 				150FEB601D46AD1A00147D0C /* iTunesScripting.swift in Sources */,
-				15F0CDDE1EB42011009B13CA /* String+Truncation.swift in Sources */,
+				15F0CDDE1EB42011009B13CA /* String+Additions.swift in Sources */,
 				15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */,
 				15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */,
 				15F0CDDB1EB41C53009B13CA /* UINowPlayingModule.swift in Sources */,

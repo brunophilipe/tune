@@ -47,10 +47,34 @@ typealias UISize = UIPoint
 
 class UserInterface
 {
+	private var redrawQueue: DispatchQueue = DispatchQueue(label: "Redraw Queue", qos: DispatchQoS.background)
+
 	private var controller: UserInterfaceController? = nil
 
 	private var screen: OpaquePointer? = nil
 	private var registeredColorsCount: Int16 = 0
+
+	var preDrawHook: (() -> Void)? = nil
+
+	var mainUIModule: UserInterfaceModule? = nil
+	{
+		didSet
+		{
+			if mainUIModule != nil
+			{
+				startDrawLoop()
+			}
+			else
+			{
+				stopDrawLoop()
+			}
+		}
+	}
+
+	var currentState: UIState?
+	{
+		return controller?.state
+	}
 
 	lazy var sharedColorWhiteOnBlack: UIColorPair =
 	{
@@ -71,8 +95,6 @@ class UserInterface
 			
 			clear()
 
-			controller.runEventLoop()
-
 			self.controller = controller
 
 			return true
@@ -81,6 +103,11 @@ class UserInterface
 		{
 			return false
 		}
+	}
+
+	func startEventLoop()
+	{
+		controller?.runEventLoop()
 	}
 
 	func registerColorPair(fore: Int32, back: Int32) -> UIColorPair
@@ -118,6 +145,31 @@ class UserInterface
 		enableTextAttributes(attributes)
 		block()
 		disableTextAttributes(attributes)
+	}
+
+	private func startDrawLoop()
+	{
+		draw()
+	}
+
+	private func stopDrawLoop()
+	{
+		redrawQueue.suspend()
+		redrawQueue = DispatchQueue(label: "Redraw Queue", qos: DispatchQoS.background)
+	}
+
+	private func draw()
+	{
+		if let mainModule = self.mainUIModule
+		{
+			preDrawHook?()
+			mainModule.draw()
+			redrawQueue.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: self.draw)
+		}
+		else
+		{
+			stopDrawLoop()
+		}
 	}
 
 	private func enableColorPair(_ pair: UIColorPair)

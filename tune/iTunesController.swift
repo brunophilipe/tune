@@ -50,7 +50,17 @@ typealias Verb = (names: [String], brief: String, description: [String], extra: 
 
 class iTunesController
 {
-	private let uiMainModule: UIMainModule
+	var currentTrack: iTunesTrack?
+	{
+		if let track = iTunesApp?.currentTrack, track.size > 0
+		{
+			return track
+		}
+		else
+		{
+			return nil
+		}
+	}
 
 	fileprivate var iTunesApp: iTunesApplication?
 	
@@ -106,11 +116,7 @@ class iTunesController
 	
 	init()
 	{
-		setlocale(LC_ALL, "en_US.UTF-8")
-
 		iTunesApp = SBApplication(bundleIdentifier: "com.apple.iTunes")
-
-		uiMainModule = UIMainModule(userInterface: userInterface)
 	}
 	
 	func parseArguments(_ arguments: [String])
@@ -123,10 +129,6 @@ class iTunesController
 	
 	fileprivate func printUsage()
 	{
-		uiMainModule.currentTrack = iTunesApp?.currentTrack
-		uiMainModule.draw()
-		getchar()
-		userInterface.finalize()
 //		printLogo()
 //		print("Quick iTunes control from the command line.".underline)
 //		print("\n")

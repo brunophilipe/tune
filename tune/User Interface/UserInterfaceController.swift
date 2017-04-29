@@ -17,18 +17,17 @@ class UserInterfaceController
 	private let screen: OpaquePointer
 	private let rootState: UIState
 
-	private var currentState: UIState? = nil
+	fileprivate var currentState: UIState? = nil
 
 	init(screen: OpaquePointer, rootState: UIState)
 	{
 		self.screen = screen
 		self.rootState = rootState
+		self.currentState = rootState
 	}
 
 	func runEventLoop()
 	{
-		currentState = rootState
-
 		var stop = false
 
 		repeat
@@ -83,6 +82,14 @@ class UserInterfaceController
 			}
 		}
 		while !stop
+	}
+}
+
+extension UserInterfaceController
+{
+	var state: UIState?
+	{
+		return self.currentState
 	}
 }
 

@@ -15,6 +15,7 @@ class UIMainModule: UserInterfaceModule
 	private let boxModuleMain: UIBoxModule
 	private let boxModuleNowPlaying: UIBoxModule
 	private let boxModulePlaylist: UIBoxModule
+	private let controlBarModule: UIControlBarModule
 
 	private let logoModule: UILogoModule
 	private let nowPlayingModule: UINowPlayingModule
@@ -25,6 +26,7 @@ class UIMainModule: UserInterfaceModule
 	private let minNowPlayingWidth: Int32 = 40
 
 	var currentTrack: iTunesTrack? = nil
+	var currentState: UIState? = nil
 
 	required init(userInterface: UserInterface)
 	{
@@ -35,6 +37,7 @@ class UIMainModule: UserInterfaceModule
 		boxModuleNowPlaying = UIBoxModule(userInterface: userInterface)
 		boxModulePlaylist = UIBoxModule(userInterface: userInterface)
 		nowPlayingModule = UINowPlayingModule(userInterface: userInterface)
+		controlBarModule = UIControlBarModule(userInterface: userInterface)
 
 		minLogoModuleWidth = logoModule.width + 6
 
@@ -66,10 +69,10 @@ class UIMainModule: UserInterfaceModule
 	private func reframeBoxModules(_ ui: UserInterface)
 	{
 		boxModuleMain.width = ui.width
-		boxModuleMain.height = ui.height
+		boxModuleMain.height = ui.height - 1
 
 		boxModuleNowPlaying.width = ui.width - minLogoModuleWidth
-		boxModulePlaylist.height = ui.height - (logoModule.height + 3)
+		boxModulePlaylist.height = ui.height - (logoModule.height + 3) - 1
 	}
 
 	func draw()
@@ -81,17 +84,20 @@ class UIMainModule: UserInterfaceModule
 			ui.clean()
 
 			boxModuleMain.draw(at: UIPoint.zero)
-			logoModule.draw(at: UIPoint(3, 2))
+			logoModule.draw(at: UIPoint(4, 2))
 
 			let nowPlayingModuleOrigin = UIPoint(minLogoModuleWidth, 0)
 
 			boxModuleNowPlaying.draw(at: nowPlayingModuleOrigin)
 			nowPlayingModule.width = ui.width - minLogoModuleWidth
-			nowPlayingModule.draw(at: nowPlayingModuleOrigin, forTrack: currentTrack)
+			nowPlayingModule.draw(at: nowPlayingModuleOrigin.offset(x: 1, y: 1), forTrack: currentTrack)
 
 			let playlistModuleOrigin = UIPoint(0, (logoModule.height + 3))
 
 			boxModulePlaylist.draw(at: playlistModuleOrigin)
+
+			controlBarModule.currentState = currentState
+			controlBarModule.draw()
 
 			ui.commit()
 		}

@@ -21,33 +21,60 @@
 
 import Foundation
 
-let userInterface = UserInterface()
-
-func buildStatesChain() -> UIState
+struct Main
 {
-	let rootState = UIState(label: "Root")
-	var state: UIState
+	static func run()
+	{
+		setlocale(LC_ALL, "en_US.UTF-8")
 
-	state = UIState(label: "One")
-	rootState.setSubState(state, forKeyCode: KEY_1)
+		let userInterface = UserInterface()
+		let iTunes = iTunesController()
 
-	state = UIState(label: "Two")
-	rootState.setSubState(state, forKeyCode: KEY_2)
+		func buildStatesChain() -> UIState
+		{
+			let rootState = UIState(label: "Root")
+			var state: UIState
 
-	state = UIState(label: "Three")
-	rootState.setSubState(state, forKeyCode: KEY_3)
+			state = UIState(label: "one")
+			rootState.setSubState(state, forKeyCode: KEY_1)
 
-	state = UIState(label: "Four")
-	rootState.setSubState(state, forKeyCode: KEY_4)
+			state = UIState(label: "two")
+			rootState.setSubState(state, forKeyCode: KEY_2)
 
-	return rootState
+			state = UIState(label: "three")
+			rootState.setSubState(state, forKeyCode: KEY_3)
+
+			state = UIState(label: "four")
+			rootState.setSubState(state, forKeyCode: KEY_4)
+
+			rootState.setSubState(UIState.quitState, forKeyCode: KEY_Q_LOWER)
+
+			return rootState
+		}
+
+		guard userInterface.setup(rootState: buildStatesChain()) else
+		{
+			print("Failed to initialize screen")
+			exit(-1)
+		}
+
+		let mainModule = UIMainModule(userInterface: userInterface)
+
+		userInterface.preDrawHook =
+		{
+			mainModule.currentTrack = iTunes.currentTrack
+			mainModule.currentState = userInterface.currentState
+		}
+
+		userInterface.mainUIModule = mainModule
+
+		userInterface.startEventLoop()
+
+		//let controller = iTunesController()
+		//controller.parseArguments(CommandLine.arguments)
+		
+		userInterface.finalize()
+	}
 }
 
-guard userInterface.setup(rootState: buildStatesChain()) else
-{
-	print("Failed to initialize screen")
-	exit(-1)
-}
-
-//let controller = iTunesController()
-//controller.parseArguments(CommandLine.arguments)
+Main.run()

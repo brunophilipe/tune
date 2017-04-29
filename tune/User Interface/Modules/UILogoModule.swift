@@ -16,7 +16,7 @@ class UILogoModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 
 	var width: Int32
 	{
-		return 33
+		return 34
 	}
 
 	var height: Int32
