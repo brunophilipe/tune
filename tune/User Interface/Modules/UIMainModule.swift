@@ -14,6 +14,7 @@ class UIMainModule: UserInterfaceModule
 
 	private let boxModuleMain: UIBoxModule
 	private let boxModuleNowPlaying: UIBoxModule
+	private let boxModulePlaylist: UIBoxModule
 
 	private let logoModule: UILogoModule
 	private let nowPlayingModule: UINowPlayingModule
@@ -32,6 +33,7 @@ class UIMainModule: UserInterfaceModule
 		logoModule = UILogoModule(userInterface: userInterface)
 		boxModuleMain = UIBoxModule(userInterface: userInterface)
 		boxModuleNowPlaying = UIBoxModule(userInterface: userInterface)
+		boxModulePlaylist = UIBoxModule(userInterface: userInterface)
 		nowPlayingModule = UINowPlayingModule(userInterface: userInterface)
 
 		minLogoModuleWidth = logoModule.width + 6
@@ -48,6 +50,16 @@ class UIMainModule: UserInterfaceModule
 		)
 		boxModuleNowPlaying.height = logoModule.height + 4
 
+		boxModulePlaylist.frameChars = UIBoxModule.FrameChars(
+			cornerTopLeft:		"╠",
+			cornerTopRight:		"╬",
+			cornerBottomLeft:	"╚",
+			cornerBottomRight:	"╩",
+			horizontal:			"═",
+			vertical:			"║"
+		)
+		boxModulePlaylist.width = minLogoModuleWidth + 1
+
 		subtitleColorPair = userInterface.sharedColorWhiteOnBlack
 	}
 
@@ -57,6 +69,7 @@ class UIMainModule: UserInterfaceModule
 		boxModuleMain.height = ui.height
 
 		boxModuleNowPlaying.width = ui.width - minLogoModuleWidth
+		boxModulePlaylist.height = ui.height - (logoModule.height + 3)
 	}
 
 	func draw()
@@ -75,6 +88,10 @@ class UIMainModule: UserInterfaceModule
 			boxModuleNowPlaying.draw(at: nowPlayingModuleOrigin)
 			nowPlayingModule.width = ui.width - minLogoModuleWidth
 			nowPlayingModule.draw(at: nowPlayingModuleOrigin, forTrack: currentTrack)
+
+			let playlistModuleOrigin = UIPoint(0, (logoModule.height + 3))
+
+			boxModulePlaylist.draw(at: playlistModuleOrigin)
 
 			ui.commit()
 		}
