@@ -35,6 +35,11 @@ struct UIPoint
 		self.y = y
 	}
 
+	func offset(x offsetX: Int32 = 0, y offsetY: Int32 = 0) -> UIPoint
+	{
+		return UIPoint(x + offsetX, y + offsetY)
+	}
+
 	static var zero = UIPoint(0, 0)
 }
 

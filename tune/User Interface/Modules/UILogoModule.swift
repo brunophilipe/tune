@@ -48,12 +48,12 @@ class UILogoModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 		if let ui = self.userInterface
 		{
 			// Draw logo
-			ui.drawText("  dP                             ", at: UIPoint(point.x, point.y),		withColorPair: logoColors.line1)
-			ui.drawText("  88                             ", at: UIPoint(point.x, point.y + 1), withColorPair: logoColors.line2)
-			ui.drawText("d8888P dP    dP 88d888b. .d8888b.", at: UIPoint(point.x, point.y + 2), withColorPair: logoColors.line3)
-			ui.drawText("  88   88    88 88'  `88 88ooood8", at: UIPoint(point.x, point.y + 3), withColorPair: logoColors.line4)
-			ui.drawText("  88   88.  .88 88    88 88.  ...", at: UIPoint(point.x, point.y + 4), withColorPair: logoColors.line5)
-			ui.drawText("  dP   `88888P' dP    dP `88888P'", at: UIPoint(point.x, point.y + 5), withColorPair: logoColors.line6)
+			ui.drawText("  dP                             ", at: point,				 withColorPair: logoColors.line1)
+			ui.drawText("  88                             ", at: point.offset(y: 1), withColorPair: logoColors.line2)
+			ui.drawText("d8888P dP    dP 88d888b. .d8888b.", at: point.offset(y: 2), withColorPair: logoColors.line3)
+			ui.drawText("  88   88    88 88'  `88 88ooood8", at: point.offset(y: 3), withColorPair: logoColors.line4)
+			ui.drawText("  88   88.  .88 88    88 88.  ...", at: point.offset(y: 4), withColorPair: logoColors.line5)
+			ui.drawText("  dP   `88888P' dP    dP `88888P'", at: point.offset(y: 5), withColorPair: logoColors.line6)
 		}
 	}
 }
