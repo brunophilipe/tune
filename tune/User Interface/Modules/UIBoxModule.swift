@@ -81,7 +81,7 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 			// Draw left bar
 			if point.x >= 0, let char = frameChars.vertical
 			{
-				for i in startY ..< lengthY
+				for i in startY ..< startY + lengthY
 				{
 					ui.drawText(String(char),
 					            at: UIPoint(point.x, i),
@@ -94,7 +94,7 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 			// Draw top bar
 			if point.y >= 0, let char = frameChars.horizontal
 			{
-				for i in startX ..< lengthX
+				for i in startX ..< startX + lengthX
 				{
 					ui.drawText(String(char),
 					            at: UIPoint(i, point.y),

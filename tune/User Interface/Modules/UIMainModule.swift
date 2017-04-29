@@ -46,7 +46,7 @@ class UIMainModule: UserInterfaceModule
 			horizontal:			"═",
 			vertical:			"║"
 		)
-		boxModuleNowPlaying.height = logoModule.height + 6
+		boxModuleNowPlaying.height = logoModule.height + 4
 
 		subtitleColorPair = userInterface.sharedColorWhiteOnBlack
 	}
@@ -69,8 +69,6 @@ class UIMainModule: UserInterfaceModule
 
 			boxModuleMain.draw(at: UIPoint.zero)
 			logoModule.draw(at: UIPoint(3, 2))
-
-			ui.drawText("Control iTunes from the Terminal", at: UIPoint(4, 9), withColorPair: subtitleColorPair)
 
 			let nowPlayingModuleOrigin = UIPoint(minLogoModuleWidth, 0)
 

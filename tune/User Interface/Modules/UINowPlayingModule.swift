@@ -52,13 +52,13 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 
 	private func drawNormalTrackInfo(_ ui: UserInterface, at point: UIPoint, forTrack track: iTunesTrack?) -> Bool
 	{
-		let truncationLength = Int(width - 14)
+		let truncationLength = Int(width - 16)
 
-		if truncationLength > 0, let track = track
+		if truncationLength > 16, let track = track
 		{
 			let info = processTrackInformation(track)
 
-			let title = "\("Current Track Information".truncated(to: truncationLength - 1)):"
+			let title = "\("Current Track Information".truncated(to: Int(width) - 7)):"
 			ui.usingTextAttributes(titleTextAttributes)
 			{
 				ui.drawText(title, at: point, withColorPair: textColor)
@@ -66,14 +66,16 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 
 			ui.usingTextAttributes(labelTextAttributes)
 			{
-				ui.drawText("title:",  at: point.offset(x: 1, y: 2), withColorPair: textColor)
-				ui.drawText("artist:", at: point.offset(y: 3),		 withColorPair: textColor)
-				ui.drawText("album:",  at: point.offset(x: 1, y: 4), withColorPair: textColor)
+				ui.drawText("title:",  at: point.offset(x: 3, y: 2), withColorPair: textColor)
+				ui.drawText("artist:", at: point.offset(x: 2, y: 3), withColorPair: textColor)
+				ui.drawText("album:",  at: point.offset(x: 3, y: 4), withColorPair: textColor)
+				ui.drawText("duration:",  at: point.offset(y: 5),	 withColorPair: textColor)
 			}
 
-			ui.drawText(info.title.truncated(to: truncationLength),  at: point.offset(x: 8, y: 2), withColorPair: textColor)
-			ui.drawText(info.artist.truncated(to: truncationLength), at: point.offset(x: 8, y: 3), withColorPair: textColor)
-			ui.drawText(info.album.truncated(to: truncationLength),  at: point.offset(x: 8, y: 4), withColorPair: textColor)
+			ui.drawText(info.title.truncated(to: truncationLength),		at: point.offset(x: 10, y: 2), withColorPair: textColor)
+			ui.drawText(info.artist.truncated(to: truncationLength),	at: point.offset(x: 10, y: 3), withColorPair: textColor)
+			ui.drawText(info.album.truncated(to: truncationLength),		at: point.offset(x: 10, y: 4), withColorPair: textColor)
+			ui.drawText(info.duration.truncated(to: truncationLength),  at: point.offset(x: 10, y: 5), withColorPair: textColor)
 
 			return true
 		}
@@ -89,9 +91,10 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 		{
 			let info = processTrackInformation(track)
 
-			ui.drawText("t: \(info.title.truncated(to: truncationLength))",  at: point.offset(y: 2), withColorPair: textColor)
-			ui.drawText("a: \(info.artist.truncated(to: truncationLength))", at: point.offset(y: 3), withColorPair: textColor)
-			ui.drawText("b: \(info.album.truncated(to: truncationLength))",  at: point.offset(y: 4), withColorPair: textColor)
+			ui.drawText("t: \(info.title.truncated(to: truncationLength))",		at: point.offset(y: 2), withColorPair: textColor)
+			ui.drawText("a: \(info.artist.truncated(to: truncationLength))",	at: point.offset(y: 3), withColorPair: textColor)
+			ui.drawText("b: \(info.album.truncated(to: truncationLength))",		at: point.offset(y: 4), withColorPair: textColor)
+			ui.drawText("b: \(info.duration.truncated(to: truncationLength))",  at: point.offset(y: 5), withColorPair: textColor)
 
 			return true
 		}
