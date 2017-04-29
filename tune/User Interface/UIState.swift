@@ -75,6 +75,23 @@ class UIState
 	static var quitState = UIState(label: "quit")
 }
 
+class UIControlState: UIState
+{
+	private let block: () -> Void
+
+	init(label: String, _ block: @escaping () -> Void)
+	{
+		self.block = block
+
+		super.init(label: label)
+	}
+
+	func runBlock()
+	{
+		block()
+	}
+}
+
 extension UIState: Equatable
 {
 	/// This extension allows UIState to be used as the argument of a `switch-case` statement.
@@ -86,7 +103,7 @@ extension UIState: Equatable
 
 extension UIKeyCode
 {
-	private static let navigationKeyCodes = [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_ENTER]
+	private static let navigationKeyCodes = [KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_ENTER]
 
 	var isNavigationKeyCode: Bool
 	{

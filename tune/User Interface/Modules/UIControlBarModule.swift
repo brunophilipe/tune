@@ -45,7 +45,7 @@ class UIControlBarModule: UserInterfaceModule
 
 	private func drawControlInfo(forState state: UIState, keyCode: UIKeyCode, onUI ui: UserInterface, startingAt point: UIPoint) -> Int32
 	{
-		let text = " \(UnicodeScalar.init(Int(keyCode))!) - \(state.label) "
+		let text = " \(keyCode.display): \(state.label) "
 
 		ui.usingTextAttributes(.standout)
 		{
@@ -53,5 +53,21 @@ class UIControlBarModule: UserInterfaceModule
 		}
 
 		return Int32(text.characters.count + 2)
+	}
+}
+
+private extension UIKeyCode
+{
+	var display: String
+	{
+		switch self
+		{
+		case KEY_LEFT,	KEY_ARROW_LEFT:		return "←"
+		case KEY_RIGHT,	KEY_ARROW_RIGHT:	return "→"
+		case KEY_UP,	KEY_ARROW_UP:		return "↑"
+		case KEY_DOWN,	KEY_ARROW_DOWN:		return "↓"
+		default:
+			return String(UnicodeScalar.init(Int(self))!)
+		}
 	}
 }

@@ -593,6 +593,34 @@ class iTunesController
 	}
 }
 
+extension iTunesController
+{
+	func playpause()
+	{
+		iTunesApp?.playpause!()
+	}
+
+	func pause()
+	{
+		iTunesApp?.pause!()
+	}
+
+	func stop()
+	{
+		iTunesApp?.stop!()
+	}
+
+	func nextTrack()
+	{
+		iTunesApp?.nextTrack!()
+	}
+
+	func previousTrack()
+	{
+		iTunesApp?.previousTrack!()
+	}
+}
+
 func pprint(_ string: String)
 {
 	print(string.replacingOccurrences(of: "\t", with: "        "))

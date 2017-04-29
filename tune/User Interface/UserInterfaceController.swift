@@ -58,6 +58,9 @@ class UserInterfaceController
 				{
 					switch newState
 					{
+					case let controlState as UIControlState:
+						controlState.runBlock()
+
 					case UIState.parentState:
 						self.currentState = currentState.parentState
 
@@ -104,6 +107,13 @@ protocol UIResizeEventObserver
 {
 	func userInterfaceControllerReceivedResizeEvent(_ controller: UserInterfaceController)
 }
+
+// These definitions are here because I couldn't find a definition that would match what getch() is returning.
+
+let KEY_ARROW_UP	= UIKeyCode(65)
+let KEY_ARROW_DOWN	= UIKeyCode(66)
+let KEY_ARROW_RIGHT	= UIKeyCode(67)
+let KEY_ARROW_LEFT	= UIKeyCode(68)
 
 // These definitions are here because converting a character to its ASCII code is expensive, so we only do it once.
 

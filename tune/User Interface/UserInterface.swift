@@ -142,7 +142,7 @@ class UserInterface
 	/// Will apply the parameter attributes to all text drawn inside the parameter block. The block runs immediatelly and is non-escaping.
 	///
 	/// **WARNING:** This function does not (yet) support nesting. Don't call `usingTextAttributes` inside of the parameter block.
-	func usingTextAttributes(_ attributes: TextAttributes, _ block: @convention(block) () -> Void)
+	func usingTextAttributes(_ attributes: TextAttributes, _ block: () -> Void)
 	{
 		enableTextAttributes(attributes)
 		block()
