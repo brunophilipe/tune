@@ -55,9 +55,9 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 
 	private func drawNormalTrackInfo(_ ui: UserInterface, at point: UIPoint, track: iTunesTrack?, playbackInfo: iTunesPlaybackInfo?) -> Bool
 	{
-		let truncationLength = Int(width - 16)
+		let truncationLength = Int(width - 11)
 
-		if truncationLength > 16, let track = track
+		if truncationLength > 11, let track = track
 		{
 			let info = processTrackInformation(track)
 
