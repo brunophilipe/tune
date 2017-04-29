@@ -94,6 +94,12 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 				lengthY = min(maxHeight, height) + point.y
 			}
 
+			if lengthX < 2 || lengthY < 2
+			{
+				// Not a meaningful draw
+				return
+			}
+
 			// Draw left bar
 			if point.x >= 0, let char = frameChars.vertical
 			{
