@@ -47,6 +47,9 @@ typealias UISize = UIPoint
 
 class UserInterface
 {
+	private var controller: UserInterfaceController? = nil
+
+	private var screen: OpaquePointer? = nil
 	private var registeredColorsCount: Int16 = 0
 
 	lazy var sharedColorWhiteOnBlack: UIColorPair =
@@ -54,14 +57,30 @@ class UserInterface
 		return self.registerColorPair(fore: COLOR_WHITE, back: COLOR_BLACK)
 	}()
 
-	func setup()
+	func setup(rootState: UIState) -> Bool
 	{
-		initscr()
-		start_color()
-		noecho()
-		curs_set(0)
+		if let screen = initscr()
+		{
+			start_color()
+			noecho()
+			curs_set(0)
 
-		clear()
+			nodelay(screen, false)
+
+			let controller = UserInterfaceController(screen: screen, rootState: rootState)
+			
+			clear()
+
+			controller.runEventLoop()
+
+			self.controller = controller
+
+			return true
+		}
+		else
+		{
+			return false
+		}
 	}
 
 	func registerColorPair(fore: Int32, back: Int32) -> UIColorPair
@@ -91,6 +110,9 @@ class UserInterface
 		clear()
 	}
 
+	/// Will apply the parameter attributes to all text drawn inside the parameter block. The block runs immediatelly and is non-escaping.
+	///
+	/// **WARNING:** This function does not (yet) support nesting. Don't call `usingTextAttributes` inside of the parameter block.
 	func usingTextAttributes(_ attributes: TextAttributes, _ block: @convention(block) () -> Swift.Void)
 	{
 		enableTextAttributes(attributes)

@@ -50,7 +50,6 @@ typealias Verb = (names: [String], brief: String, description: [String], extra: 
 
 class iTunesController
 {
-	private let userInterface = UserInterface()
 	private let uiMainModule: UIMainModule
 
 	fileprivate var iTunesApp: iTunesApplication?
@@ -110,8 +109,6 @@ class iTunesController
 		setlocale(LC_ALL, "en_US.UTF-8")
 
 		iTunesApp = SBApplication(bundleIdentifier: "com.apple.iTunes")
-
-		userInterface.setup()
 
 		uiMainModule = UIMainModule(userInterface: userInterface)
 	}

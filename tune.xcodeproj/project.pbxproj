@@ -28,6 +28,8 @@
 		15F0CDDB1EB41C53009B13CA /* UINowPlayingModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDDA1EB41C53009B13CA /* UINowPlayingModule.swift */; };
 		15F0CDDE1EB42011009B13CA /* String+Truncation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDDD1EB42011009B13CA /* String+Truncation.swift */; };
 		15F0CDE01EB426A4009B13CA /* ncurses+missingdefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDDF1EB426A4009B13CA /* ncurses+missingdefs.swift */; };
+		15F0CDE41EB4CAE3009B13CA /* UserInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDE31EB4CAE3009B13CA /* UserInterfaceController.swift */; };
+		15F0CDE71EB4D638009B13CA /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDE61EB4D638009B13CA /* UIState.swift */; };
 		15FFB3BF1EB1706200634F1A /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */; };
 		15FFB3C51EB2D06600634F1A /* UIMainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3C41EB2D06600634F1A /* UIMainModule.swift */; };
 		15FFB3C81EB2D09D00634F1A /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3C61EB2D09D00634F1A /* UserInterface.swift */; };
@@ -72,6 +74,8 @@
 		15F0CDDA1EB41C53009B13CA /* UINowPlayingModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UINowPlayingModule.swift; path = "User Interface/Modules/UINowPlayingModule.swift"; sourceTree = "<group>"; };
 		15F0CDDD1EB42011009B13CA /* String+Truncation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Truncation.swift"; sourceTree = "<group>"; };
 		15F0CDDF1EB426A4009B13CA /* ncurses+missingdefs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ncurses+missingdefs.swift"; sourceTree = "<group>"; };
+		15F0CDE31EB4CAE3009B13CA /* UserInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterfaceController.swift; path = "User Interface/UserInterfaceController.swift"; sourceTree = "<group>"; };
+		15F0CDE61EB4D638009B13CA /* UIState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIState.swift; path = "User Interface/UIState.swift"; sourceTree = "<group>"; };
 		15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.5.tbd; path = usr/lib/libncurses.5.tbd; sourceTree = SDKROOT; };
 		15FFB3C41EB2D06600634F1A /* UIMainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIMainModule.swift; path = "User Interface/Modules/UIMainModule.swift"; sourceTree = "<group>"; };
 		15FFB3C61EB2D09D00634F1A /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterface.swift; path = "User Interface/UserInterface.swift"; sourceTree = "<group>"; };
@@ -95,7 +99,6 @@
 		150FEB4A1D46ACF100147D0C = {
 			isa = PBXGroup;
 			children = (
-				150FEB631D46B50900147D0C /* ScriptingBridge.framework */,
 				150FEB551D46ACF100147D0C /* tune */,
 				15E8EE151D46C18B00B8C266 /* dep */,
 				150FEB541D46ACF100147D0C /* Products */,
@@ -165,6 +168,7 @@
 		15FFB3BD1EB1706200634F1A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				150FEB631D46B50900147D0C /* ScriptingBridge.framework */,
 				15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */,
 			);
 			name = Frameworks;
@@ -174,7 +178,9 @@
 			isa = PBXGroup;
 			children = (
 				15FFB3C61EB2D09D00634F1A /* UserInterface.swift */,
+				15F0CDE31EB4CAE3009B13CA /* UserInterfaceController.swift */,
 				15FFB3C71EB2D09D00634F1A /* UserInterfaceModule.swift */,
+				15F0CDE61EB4D638009B13CA /* UIState.swift */,
 				15FFB3C31EB2D02600634F1A /* Modules */,
 			);
 			name = "User Interface";
@@ -261,8 +267,10 @@
 				15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */,
 				15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */,
 				15F0CDDB1EB41C53009B13CA /* UINowPlayingModule.swift in Sources */,
+				15F0CDE41EB4CAE3009B13CA /* UserInterfaceController.swift in Sources */,
 				150FEB571D46ACF100147D0C /* main.swift in Sources */,
 				15FFB3CB1EB2D10000634F1A /* UILogoModule.swift in Sources */,
+				15F0CDE71EB4D638009B13CA /* UIState.swift in Sources */,
 				15E8EE241D46C18B00B8C266 /* Color.swift in Sources */,
 				15E8EE261D46C18B00B8C266 /* ModesExtractor.swift in Sources */,
 				15E8EE2A1D46C18B00B8C266 /* StringGenerator.swift in Sources */,
@@ -308,10 +316,6 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -321,6 +325,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};

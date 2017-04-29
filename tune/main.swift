@@ -21,5 +21,33 @@
 
 import Foundation
 
-let controller = iTunesController()
-controller.parseArguments(CommandLine.arguments)
+let userInterface = UserInterface()
+
+func buildStatesChain() -> UIState
+{
+	let rootState = UIState(label: "Root")
+	var state: UIState
+
+	state = UIState(label: "One")
+	rootState.setSubState(state, forKeyCode: KEY_1)
+
+	state = UIState(label: "Two")
+	rootState.setSubState(state, forKeyCode: KEY_2)
+
+	state = UIState(label: "Three")
+	rootState.setSubState(state, forKeyCode: KEY_3)
+
+	state = UIState(label: "Four")
+	rootState.setSubState(state, forKeyCode: KEY_4)
+
+	return rootState
+}
+
+guard userInterface.setup(rootState: buildStatesChain()) else
+{
+	print("Failed to initialize screen")
+	exit(-1)
+}
+
+//let controller = iTunesController()
+//controller.parseArguments(CommandLine.arguments)
