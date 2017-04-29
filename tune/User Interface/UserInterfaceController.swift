@@ -19,6 +19,9 @@ class UserInterfaceController
 
 	fileprivate var currentState: UIState? = nil
 
+	var resizeEventObserver: UIResizeEventObserver? = nil
+
+
 	init(screen: OpaquePointer, rootState: UIState)
 	{
 		self.screen = screen
@@ -38,6 +41,10 @@ class UserInterfaceController
 			{
 				// We are using delay mode, but let's add this check just in case.
 				continue
+			}
+			else if keyCode == KEY_RESIZE, let resizeObserver = self.resizeEventObserver
+			{
+				resizeObserver.userInterfaceControllerReceivedResizeEvent(self)
 			}
 			else if let currentState = self.currentState
 			{
@@ -91,6 +98,11 @@ extension UserInterfaceController
 	{
 		return self.currentState
 	}
+}
+
+protocol UIResizeEventObserver
+{
+	func userInterfaceControllerReceivedResizeEvent(_ controller: UserInterfaceController)
 }
 
 // These definitions are here because converting a character to its ASCII code is expensive, so we only do it once.

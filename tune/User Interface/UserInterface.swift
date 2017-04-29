@@ -95,6 +95,8 @@ class UserInterface
 			
 			clear()
 
+			controller.resizeEventObserver = self
+
 			self.controller = controller
 
 			return true
@@ -140,7 +142,7 @@ class UserInterface
 	/// Will apply the parameter attributes to all text drawn inside the parameter block. The block runs immediatelly and is non-escaping.
 	///
 	/// **WARNING:** This function does not (yet) support nesting. Don't call `usingTextAttributes` inside of the parameter block.
-	func usingTextAttributes(_ attributes: TextAttributes, _ block: @convention(block) () -> Swift.Void)
+	func usingTextAttributes(_ attributes: TextAttributes, _ block: @convention(block) () -> Void)
 	{
 		enableTextAttributes(attributes)
 		block()
@@ -162,9 +164,8 @@ class UserInterface
 	{
 		if let mainModule = self.mainUIModule
 		{
-			preDrawHook?()
-			mainModule.draw()
-			redrawQueue.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: self.draw)
+			dispatchDraw(toModule: mainModule)
+			redrawQueue.asyncAfter(deadline: DispatchTime.now() + 0.25, execute: self.draw)
 		}
 		else
 		{
@@ -192,6 +193,12 @@ class UserInterface
 		attroff(attributes.rawValue)
 	}
 
+	fileprivate func dispatchDraw(toModule mainModule: UserInterfaceModule)
+	{
+		preDrawHook?()
+		mainModule.draw()
+	}
+
 	func finalize()
 	{
 		curs_set(1)
@@ -217,5 +224,16 @@ class UserInterface
 		static let underline	= TextAttributes(rawValue: A_UNDERLINE)
 		static let blink		= TextAttributes(rawValue: A_BLINK)
 		static let standout		= TextAttributes(rawValue: A_STANDOUT)
+	}
+}
+
+extension UserInterface: UIResizeEventObserver
+{
+	func userInterfaceControllerReceivedResizeEvent(_ controller: UserInterfaceController)
+	{
+		if let mainModule = self.mainUIModule
+		{
+			dispatchDraw(toModule: mainModule)
+		}
 	}
 }
