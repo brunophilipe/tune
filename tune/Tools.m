@@ -10,6 +10,10 @@
 
 @implementation Tools
 
+/**
+ * @comment: Bruno
+ * This function is in Objective-C because I wasn't able to implement it in Swift
+ */
 + (SBObject*)instantiateObjectFromApplication:(SBApplication*)app typeName:(NSString*)name andProperties:(NSDictionary*)properties
 {
 	Class className = [app classForScriptingClass:name];
