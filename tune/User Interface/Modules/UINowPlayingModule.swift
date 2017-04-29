@@ -15,7 +15,6 @@ let kUnknownAlbum = "Unknown Album"
 class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 {
 	private weak var userInterface: UserInterface?
-	private let titleTextAttributes: UserInterface.TextAttributes = [.bold]
 	private let labelTextAttributes: UserInterface.TextAttributes = [.underline]
 
 	var textColor: UIColorPair
@@ -40,21 +39,21 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 
 	func draw(at point: UIPoint)
 	{
-		draw(at: point, forTrack: nil)
+		draw(at: point, forTrack: nil, playbackInfo: nil)
 	}
 
-	func draw(at point: UIPoint, forTrack track: iTunesTrack?)
+	func draw(at point: UIPoint, forTrack track: iTunesTrack?, playbackInfo: iTunesPlaybackInfo?)
 	{
 		if let ui = self.userInterface
 		{
-			if !drawNormalTrackInfo(ui, at: point.offset(x: 3, y: 2), forTrack: track)
+			if !drawNormalTrackInfo(ui, at: point.offset(x: 1, y: 1), track: track, playbackInfo: playbackInfo)
 			{
-				_ = drawCompactTrackInfo(ui, at: point.offset(x: 3, y: 2), forTrack: track)
+				_ = drawCompactTrackInfo(ui, at: point.offset(x: 1, y: 1), forTrack: track)
 			}
 		}
 	}
 
-	private func drawNormalTrackInfo(_ ui: UserInterface, at point: UIPoint, forTrack track: iTunesTrack?) -> Bool
+	private func drawNormalTrackInfo(_ ui: UserInterface, at point: UIPoint, track: iTunesTrack?, playbackInfo: iTunesPlaybackInfo?) -> Bool
 	{
 		let truncationLength = Int(width - 16)
 
@@ -62,24 +61,66 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 		{
 			let info = processTrackInformation(track)
 
-			let title = "\("Current Track Information".truncated(to: Int(width) - 7)):"
-			ui.usingTextAttributes(titleTextAttributes)
+			// Title background
+			ui.usingTextAttributes(.standout)
 			{
-				ui.drawText(title, at: point, withColorPair: textColor)
+				ui.drawText(" " * width, at: point, withColorPair: textColor)
 			}
 
+			// Title
+			let title = "\("Current Track Information".truncated(to: Int(width) - 2)):"
+			ui.usingTextAttributes([.bold, .standout])
+			{
+
+				let pX = (width / 2) - (title.width / 2)
+				ui.drawText(title, at: point.offset(x: pX), withColorPair: textColor)
+			}
+
+			// Track information titles
 			ui.usingTextAttributes(labelTextAttributes)
 			{
 				ui.drawText("title:",		at: point.offset(x: 3, y: 2),	withColorPair: textColor)
 				ui.drawText("artist:",		at: point.offset(x: 2, y: 3),	withColorPair: textColor)
 				ui.drawText("album:",		at: point.offset(x: 3, y: 4),	withColorPair: textColor)
-				ui.drawText("duration:",	at: point.offset(y: 5),			withColorPair: textColor)
 			}
 
+			// Track information
 			ui.drawText(info.title.truncated(to: truncationLength),		at: point.offset(x: 10, y: 2), withColorPair: textColor)
 			ui.drawText(info.artist.truncated(to: truncationLength),	at: point.offset(x: 10, y: 3), withColorPair: textColor)
 			ui.drawText(info.album.truncated(to: truncationLength),		at: point.offset(x: 10, y: 4), withColorPair: textColor)
-			ui.drawText(info.duration.truncated(to: truncationLength),  at: point.offset(x: 10, y: 5), withColorPair: textColor)
+
+			// Separator
+			ui.drawText("─" * (width - 2), at: UIPoint(point.x + 1, height - 5), withColorPair: textColor)
+
+			// Track progress + duration bar
+			let pY = height - 3
+			let availableWidth = width - 4
+			let lengthStr = info.duration
+			let progressStr = (playbackInfo?.progress ?? 0.0).durationString
+
+			ui.drawText(progressStr,
+			            at: UIPoint(point.x + 2, pY),
+			            withColorPair: textColor)
+			ui.drawText(lengthStr,
+			            at: UIPoint(point.x + 2 + availableWidth - lengthStr.width, pY),
+			            withColorPair: textColor)
+
+			let barLength = availableWidth - lengthStr.width - progressStr.width - 4
+			var playedBarLength: Int32 = 0
+
+			if let duration = track.duration, let progress = playbackInfo?.progress, progress > 0
+			{
+				playedBarLength = Int32(ceil(Double(barLength) * (progress / duration)))
+			}
+
+			if playedBarLength > 0
+			{
+				ui.drawText("▓" * playedBarLength, at: UIPoint(point.x + progressStr.width + 4, pY), withColorPair: textColor)
+			}
+
+			ui.drawText("░" * (barLength - playedBarLength),
+			            at: UIPoint(point.x + progressStr.width + playedBarLength + 4, pY),
+			            withColorPair: textColor)
 
 			return true
 		}
@@ -142,10 +183,7 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 			album! += " (\(year))"
 		}
 
-		let duration = track.duration ?? 0.0
-		let durMin = Int(duration/60)
-		let durSec = Int(duration.truncatingRemainder(dividingBy: 60))
-		let durString = "\(durMin < 10 ? "0\(durMin)" : "\(durMin)"):" + "\(durSec < 10 ? "0\(durSec)" : "\(durSec)")"
+		let durString = (track.duration ?? 0.0).durationString
 
 		return ProcessedTrackInfo(title: title!, artist: artist!, album: album!, duration: durString)
 	}
@@ -153,5 +191,23 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 	private struct ProcessedTrackInfo
 	{
 		let title, artist, album, duration: String
+	}
+}
+
+private extension String
+{
+	var width: Int32
+	{
+		return Int32(characters.count)
+	}
+}
+
+private extension Double
+{
+	var durationString: String
+	{
+		let durMin = Int(self/60)
+		let durSec = Int(self.truncatingRemainder(dividingBy: 60))
+		return "\(durMin < 10 ? "0\(durMin)" : "\(durMin)"):" + "\(durSec < 10 ? "0\(durSec)" : "\(durSec)")"
 	}
 }

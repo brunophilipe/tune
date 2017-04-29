@@ -26,6 +26,7 @@ class UIMainModule: UserInterfaceModule
 	private let minNowPlayingWidth: Int32 = 40
 
 	var currentTrack: iTunesTrack? = nil
+	var currentPlaybackInfo: iTunesPlaybackInfo? = nil
 	var currentState: UIState? = nil
 
 	private var isDrawing = false
@@ -94,7 +95,7 @@ class UIMainModule: UserInterfaceModule
 
 			boxModuleNowPlaying.draw(at: nowPlayingModuleOrigin)
 			nowPlayingModule.width = ui.width - (boxModulePlaylist.width + 1)
-			nowPlayingModule.draw(at: nowPlayingModuleOrigin, forTrack: currentTrack)
+			nowPlayingModule.draw(at: nowPlayingModuleOrigin, forTrack: currentTrack, playbackInfo: currentPlaybackInfo)
 
 			let playlistModuleOrigin = UIPoint(0, (logoModule.height + 3))
 

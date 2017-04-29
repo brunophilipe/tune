@@ -62,6 +62,18 @@ class iTunesController
 		}
 	}
 
+	var currentPlaybackInfo: iTunesPlaybackInfo?
+	{
+		if let iTunesApp = self.iTunesApp, let progress = iTunesApp.playerPosition, let status = iTunesApp.playerState
+		{
+			return iTunesPlaybackInfo(progress: progress, status: status)
+		}
+		else
+		{
+			return nil
+		}
+	}
+
 	fileprivate var iTunesApp: iTunesApplication?
 	
 	fileprivate let verbs: [Verb] = [
@@ -584,6 +596,12 @@ class iTunesController
 func pprint(_ string: String)
 {
 	print(string.replacingOccurrences(of: "\t", with: "        "))
+}
+
+struct iTunesPlaybackInfo
+{
+	let progress: Double
+	let status: iTunesEPlS
 }
 
 extension iTunesTrack

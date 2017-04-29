@@ -63,6 +63,7 @@ struct Main
 		userInterface.preDrawHook =
 		{
 			mainModule.currentTrack = iTunes.currentTrack
+			mainModule.currentPlaybackInfo = iTunes.currentPlaybackInfo
 			mainModule.currentState = userInterface.currentState
 		}
 
