@@ -34,11 +34,20 @@ struct UIPoint
 		self.x = x
 		self.y = y
 	}
+
+	static var zero = UIPoint(0, 0)
 }
+
+typealias UISize = UIPoint
 
 class UserInterface
 {
 	private var registeredColorsCount: Int16 = 0
+
+	lazy var sharedColorWhiteOnBlack: UIColorPair =
+	{
+		return self.registerColorPair(fore: COLOR_WHITE, back: COLOR_BLACK)
+	}()
 
 	func setup()
 	{

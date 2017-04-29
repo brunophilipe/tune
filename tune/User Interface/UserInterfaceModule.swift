@@ -15,3 +15,14 @@ protocol UserInterfaceModule
 
 	func draw()
 }
+
+protocol UserInterfacePositionableModule: UserInterfaceModule
+{
+	func draw(at: UIPoint)
+}
+
+protocol UserInterfaceSizableModule: UserInterfaceModule
+{
+	var width: Int32 { get }
+	var height: Int32 { get }
+}

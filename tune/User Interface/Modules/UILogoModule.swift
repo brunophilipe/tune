@@ -8,44 +8,52 @@
 
 import Foundation
 
-class UILogoModule: UserInterfaceModule
+class UILogoModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 {
 	private weak var userInterface: UserInterface?
 
 	private let logoColors: UILogoColors
 
-	private let logoWidth: Int32 = 33
+	var width: Int32
+	{
+		return 33
+	}
+
+	var height: Int32
+	{
+		return 6
+	}
 
 	required init(userInterface: UserInterface)
 	{
 		self.userInterface = userInterface
 
 		logoColors = UILogoColors(
-			line1: userInterface.registerColorPair(fore: COLOR_RED, back: COLOR_BLACK),
-			line2: userInterface.registerColorPair(fore: COLOR_MAGENTA, back: COLOR_BLACK),
-			line3: userInterface.registerColorPair(fore: COLOR_YELLOW, back: COLOR_BLACK),
-			line4: userInterface.registerColorPair(fore: COLOR_GREEN, back: COLOR_BLACK),
-			line5: userInterface.registerColorPair(fore: COLOR_CYAN, back: COLOR_BLACK),
-			line6: userInterface.registerColorPair(fore: COLOR_BLUE, back: COLOR_BLACK)
+			line1:	userInterface.registerColorPair(fore: COLOR_RED,		back: COLOR_BLACK),
+			line2:	userInterface.registerColorPair(fore: COLOR_MAGENTA,	back: COLOR_BLACK),
+			line3:	userInterface.registerColorPair(fore: COLOR_YELLOW,		back: COLOR_BLACK),
+			line4:	userInterface.registerColorPair(fore: COLOR_GREEN,		back: COLOR_BLACK),
+			line5:	userInterface.registerColorPair(fore: COLOR_CYAN,		back: COLOR_BLACK),
+			line6:	userInterface.registerColorPair(fore: COLOR_BLUE,		back: COLOR_BLACK)
 		)
 	}
 
 	func draw()
 	{
+		draw(at: UIPoint.zero)
+	}
+
+	func draw(at point: UIPoint)
+	{
 		if let ui = self.userInterface
 		{
-			let posX: Int32 = (ui.width / 2) - (logoWidth / 2)
-
-			ui.clean()
-
-			ui.drawText("  dP                             ", at: UIPoint(posX, 3), withColorPair: logoColors.line1)
-			ui.drawText("  88                             ", at: UIPoint(posX, 4), withColorPair: logoColors.line2)
-			ui.drawText("d8888P dP    dP 88d888b. .d8888b.", at: UIPoint(posX, 5), withColorPair: logoColors.line3)
-			ui.drawText("  88   88    88 88'  `88 88ooood8", at: UIPoint(posX, 6), withColorPair: logoColors.line4)
-			ui.drawText("  88   88.  .88 88    88 88.  ...", at: UIPoint(posX, 7), withColorPair: logoColors.line5)
-			ui.drawText("  dP   `88888P' dP    dP `88888P'", at: UIPoint(posX, 8), withColorPair: logoColors.line6)
-
-			ui.commit()
+			// Draw logo
+			ui.drawText("  dP                             ", at: UIPoint(point.x, point.y),		withColorPair: logoColors.line1)
+			ui.drawText("  88                             ", at: UIPoint(point.x, point.y + 1), withColorPair: logoColors.line2)
+			ui.drawText("d8888P dP    dP 88d888b. .d8888b.", at: UIPoint(point.x, point.y + 2), withColorPair: logoColors.line3)
+			ui.drawText("  88   88    88 88'  `88 88ooood8", at: UIPoint(point.x, point.y + 3), withColorPair: logoColors.line4)
+			ui.drawText("  88   88.  .88 88    88 88.  ...", at: UIPoint(point.x, point.y + 4), withColorPair: logoColors.line5)
+			ui.drawText("  dP   `88888P' dP    dP `88888P'", at: UIPoint(point.x, point.y + 5), withColorPair: logoColors.line6)
 		}
 	}
 }
