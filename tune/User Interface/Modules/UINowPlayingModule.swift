@@ -8,6 +8,10 @@
 
 import Foundation
 
+let kUnknownArtist = "Unknown Artist"
+let kUnknownTrack = "Unknown Track"
+let kUnknownAlbum = "Unknown Album"
+
 class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 {
 	private weak var userInterface: UserInterface?

@@ -48,10 +48,6 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 typealias Verb = (names: [String], brief: String, description: [String], extra: String?)
 
-let kUnknownArtist = "Unknown Artist".italic
-let kUnknownTrack = "Unknown Track".italic
-let kUnknownAlbum = "Unknown Album".italic
-
 class iTunesController
 {
 	private let userInterface = UserInterface()
