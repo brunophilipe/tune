@@ -21,7 +21,7 @@ class UILogoModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 
 	var height: Int32
 	{
-		return 6
+		return 8
 	}
 
 	required init(userInterface: UserInterface)
@@ -29,12 +29,10 @@ class UILogoModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 		self.userInterface = userInterface
 
 		logoColors = UILogoColors(
-			line1:	userInterface.registerColorPair(fore: COLOR_RED,		back: COLOR_BLACK),
-			line2:	userInterface.registerColorPair(fore: COLOR_MAGENTA,	back: COLOR_BLACK),
-			line3:	userInterface.registerColorPair(fore: COLOR_YELLOW,		back: COLOR_BLACK),
-			line4:	userInterface.registerColorPair(fore: COLOR_GREEN,		back: COLOR_BLACK),
-			line5:	userInterface.registerColorPair(fore: COLOR_CYAN,		back: COLOR_BLACK),
-			line6:	userInterface.registerColorPair(fore: COLOR_BLUE,		back: COLOR_BLACK)
+			char1:	userInterface.registerColorPair(fore: COLOR_RED,	back: COLOR_BLACK),
+			char2:	userInterface.registerColorPair(fore: COLOR_YELLOW,	back: COLOR_BLACK),
+			char3:	userInterface.registerColorPair(fore: COLOR_GREEN,	back: COLOR_BLACK),
+			char4:	userInterface.registerColorPair(fore: COLOR_BLUE,	back: COLOR_BLACK)
 		)
 	}
 
@@ -48,12 +46,41 @@ class UILogoModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 		if let ui = self.userInterface
 		{
 			// Draw logo
-			ui.drawText("  dP                             ", at: point,				 withColorPair: logoColors.line1)
-			ui.drawText("  88                             ", at: point.offset(y: 1), withColorPair: logoColors.line2)
-			ui.drawText("d8888P dP    dP 88d888b. .d8888b.", at: point.offset(y: 2), withColorPair: logoColors.line3)
-			ui.drawText("  88   88    88 88'  `88 88ooood8", at: point.offset(y: 3), withColorPair: logoColors.line4)
-			ui.drawText("  88   88.  .88 88    88 88.  ...", at: point.offset(y: 4), withColorPair: logoColors.line5)
-			ui.drawText("  dP   `88888P' dP    dP `88888P'", at: point.offset(y: 5), withColorPair: logoColors.line6)
+			ui.drawText("888   ", at: point,				withColorPair: logoColors.char1)
+			ui.drawText("888   ", at: point.offset(y: 1),	withColorPair: logoColors.char1)
+			ui.drawText("888   ", at: point.offset(y: 2),	withColorPair: logoColors.char1)
+			ui.drawText("888888", at: point.offset(y: 3),	withColorPair: logoColors.char1)
+			ui.drawText("888   ", at: point.offset(y: 4),	withColorPair: logoColors.char1)
+			ui.drawText("888   ", at: point.offset(y: 5),	withColorPair: logoColors.char1)
+			ui.drawText("Y88b. ", at: point.offset(y: 6),	withColorPair: logoColors.char1)
+			ui.drawText(" \"Y888", at: point.offset(y: 7),	withColorPair: logoColors.char1)
+
+			ui.drawText("        ", at: point.offset(x: 7),			withColorPair: logoColors.char2)
+			ui.drawText("        ", at: point.offset(x: 7, y: 1),	withColorPair: logoColors.char2)
+			ui.drawText("        ", at: point.offset(x: 7, y: 2),	withColorPair: logoColors.char2)
+			ui.drawText("888  888", at: point.offset(x: 7, y: 3),	withColorPair: logoColors.char2)
+			ui.drawText("888  888", at: point.offset(x: 7, y: 4),	withColorPair: logoColors.char2)
+			ui.drawText("888  888", at: point.offset(x: 7, y: 5),	withColorPair: logoColors.char2)
+			ui.drawText("Y88b 888", at: point.offset(x: 7, y: 6),	withColorPair: logoColors.char2)
+			ui.drawText(" \"Y88888", at: point.offset(x: 7, y: 7),	withColorPair: logoColors.char2)
+
+			ui.drawText("        ", at: point.offset(x: 16),		withColorPair: logoColors.char3)
+			ui.drawText("        ", at: point.offset(x: 16, y: 1),	withColorPair: logoColors.char3)
+			ui.drawText("        ", at: point.offset(x: 16, y: 2),	withColorPair: logoColors.char3)
+			ui.drawText("88888b. ", at: point.offset(x: 16, y: 3),	withColorPair: logoColors.char3)
+			ui.drawText("888 \"88b", at: point.offset(x: 16, y: 4),	withColorPair: logoColors.char3)
+			ui.drawText("888  888", at: point.offset(x: 16, y: 5),	withColorPair: logoColors.char3)
+			ui.drawText("888  888", at: point.offset(x: 16, y: 6),	withColorPair: logoColors.char3)
+			ui.drawText("888  888", at: point.offset(x: 16, y: 7),	withColorPair: logoColors.char3)
+
+			ui.drawText("        ", at: point.offset(x: 25),		withColorPair: logoColors.char4)
+			ui.drawText("        ", at: point.offset(x: 25, y: 1),	withColorPair: logoColors.char4)
+			ui.drawText("        ", at: point.offset(x: 25, y: 2),	withColorPair: logoColors.char4)
+			ui.drawText(" .d88b. ", at: point.offset(x: 25, y: 3),	withColorPair: logoColors.char4)
+			ui.drawText("d8P  Y8b", at: point.offset(x: 25, y: 4),	withColorPair: logoColors.char4)
+			ui.drawText("88888888", at: point.offset(x: 25, y: 5),	withColorPair: logoColors.char4)
+			ui.drawText("Y8b.    ", at: point.offset(x: 25, y: 6),	withColorPair: logoColors.char4)
+			ui.drawText(" \"Y8888 ", at: point.offset(x: 25, y: 7),	withColorPair: logoColors.char4)
 		}
 	}
 }
@@ -62,11 +89,9 @@ extension UILogoModule
 {
 	fileprivate struct UILogoColors
 	{
-		let line1: UIColorPair
-		let line2: UIColorPair
-		let line3: UIColorPair
-		let line4: UIColorPair
-		let line5: UIColorPair
-		let line6: UIColorPair
+		let char1: UIColorPair
+		let char2: UIColorPair
+		let char3: UIColorPair
+		let char4: UIColorPair
 	}
 }
