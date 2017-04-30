@@ -16,6 +16,8 @@
 		154EAEF31EB589480096A2B6 /* UIListModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154EAEF21EB589480096A2B6 /* UIListModule.swift */; };
 		154EAEF51EB591AF0096A2B6 /* Double+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154EAEF41EB591AF0096A2B6 /* Double+Additions.swift */; };
 		1564DF771EB54A290042EA7F /* UIPlayQueueModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF761EB54A290042EA7F /* UIPlayQueueModule.swift */; };
+		1564DF791EB623230042EA7F /* UISearchModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF781EB623230042EA7F /* UISearchModule.swift */; };
+		1564DF7B1EB637D40042EA7F /* UITextInputModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF7A1EB637D40042EA7F /* UITextInputModule.swift */; };
 		15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */; };
 		15E8EE231D46C18B00B8C266 /* CodesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE181D46C18B00B8C266 /* CodesParser.swift */; };
 		15E8EE241D46C18B00B8C266 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE191D46C18B00B8C266 /* Color.swift */; };
@@ -64,6 +66,8 @@
 		154EAEF21EB589480096A2B6 /* UIListModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIListModule.swift; path = "User Interface/Modules/UIListModule.swift"; sourceTree = "<group>"; };
 		154EAEF41EB591AF0096A2B6 /* Double+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Additions.swift"; sourceTree = "<group>"; };
 		1564DF761EB54A290042EA7F /* UIPlayQueueModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIPlayQueueModule.swift; path = "User Interface/Modules/UIPlayQueueModule.swift"; sourceTree = "<group>"; };
+		1564DF781EB623230042EA7F /* UISearchModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UISearchModule.swift; path = "User Interface/Modules/UISearchModule.swift"; sourceTree = "<group>"; };
+		1564DF7A1EB637D40042EA7F /* UITextInputModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UITextInputModule.swift; path = "User Interface/Modules/UITextInputModule.swift"; sourceTree = "<group>"; };
 		15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundColor.swift; sourceTree = "<group>"; };
 		15E8EE181D46C18B00B8C266 /* CodesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodesParser.swift; sourceTree = "<group>"; };
 		15E8EE191D46C18B00B8C266 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -198,13 +202,15 @@
 		15FFB3C31EB2D02600634F1A /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				15231C5C1EB4078D001CD2B8 /* UIBoxModule.swift */,
+				154EAEF21EB589480096A2B6 /* UIListModule.swift */,
+				1564DF7A1EB637D40042EA7F /* UITextInputModule.swift */,
+				15F0CDE81EB4DD74009B13CA /* UIControlBarModule.swift */,
 				15FFB3C41EB2D06600634F1A /* UIMainModule.swift */,
 				15FFB3CA1EB2D10000634F1A /* UILogoModule.swift */,
-				15231C5C1EB4078D001CD2B8 /* UIBoxModule.swift */,
 				15F0CDDA1EB41C53009B13CA /* UINowPlayingModule.swift */,
-				15F0CDE81EB4DD74009B13CA /* UIControlBarModule.swift */,
 				1564DF761EB54A290042EA7F /* UIPlayQueueModule.swift */,
-				154EAEF21EB589480096A2B6 /* UIListModule.swift */,
+				1564DF781EB623230042EA7F /* UISearchModule.swift */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -278,6 +284,8 @@
 				150FEB601D46AD1A00147D0C /* iTunesScripting.swift in Sources */,
 				15F0CDDE1EB42011009B13CA /* String+Additions.swift in Sources */,
 				15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */,
+				1564DF7B1EB637D40042EA7F /* UITextInputModule.swift in Sources */,
+				1564DF791EB623230042EA7F /* UISearchModule.swift in Sources */,
 				15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */,
 				15F0CDDB1EB41C53009B13CA /* UINowPlayingModule.swift in Sources */,
 				15F0CDE41EB4CAE3009B13CA /* UserInterfaceController.swift in Sources */,

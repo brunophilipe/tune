@@ -23,25 +23,12 @@ import Foundation
 
 struct Main
 {
-	static func run()
+	let userInterface = UserInterface()
+	let iTunes = iTunesController()
+
+	func run()
 	{
 		setlocale(LC_ALL, "en_US.UTF-8")
-
-		let userInterface = UserInterface()
-		let iTunes = iTunesController()
-
-		func buildStatesChain() -> UIState
-		{
-			let rootState = UIState(label: "Root")
-
-			rootState.setSubState(UIState.quitState, forKeyCode: KEY_Q_LOWER)
-			rootState.setSubState(UIControlState(label: "pause") { iTunes.playpause() },	forKeyCode: KEY_SPACE)
-			rootState.setSubState(UIControlState(label: "stop") { iTunes.stop() },			forKeyCode: KEY_PERIOD)
-			rootState.setSubState(UIControlState(label: "prev") { iTunes.previousTrack() }, forKeyCode: KEY_ARROW_LEFT)
-			rootState.setSubState(UIControlState(label: "next") { iTunes.nextTrack() },		forKeyCode: KEY_ARROW_RIGHT)
-
-			return rootState
-		}
 
 		guard userInterface.setup(rootState: buildStatesChain()) else
 		{
@@ -53,10 +40,13 @@ struct Main
 
 		userInterface.preDrawHook =
 		{
-			mainModule.currentTrack = iTunes.currentTrack
-			mainModule.currentPlaybackInfo = iTunes.currentPlaybackInfo
-			mainModule.currentState = userInterface.currentState
-			mainModule.currentPlaylist = iTunes.currentPlaylist
+			let iTunes = self.iTunes
+			let ui = self.userInterface
+
+			mainModule.currentState			= ui.currentState
+			mainModule.currentTrack			= iTunes.currentTrack
+			mainModule.currentPlaybackInfo	= iTunes.currentPlaybackInfo
+			mainModule.currentPlaylist		= iTunes.currentPlaylist
 		}
 
 		userInterface.mainUIModule = mainModule
@@ -68,6 +58,39 @@ struct Main
 		
 		userInterface.finalize()
 	}
+
+	private func buildStatesChain() -> UIState
+	{
+		let iTunes = self.iTunes
+
+		let searchState = UIState(label: "search")
+		searchState.identifier = UIState.TuneStates.search
+		searchState.setSubState(UIState.parentState, forKeyCode: KEY_ESCAPE)
+		searchState.setSubState(UIControlState(label: "tracks") { iTunes.playpause() }, forKeyCode: KEY_T_LOWER)
+		searchState.setSubState(UIControlState(label: "albums") { iTunes.playpause() }, forKeyCode: KEY_A_LOWER)
+		searchState.setSubState(UIControlState(label: "playlists") { iTunes.playpause() }, forKeyCode: KEY_P_LOWER)
+
+		let rootState = UIState(label: "Root")
+		rootState.identifier = UIState.TuneStates.root
+		rootState.setSubState(UIState.quitState, forKeyCode: KEY_Q_LOWER)
+		rootState.setSubState(UIControlState(label: "pause") { iTunes.playpause() },	forKeyCode: KEY_SPACE)
+		rootState.setSubState(UIControlState(label: "stop") { iTunes.stop() },			forKeyCode: KEY_PERIOD)
+		rootState.setSubState(searchState,												forKeyCode: KEY_S_LOWER)
+		rootState.setSubState(UIControlState(label: "prev") { iTunes.previousTrack() }, forKeyCode: KEY_LEFT)
+		rootState.setSubState(UIControlState(label: "next") { iTunes.nextTrack() },		forKeyCode: KEY_RIGHT)
+
+		return rootState
+	}
 }
 
-Main.run()
+extension UIState
+{
+	struct TuneStates
+	{
+		static let root = 1
+		static let search = 2
+	}
+}
+
+let main = Main()
+main.run()

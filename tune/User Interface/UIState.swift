@@ -25,6 +25,9 @@ class UIState
 	/// A state can have a delegate that can be used to customize the state flow machine.
 	var delegate: UIStateDelegate? = nil
 
+	/// An optional identifier. This is only a stored property.
+	var identifier: Int? = nil
+
 	var allSubStates: [(UIKeyCode, UIState)]
 	{
 		return self.subStates
@@ -103,7 +106,7 @@ extension UIState: Equatable
 
 extension UIKeyCode
 {
-	private static let navigationKeyCodes = [KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_ENTER]
+	private static let navigationKeyCodes = [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_ENTER]
 
 	var isNavigationKeyCode: Bool
 	{

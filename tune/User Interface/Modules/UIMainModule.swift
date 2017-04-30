@@ -15,6 +15,7 @@ class UIMainModule: UserInterfaceModule
 	private let boxModulePlaylist: UIBoxModule
 	private let controlBarModule: UIControlBarModule
 	private let playQueueModule: UIPlayQueueModule
+	private let searchModule: UISearchModule
 
 	private let logoModule: UILogoModule
 	private let nowPlayingModule: UINowPlayingModule
@@ -47,6 +48,7 @@ class UIMainModule: UserInterfaceModule
 		nowPlayingModule	= UINowPlayingModule(userInterface: userInterface)
 		controlBarModule	= UIControlBarModule(userInterface: userInterface)
 		playQueueModule		= UIPlayQueueModule(userInterface: userInterface)
+		searchModule		= UISearchModule(userInterface: userInterface)
 
 		minLogoModuleWidth = logoModule.width + 6
 
@@ -82,10 +84,38 @@ class UIMainModule: UserInterfaceModule
 
 		boxModuleNowPlaying.width = ui.width - minLogoModuleWidth
 		boxModulePlaylist.height = ui.height - (logoModule.height + 3) - 1
+
+		if ui.width <= 80
+		{
+			searchModule.width = max(ui.width - 2, 2)
+		}
+		else if ui.width >= 160
+		{
+			searchModule.width = 120
+		}
+		else
+		{
+			searchModule.width = Int32(Double(ui.width) * 0.75)
+		}
+
+		if ui.height <= 20
+		{
+			searchModule.height = max(ui.height - 2, 2)
+		}
+		else if ui.height >= 60
+		{
+			searchModule.height = 45
+		}
+		else
+		{
+			searchModule.height = Int32(Double(ui.height) * 0.75)
+		}
 	}
 
 	func draw()
 	{
+		// shouldDraw() and needsRedraw are never used in this class. Maybe that's not ideal,
+		// but we need to transfer the event to the submodules every loop.
 		if let ui = self.userInterface, !isDrawing
 		{
 			isDrawing = true
@@ -94,7 +124,12 @@ class UIMainModule: UserInterfaceModule
 
 			boxModuleMain.draw(at: UIPoint.zero)
 
-			logoModule.needsRedraw = ui.isCleanDraw
+			if ui.isCleanDraw
+			{
+				// never set it manually to false to avoid inconsistencies
+				logoModule.needsRedraw = true
+			}
+
 			logoModule.draw(at: UIPoint(4, 2))
 
 			let nowPlayingModuleOrigin = UIPoint(minLogoModuleWidth, 0)
@@ -116,6 +151,19 @@ class UIMainModule: UserInterfaceModule
 			playQueueModule.currentPlaylist = currentPlaylist
 			playQueueModule.currentTrack = currentTrack
 			playQueueModule.draw(at: playlistModuleOrigin.offset(x: 1, y: 1))
+
+			switch currentState?.identifier
+			{
+			case .some(UIState.TuneStates.search):
+				let searchModuleOrigin = UIPoint(
+					(ui.width / 2) - (searchModule.width / 2),
+					(ui.height / 2) - (searchModule.height / 2)
+				)
+				searchModule.draw(at: searchModuleOrigin)
+
+			default:
+				break
+			}
 
 			ui.commit()
 

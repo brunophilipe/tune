@@ -98,14 +98,15 @@ class UserInterface
 			start_color()
 			noecho()
 			curs_set(0)
-
+			keypad(screen, true)
 			nodelay(screen, false)
+			set_escdelay(150)
 
 			let controller = UserInterfaceController(screen: screen, rootState: rootState)
 			
 			clear()
 
-			controller.resizeEventObserver = self
+			controller.delegate = self
 
 			self.controller = controller
 
@@ -258,9 +259,18 @@ class UserInterface
 	}
 }
 
-extension UserInterface: UIResizeEventObserver
+extension UserInterface: UserInterfaceControllerDelegate
 {
 	func userInterfaceControllerReceivedResizeEvent(_ controller: UserInterfaceController)
+	{
+		if let mainModule = self.mainUIModule
+		{
+			clean()
+			dispatchDraw(toModule: mainModule)
+		}
+	}
+
+	func userInterfaceController(_ controller: UserInterfaceController, didChangeToState state: UIState)
 	{
 		if let mainModule = self.mainUIModule
 		{

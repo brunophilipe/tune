@@ -18,9 +18,17 @@ class UserInterfaceController
 	private let rootState: UIState
 
 	fileprivate var currentState: UIState? = nil
+	{
+		didSet
+		{
+			if let state = currentState
+			{
+				delegate?.userInterfaceController(self, didChangeToState: state)
+			}
+		}
+	}
 
-	var resizeEventObserver: UIResizeEventObserver? = nil
-
+	var delegate: UserInterfaceControllerDelegate? = nil
 
 	init(screen: OpaquePointer, rootState: UIState)
 	{
@@ -42,9 +50,9 @@ class UserInterfaceController
 				// We are using delay mode, but let's add this check just in case.
 				continue
 			}
-			else if keyCode == KEY_RESIZE, let resizeObserver = self.resizeEventObserver
+			else if keyCode == KEY_RESIZE, let delegate = self.delegate
 			{
-				resizeObserver.userInterfaceControllerReceivedResizeEvent(self)
+				delegate.userInterfaceControllerReceivedResizeEvent(self)
 			}
 			else if let currentState = self.currentState
 			{
@@ -103,17 +111,11 @@ extension UserInterfaceController
 	}
 }
 
-protocol UIResizeEventObserver
+protocol UserInterfaceControllerDelegate
 {
 	func userInterfaceControllerReceivedResizeEvent(_ controller: UserInterfaceController)
+	func userInterfaceController(_ controller: UserInterfaceController, didChangeToState state: UIState)
 }
-
-// These definitions are here because I couldn't find a definition that would match what getch() is returning.
-
-let KEY_ARROW_UP	= UIKeyCode(65)
-let KEY_ARROW_DOWN	= UIKeyCode(66)
-let KEY_ARROW_RIGHT	= UIKeyCode(67)
-let KEY_ARROW_LEFT	= UIKeyCode(68)
 
 // These definitions are here because converting a character to its ASCII code is expensive, so we only do it once.
 
