@@ -16,23 +16,30 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 
 	var width: Int32
 	{
-		didSet
-		{
-			self.needsRedraw = true
-		}
+		didSet { needsRedraw = true }
 	}
 
 	var height: Int32
 	{
-		didSet
-		{
-			self.needsRedraw = true
-		}
+		didSet { needsRedraw = true }
+	}
+
+	var clearsBackground: Bool = false
+	{
+		didSet { needsRedraw = true }
+	}
+
+	var frameChars: FrameChars = .singleLine
+	{
+		didSet { needsRedraw = true }
+	}
+
+	var title: String? = nil
+	{
+		didSet { needsRedraw = true }
 	}
 
 	var needsRedraw: Bool = true
-
-	var frameChars: FrameChars = .singleLine
 
 	required init(userInterface: UserInterface)
 	{
@@ -62,6 +69,11 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 	{
 		if shouldDraw(), let ui = self.userInterface
 		{
+			if clearsBackground
+			{
+				ui.cleanRegion(origin: point, size: UISize(width, height))
+			}
+
 			let maxWidth = ui.width - point.x
 			let maxHeight = ui.height - point.y
 
@@ -121,6 +133,13 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 					ui.drawText(String(char),
 					            at: UIPoint(i, point.y),
 					            withColorPair: frameColor)
+				}
+
+				if let title = self.title
+				{
+					let pX = (lengthX / 2) - ((title.width + 2) / 2)
+
+					ui.drawText(" \(title) ", at: UIPoint(startX + pX, point.y), withColorPair: frameColor)
 				}
 
 				didDraw.top = true
