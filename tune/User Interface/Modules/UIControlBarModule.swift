@@ -11,7 +11,6 @@ import Foundation
 class UIControlBarModule: UserInterfaceSizableModule, UserInterfacePositionableModule
 {
 	private var textColor: UIColorPair
-	private var lastDrawnPoint: UIPoint? = nil
 
 	weak var userInterface: UserInterface? = nil
 
@@ -54,28 +53,41 @@ class UIControlBarModule: UserInterfaceSizableModule, UserInterfacePositionableM
 
 	func draw(at point: UIPoint)
 	{
-		if (shouldDraw() || lastDrawnPoint != point), let ui = self.userInterface, let state = self.currentState
+		if let ui = self.userInterface, let state = self.currentState
 		{
 			// First draw the whole BG
 			ui.drawText(" " * width, at: point, withColorPair: textColor)
-			ui.drawText("Controls:",at: point.offset(x: 1), withColorPair: textColor)
 
-			var usedLength: Int32 = 9
+			var totalUsedLength: Int32 = 0
 
 			for (keyCode, subState) in state.allSubStates
 			{
-				usedLength += drawControlInfo(forState: subState, keyCode: keyCode, onUI: ui, startingAt: UIPoint(usedLength + 2, point.y))
-				usedLength += 2
-			}
+				let usedLength = drawControlInfo(forState: subState,
+				                                 keyCode: keyCode,
+				                                 onUI: ui,
+				                                 startingAt: UIPoint(totalUsedLength + 2, point.y))
 
-			lastDrawnPoint = point
-			needsRedraw = false
+				if usedLength == 0
+				{
+					// Did not fit!
+					break
+				}
+
+				totalUsedLength += usedLength
+			}
 		}
 	}
 
 	private func drawControlInfo(forState state: UIState, keyCode: UIKeyCode, onUI ui: UserInterface, startingAt point: UIPoint) -> Int32
 	{
-		let text = " \(keyCode.display): \(state.label) "
+		let availableSpace = width - 1
+		let text = " \(keyCode.display) \(state.label) "
+
+		if point.x + text.width >= availableSpace
+		{
+			// Won't fit!
+			return 0
+		}
 
 		ui.usingTextAttributes(.standout)
 		{
@@ -96,6 +108,9 @@ private extension UIKeyCode
 		case KEY_RIGHT,	KEY_ARROW_RIGHT:	return "→"
 		case KEY_UP,	KEY_ARROW_UP:		return "↑"
 		case KEY_DOWN,	KEY_ARROW_DOWN:		return "↓"
+		case KEY_TAB:						return "⇥"
+		case KEY_ENTER:						return "↩︎"
+		case KEY_SPACE:						return "⎵"
 		default:
 			return String(UnicodeScalar.init(Int(self))!)
 		}

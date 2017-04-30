@@ -195,7 +195,7 @@ class UserInterface
 		if let mainModule = self.mainUIModule
 		{
 			dispatchDraw(toModule: mainModule)
-			redrawQueue.asyncAfter(deadline: DispatchTime.now() + 0.65, execute: self.draw)
+			redrawQueue.asyncAfter(deadline: DispatchTime.now() + 0.33, execute: self.draw)
 		}
 		else
 		{

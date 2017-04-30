@@ -117,6 +117,10 @@ let KEY_ARROW_LEFT	= UIKeyCode(68)
 
 // These definitions are here because converting a character to its ASCII code is expensive, so we only do it once.
 
+let KEY_SPACE = " ".codeUnit!
+let KEY_TAB = "\t".codeUnit!
+let KEY_PERIOD = ".".codeUnit!
+
 let KEY_0 = "0".codeUnit!
 let KEY_1 = "1".codeUnit!
 let KEY_2 = "2".codeUnit!

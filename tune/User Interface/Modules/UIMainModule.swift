@@ -104,6 +104,7 @@ class UIMainModule: UserInterfaceModule
 
 			boxModulePlaylist.draw(at: playlistModuleOrigin)
 
+			controlBarModule.width = ui.width
 			controlBarModule.currentState = currentState
 			controlBarModule.draw(at: UIPoint(0, ui.height - 1))
 

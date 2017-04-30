@@ -35,6 +35,8 @@ struct Main
 			let rootState = UIState(label: "Root")
 
 			rootState.setSubState(UIState.quitState, forKeyCode: KEY_Q_LOWER)
+			rootState.setSubState(UIControlState(label: "pause") { iTunes.playpause() },	forKeyCode: KEY_SPACE)
+			rootState.setSubState(UIControlState(label: "stop") { iTunes.stop() },			forKeyCode: KEY_PERIOD)
 			rootState.setSubState(UIControlState(label: "prev") { iTunes.previousTrack() }, forKeyCode: KEY_ARROW_LEFT)
 			rootState.setSubState(UIControlState(label: "next") { iTunes.nextTrack() },		forKeyCode: KEY_ARROW_RIGHT)
 
