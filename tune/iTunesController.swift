@@ -52,7 +52,7 @@ class iTunesController
 {
 	var currentTrack: iTunesTrack?
 	{
-		if let track = iTunesApp?.currentTrack, track.size > 0
+		if let track = iTunesApp?.currentTrack, track.duration > 0
 		{
 			return track
 		}
