@@ -61,15 +61,16 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 	{
 		let truncationLength = Int(width - 11)
 
+		// Clean if the track changed
+		if track?.hash != lastTrackHash
+		{
+			cleanModule(origin: point)
+
+			lastTrackHash = track?.hash
+		}
+
 		if truncationLength > 11, let track = track
 		{
-			if track.hash != lastTrackHash
-			{
-				cleanModule(origin: point)
-
-				lastTrackHash = track.hash
-			}
-
 			let info = processTrackInformation(track)
 
 			// Title background
