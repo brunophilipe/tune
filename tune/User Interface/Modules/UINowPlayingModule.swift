@@ -212,13 +212,3 @@ class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableM
 		let title, artist, album, duration: String
 	}
 }
-
-private extension Double
-{
-	var durationString: String
-	{
-		let durMin = Int(self/60)
-		let durSec = Int(self.truncatingRemainder(dividingBy: 60))
-		return "\(durMin < 10 ? "0\(durMin)" : "\(durMin)"):" + "\(durSec < 10 ? "0\(durSec)" : "\(durSec)")"
-	}
-}

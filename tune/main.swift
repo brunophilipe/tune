@@ -56,6 +56,7 @@ struct Main
 			mainModule.currentTrack = iTunes.currentTrack
 			mainModule.currentPlaybackInfo = iTunes.currentPlaybackInfo
 			mainModule.currentState = userInterface.currentState
+			mainModule.currentPlaylist = iTunes.currentPlaylist
 		}
 
 		userInterface.mainUIModule = mainModule

@@ -27,6 +27,7 @@ class UIMainModule: UserInterfaceModule
 	weak var userInterface: UserInterface?
 
 	var currentTrack: iTunesTrack? = nil
+	var currentPlaylist: iTunesPlaylist? = nil
 	var currentPlaybackInfo: iTunesPlaybackInfo? = nil
 	var currentState: UIState? = nil
 
@@ -110,6 +111,8 @@ class UIMainModule: UserInterfaceModule
 
 			playQueueModule.width = logoModule.width + 5
 			playQueueModule.height = ui.height - boxModuleNowPlaying.height - 2
+			playQueueModule.currentPlaylist = currentPlaylist
+			playQueueModule.currentTrack = currentTrack
 			playQueueModule.draw(at: playlistModuleOrigin.offset(x: 1, y: 1))
 
 			ui.commit()

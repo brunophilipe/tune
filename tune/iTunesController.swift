@@ -61,6 +61,11 @@ class iTunesController
 			return nil
 		}
 	}
+	
+	var currentPlaylist: iTunesPlaylist?
+	{
+		return iTunesApp?.currentPlaylist
+	}
 
 	var currentPlaybackInfo: iTunesPlaybackInfo?
 	{
@@ -679,5 +684,21 @@ extension iTunesTrack
 		{
 			return string
 		}
+	}
+}
+
+extension iTunesPlaylist
+{
+	func positionOfTrack(_ desiredTrack: iTunesTrack) -> Int?
+	{
+		for index in 0..<tracks!().count
+		{
+			if let track = tracks!()[index] as? iTunesTrack, track.id!() == desiredTrack.id!()
+			{
+				return index
+			}
+		}
+		
+		return nil
 	}
 }

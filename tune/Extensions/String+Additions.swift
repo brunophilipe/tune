@@ -19,7 +19,23 @@ extension String
 		else
 		{
 			let truncationIndex = index(startIndex, offsetBy: maxLength - 1)
-			return substring(to: truncationIndex) + "…"
+			return (substring(to: truncationIndex).trimmingCharacters(in: .whitespaces) + "…").padded(to: maxLength)
+		}
+	}
+	
+	func padded(to length: Int, alignLeft: Bool = true) -> String
+	{
+		if width > Int32(length)
+		{
+			return truncated(to: length)
+		}
+		else if alignLeft
+		{
+			return "\(self)\(" " * (Int32(length) - width))"
+		}
+		else
+		{
+			return "\(" " * (Int32(length) - width))\(self)"
 		}
 	}
 
@@ -30,7 +46,7 @@ extension String
 
 	static func *(lhs: String, rhn: Int32) -> String
 	{
-		return String.init(repeating: lhs, count: Int(rhn))
+		return String.init(repeating: lhs, count: Int(max(rhn, 0)))
 	}
 
 	/// Width of the string in a monospaced font
