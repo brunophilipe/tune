@@ -11,6 +11,8 @@ import Foundation
 class UIListModule: UserInterfaceSizableModule, UserInterfacePositionableModule
 {
 	weak var userInterface: UserInterface? = nil
+
+	private let activeRowTextColor: UIColorPair
 	
 	weak var dataSource: UIListModuleDataSource? = nil
 	{
@@ -20,6 +22,8 @@ class UIListModule: UserInterfaceSizableModule, UserInterfacePositionableModule
 	required init(userInterface: UserInterface)
 	{
 		self.userInterface = userInterface
+
+		activeRowTextColor = userInterface.registerColorPair(fore: COLOR_CYAN, back: COLOR_BLACK)
 	}
 	
 	var width: Int32 = 0
@@ -34,7 +38,7 @@ class UIListModule: UserInterfaceSizableModule, UserInterfacePositionableModule
 	
 	var needsRedraw: Bool = true
 	
-	var selectedRow: Int? = nil
+	var activeRow: Int? = nil
 	{
 		didSet { needsRedraw = true }
 	}
@@ -48,6 +52,8 @@ class UIListModule: UserInterfaceSizableModule, UserInterfacePositionableModule
 	{
 		if shouldDraw(), let dataSource = self.dataSource, let ui = self.userInterface
 		{
+			ui.cleanRegion(origin: point, size: UISize(width, height))
+
 			let columnCount = dataSource.numberOfColumnsForListModule(self)
 			let rowCount = dataSource.numberOfRowsForListModule(self)
 			
@@ -59,11 +65,6 @@ class UIListModule: UserInterfaceSizableModule, UserInterfacePositionableModule
 			
 			let columnWidths: [Int] = (0 ..< columnCount).map({dataSource.listModule(self, widthOfColumn: $0)})
 			
-//			if columnWidths.reduce(0, { $0 + $1 }) > width
-//			{
-//				//Inconsistency! Too wide columns
-//			}
-			
 			for row in 0 ..< min(rowCount, Int(height))
 			{
 				let rowText: [String] = (0 ..< columnCount).map
@@ -74,14 +75,14 @@ class UIListModule: UserInterfaceSizableModule, UserInterfacePositionableModule
 					                             textForColumn: colIndex,
 					                             ofRow: row).padded(to: columnWidths[colIndex], alignLeft: alignLeft)
 				}
-				
-				if row == selectedRow
+
+				if row == activeRow
 				{
-					ui.usingTextAttributes(.standout)
+					ui.usingTextAttributes(.bold)
 					{
 						ui.drawText(rowText.joined(separator: "·"),
 						            at: point.offset(y: Int32(row)),
-						            withColorPair: ui.sharedColorWhiteOnBlack)
+						            withColorPair: activeRowTextColor)
 					}
 				}
 				else

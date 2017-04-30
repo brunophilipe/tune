@@ -27,11 +27,11 @@ class UIPlayQueueModule: UserInterfacePositionableModule, UserInterfaceSizableMo
 		{
 			if let currentTrack = currentTrack, let row = currentPlaylist?.positionOfTrack(currentTrack)
 			{
-				listModule.selectedRow = row
+				listModule.activeRow = row
 			}
 			else
 			{
-				listModule.selectedRow = nil
+				listModule.activeRow = nil
 			}
 			needsRedraw = true
 		}
@@ -48,7 +48,7 @@ class UIPlayQueueModule: UserInterfacePositionableModule, UserInterfaceSizableMo
 		self.height = 0
 		
 		self.listModule.dataSource = self
-		self.listModule.selectedRow = 0
+		self.listModule.activeRow = 0
 	}
 
 	var width: Int32

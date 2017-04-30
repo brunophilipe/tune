@@ -93,6 +93,8 @@ class UIMainModule: UserInterfaceModule
 			reframeBoxModules(ui)
 
 			boxModuleMain.draw(at: UIPoint.zero)
+
+			logoModule.needsRedraw = ui.isCleanDraw
 			logoModule.draw(at: UIPoint(4, 2))
 
 			let nowPlayingModuleOrigin = UIPoint(minLogoModuleWidth, 0)
