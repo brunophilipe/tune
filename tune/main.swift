@@ -21,10 +21,11 @@
 
 import Foundation
 
-struct Main
+class Main
 {
-	let userInterface = UserInterface()
-	let iTunes = iTunesController()
+	private let userInterface = UserInterface()
+	private let iTunes = iTunesController()
+	private var windowControllers: [UIWindowController]? = nil
 
 	func run()
 	{
@@ -36,26 +37,43 @@ struct Main
 			exit(-1)
 		}
 
-		let mainModule = UIMainModule(userInterface: userInterface)
+		let windowControllers = buildWindowControllers(userInterface)
+
+		for controller in windowControllers
+		{
+			userInterface.registerWindow(controller.window)
+		}
+
+		self.windowControllers = windowControllers
 
 		userInterface.preDrawHook =
 		{
 			let iTunes = self.iTunes
-			let ui = self.userInterface
+//			let ui = self.userInterface
 
-			mainModule.currentState			= ui.currentState
-			mainModule.currentTrack			= iTunes.currentTrack
-			mainModule.currentPlaybackInfo	= iTunes.currentPlaybackInfo
-			mainModule.currentPlaylist		= iTunes.currentPlaylist
+			if let windowControllers = self.windowControllers
+			{
+				for controller in windowControllers
+				{
+					switch controller
+					{
+					case let nowPlayingController as NowPlayingWindowController:
+						nowPlayingController.track			= iTunes.currentTrack
+						nowPlayingController.playbackInfo	= iTunes.currentPlaybackInfo
+
+					default:
+						break
+					}
+				}
+			}
+
+//			mainModule.currentState			= ui.currentState
+//			mainModule.currentTrack			= iTunes.currentTrack
+//			mainModule.currentPlaybackInfo	= iTunes.currentPlaybackInfo
+//			mainModule.currentPlaylist		= iTunes.currentPlaylist
 		}
 
-		userInterface.mainUIModule = mainModule
-
 		userInterface.startEventLoop()
-
-		//let controller = iTunesController()
-		//controller.parseArguments(CommandLine.arguments)
-		
 		userInterface.finalize()
 	}
 
@@ -80,6 +98,14 @@ struct Main
 		rootState.setSubState(UIControlState(label: "next") { iTunes.nextTrack() },		forKeyCode: KEY_RIGHT)
 
 		return rootState
+	}
+
+	private func buildWindowControllers(_ ui: UserInterface) -> [UIWindowController]
+	{
+		return [
+			LogoWindowController(userInterface: ui),
+			NowPlayingWindowController(userInterface: ui)
+		]
 	}
 }
 

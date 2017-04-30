@@ -202,4 +202,16 @@ extension String
 			return nil
 		}
 	}
+
+	var codeUnitU: UInt32?
+	{
+		if let codeUnit = self.utf8.first
+		{
+			return UInt32(codeUnit)
+		}
+		else
+		{
+			return nil
+		}
+	}
 }

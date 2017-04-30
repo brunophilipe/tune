@@ -24,35 +24,6 @@ import Darwin.ncurses
 
 typealias UIColorPair = Int16
 
-struct UIPoint
-{
-	let x: Int32
-	let y: Int32
-
-	init(_ x: Int32, _ y: Int32)
-	{
-		self.x = x
-		self.y = y
-	}
-
-	func offset(x offsetX: Int32 = 0, y offsetY: Int32 = 0) -> UIPoint
-	{
-		return UIPoint(x + offsetX, y + offsetY)
-	}
-
-	static var zero = UIPoint(0, 0)
-}
-
-extension UIPoint: Equatable
-{
-	static func ==(lhp: UIPoint, rhp: UIPoint) -> Bool
-	{
-		return lhp.x == rhp.x && lhp.y == rhp.y
-	}
-}
-
-typealias UISize = UIPoint
-
 class UserInterface
 {
 	private var redrawQueue: DispatchQueue = DispatchQueue(label: "Redraw Queue", qos: DispatchQoS.background)
@@ -61,23 +32,10 @@ class UserInterface
 
 	private var screen: OpaquePointer? = nil
 	private var registeredColorsCount: Int16 = 0
+	private var windows = [UIWindow]()
 
+	/// This hook is invoked before every `draw()` call.
 	var preDrawHook: (() -> Void)? = nil
-
-	var mainUIModule: UserInterfaceModule? = nil
-	{
-		didSet
-		{
-			if mainUIModule != nil
-			{
-				startDrawLoop()
-			}
-			else
-			{
-				stopDrawLoop()
-			}
-		}
-	}
 
 	var isCleanDraw: Bool = true
 
@@ -86,10 +44,12 @@ class UserInterface
 		return controller?.state
 	}
 
-	lazy var sharedColorWhiteOnBlack: UIColorPair =
+	private var _sharedColorWhiteOnBlack: UIColorPair = 0
+
+	var sharedColorWhiteOnBlack: UIColorPair
 	{
-		return self.registerColorPair(fore: COLOR_WHITE, back: COLOR_BLACK)
-	}()
+		return _sharedColorWhiteOnBlack
+	}
 
 	func setup(rootState: UIState) -> Bool
 	{
@@ -102,6 +62,8 @@ class UserInterface
 			nodelay(screen, false)
 			set_escdelay(150)
 
+			_sharedColorWhiteOnBlack = registerColorPair(fore: COLOR_WHITE, back: COLOR_BLACK)
+
 			let controller = UserInterfaceController(screen: screen, rootState: rootState)
 			
 			clear()
@@ -109,6 +71,8 @@ class UserInterface
 			controller.delegate = self
 
 			self.controller = controller
+
+			startDrawLoop()
 
 			return true
 		}
@@ -132,12 +96,9 @@ class UserInterface
 		return registeredColorsCount
 	}
 
-	func drawText(_ text: String, at point: UIPoint, withColorPair colorPair: UIColorPair)
+	func registerWindow(_ window: UIWindow)
 	{
-		enableColorPair(colorPair)
-		move(point.y, point.x)
-		addstr(text)
-		disableColorPair(colorPair)
+		windows.append(window)
 	}
 
 	func commit()
@@ -149,35 +110,6 @@ class UserInterface
 	{
 		clear()
 		isCleanDraw = true
-	}
-
-	func cleanRegion(origin: UIPoint, size: UISize, usingColorPair color: UIColorPair = 0)
-	{
-		let fillColor: UIColorPair
-
-		if color > 0
-		{
-			fillColor = color
-		}
-		else
-		{
-			fillColor = sharedColorWhiteOnBlack
-		}
-
-		for row in 0 ..< size.y
-		{
-			drawText(" " * size.x, at: origin.offset(y: row), withColorPair: fillColor)
-		}
-	}
-
-	/// Will apply the parameter attributes to all text drawn inside the parameter block. The block runs immediatelly and is non-escaping.
-	///
-	/// **WARNING:** This function does not (yet) support nesting. Don't call `usingTextAttributes` inside of the parameter block.
-	func usingTextAttributes(_ attributes: TextAttributes, _ block: () -> Void)
-	{
-		enableTextAttributes(attributes)
-		block()
-		disableTextAttributes(attributes)
 	}
 
 	private func startDrawLoop()
@@ -193,42 +125,14 @@ class UserInterface
 
 	private func draw()
 	{
-		if let mainModule = self.mainUIModule
-		{
-			dispatchDraw(toModule: mainModule)
-			redrawQueue.asyncAfter(deadline: DispatchTime.now() + 0.33, execute: self.draw)
-		}
-		else
-		{
-			stopDrawLoop()
-		}
-	}
-
-	private func enableColorPair(_ pair: UIColorPair)
-	{
-		attron(COLOR_PAIR(Int32(pair)))
-	}
-
-	private func disableColorPair(_ pair: UIColorPair)
-	{
-		attroff(COLOR_PAIR(Int32(pair)))
-	}
-
-	private func enableTextAttributes(_ attributes: TextAttributes)
-	{
-		attron(attributes.rawValue)
-	}
-
-	private func disableTextAttributes(_ attributes: TextAttributes)
-	{
-		attroff(attributes.rawValue)
-	}
-
-	fileprivate func dispatchDraw(toModule mainModule: UserInterfaceModule)
-	{
 		preDrawHook?()
-		mainModule.draw()
-		isCleanDraw = false
+
+		for window in windows
+		{
+			window.draw()
+		}
+
+		redrawQueue.asyncAfter(deadline: DispatchTime.now() + 0.25, execute: self.draw)
 	}
 
 	func finalize()
@@ -247,35 +151,117 @@ class UserInterface
 	{
 		return getmaxy(stdscr)
 	}
+}
 
-	struct TextAttributes: OptionSet
-	{
-		let rawValue: Int32
+struct UITextAttributes: OptionSet
+{
+	let rawValue: Int32
 
-		static let bold			= TextAttributes(rawValue: A_BOLD)
-		static let underline	= TextAttributes(rawValue: A_UNDERLINE)
-		static let blink		= TextAttributes(rawValue: A_BLINK)
-		static let standout		= TextAttributes(rawValue: A_STANDOUT)
-	}
+	static let bold			= UITextAttributes(rawValue: A_BOLD)
+	static let underline	= UITextAttributes(rawValue: A_UNDERLINE)
+	static let blink		= UITextAttributes(rawValue: A_BLINK)
+	static let standout		= UITextAttributes(rawValue: A_STANDOUT)
 }
 
 extension UserInterface: UserInterfaceControllerDelegate
 {
 	func userInterfaceControllerReceivedResizeEvent(_ controller: UserInterfaceController)
 	{
-		if let mainModule = self.mainUIModule
-		{
-			clean()
-			dispatchDraw(toModule: mainModule)
-		}
+//		if let mainModule = self.mainUIModule
+//		{
+//			clean()
+//			dispatchDraw(toModule: mainModule)
+//		}
 	}
 
 	func userInterfaceController(_ controller: UserInterfaceController, didChangeToState state: UIState)
 	{
-		if let mainModule = self.mainUIModule
-		{
-			clean()
-			dispatchDraw(toModule: mainModule)
-		}
+//		if let mainModule = self.mainUIModule
+//		{
+//			clean()
+//			dispatchDraw(toModule: mainModule)
+//		}
+	}
+}
+
+struct UIPoint
+{
+	let x: Int32
+	let y: Int32
+
+	init(_ x: Int32, _ y: Int32)
+	{
+		self.x = x
+		self.y = y
+	}
+
+	func offset(x offsetX: Int32 = 0, y offsetY: Int32 = 0) -> UIPoint
+	{
+		return UIPoint(x + offsetX, y + offsetY)
+	}
+
+	func replacing(x: Int32? = nil, y: Int32? = nil) -> UIPoint
+	{
+		return UIPoint(x ?? self.x, y ?? self.y)
+	}
+
+	static var zero = UIPoint(0, 0)
+}
+
+extension UIPoint: Equatable
+{
+	static func ==(lhp: UIPoint, rhp: UIPoint) -> Bool
+	{
+		return lhp.x == rhp.x && lhp.y == rhp.y
+	}
+}
+
+typealias UISize = UIPoint
+
+struct UIFrame
+{
+	let origin: UIPoint
+	let size: UISize
+
+	init(origin: UIPoint = .zero, size: UISize)
+	{
+		self.origin = origin
+		self.size = size
+	}
+
+	init(x: Int32, y: Int32, w: Int32, h: Int32)
+	{
+		self.origin = UIPoint(x, y)
+		self.size = UISize(w, h)
+	}
+
+	var x: Int32
+	{
+		return origin.x
+	}
+
+	var y: Int32
+	{
+		return origin.y
+	}
+
+	var height: Int32
+	{
+		return size.y
+	}
+
+	var width: Int32
+	{
+		return size.x
+	}
+
+	var maxX: Int32
+	{
+		return x + width
+	}
+
+	var maxY: Int32
+	{
+		return y + height
 	}
 }

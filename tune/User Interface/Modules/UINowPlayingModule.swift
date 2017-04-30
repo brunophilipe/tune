@@ -8,10 +8,6 @@
 
 import Foundation
 
-let kUnknownArtist = "Unknown Artist"
-let kUnknownTrack = "Unknown Track"
-let kUnknownAlbum = "Unknown Album"
-
 class UINowPlayingModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 {
 	private let labelTextAttributes: UserInterface.TextAttributes = [.underline]

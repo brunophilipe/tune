@@ -45,6 +45,9 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
+let kUnknownArtist = "Unknown Artist"
+let kUnknownTrack = "Unknown Track"
+let kUnknownAlbum = "Unknown Album"
 
 typealias Verb = (names: [String], brief: String, description: [String], extra: String?)
 

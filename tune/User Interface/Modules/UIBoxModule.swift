@@ -172,7 +172,7 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 			}
 
 			// Draw top-left corner
-			if didDraw.top && didDraw.left, let char = frameChars.cornerTopLeft
+			if didDraw.top && didDraw.left, let char = frameChars.topLeft
 			{
 				ui.drawText(String(char),
 				            at: UIPoint(startX, startY),
@@ -180,7 +180,7 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 			}
 
 			// Draw top-right corner
-			if didDraw.top && didDraw.right, let char = frameChars.cornerTopRight
+			if didDraw.top && didDraw.right, let char = frameChars.topRight
 			{
 				ui.drawText(String(char),
 				            at: UIPoint(startX + lengthX - 1, startY),
@@ -188,7 +188,7 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 			}
 
 			// Draw bottom-left corner
-			if didDraw.bottom && didDraw.left, let char = frameChars.cornerBottomLeft
+			if didDraw.bottom && didDraw.left, let char = frameChars.bottomLeft
 			{
 				ui.drawText(String(char),
 				            at: UIPoint(startX, startY + lengthY - 1),
@@ -196,7 +196,7 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 			}
 
 			// Draw bottom-right corner
-			if didDraw.bottom && didDraw.right, let char = frameChars.cornerBottomRight
+			if didDraw.bottom && didDraw.right, let char = frameChars.bottomRight
 			{
 				ui.drawText(String(char),
 				            at: UIPoint(startX + lengthX - 1, startY + lengthY - 1),
@@ -209,22 +209,22 @@ class UIBoxModule: UserInterfacePositionableModule, UserInterfaceSizableModule
 
 	struct FrameChars
 	{
-		let cornerTopLeft, cornerTopRight, cornerBottomLeft, cornerBottomRight, horizontal, vertical: Character?
+		let topLeft, topRight, bottomLeft, bottomRight, horizontal, vertical: Character?
 
 		static var singleLine = FrameChars(
-			cornerTopLeft:		"┌",
-			cornerTopRight:		"┐",
-			cornerBottomLeft:	"└",
-			cornerBottomRight:	"┘",
+			topLeft:		"┌",
+			topRight:		"┐",
+			bottomLeft:	"└",
+			bottomRight:	"┘",
 			horizontal:			"─",
 			vertical:			"│"
 		)
 
 		static var doubleLine = FrameChars(
-			cornerTopLeft:		"╔",
-			cornerTopRight:		"╗",
-			cornerBottomLeft:	"╚",
-			cornerBottomRight:	"╝",
+			topLeft:		"╔",
+			topRight:		"╗",
+			bottomLeft:	"╚",
+			bottomRight:	"╝",
 			horizontal:			"═",
 			vertical:			"║"
 		)

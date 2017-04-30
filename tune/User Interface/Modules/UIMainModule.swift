@@ -55,20 +55,20 @@ class UIMainModule: UserInterfaceModule
 		boxModuleMain.frameChars = .doubleLine
 
 		boxModuleNowPlaying.frameChars = UIBoxModule.FrameChars(
-			cornerTopLeft:		"╦",
-			cornerTopRight:		"╗",
-			cornerBottomLeft:	"╬",
-			cornerBottomRight:	"╣",
+			topLeft:		"╦",
+			topRight:		"╗",
+			bottomLeft:	"╬",
+			bottomRight:	"╣",
 			horizontal:			"═",
 			vertical:			"║"
 		)
 		boxModuleNowPlaying.height = logoModule.height + 4
 
 		boxModulePlaylist.frameChars = UIBoxModule.FrameChars(
-			cornerTopLeft:		"╠",
-			cornerTopRight:		"╬",
-			cornerBottomLeft:	"╚",
-			cornerBottomRight:	"╩",
+			topLeft:		"╠",
+			topRight:		"╬",
+			bottomLeft:	"╚",
+			bottomRight:	"╩",
 			horizontal:			"═",
 			vertical:			"║"
 		)
