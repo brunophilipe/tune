@@ -120,6 +120,7 @@ let KEY_ARROW_LEFT	= UIKeyCode(68)
 let KEY_SPACE = " ".codeUnit!
 let KEY_TAB = "\t".codeUnit!
 let KEY_PERIOD = ".".codeUnit!
+let KEY_ESCAPE = UIKeyCode(27)
 
 let KEY_0 = "0".codeUnit!
 let KEY_1 = "1".codeUnit!

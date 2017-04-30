@@ -111,6 +111,7 @@ private extension UIKeyCode
 		case KEY_TAB:						return "⇥"
 		case KEY_ENTER:						return "↩︎"
 		case KEY_SPACE:						return "⎵"
+		case KEY_ESCAPE:					return "⎋"
 		default:
 			return String(UnicodeScalar.init(Int(self))!)
 		}
