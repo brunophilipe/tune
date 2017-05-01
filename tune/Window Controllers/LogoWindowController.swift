@@ -42,10 +42,7 @@ class LogoWindowController: UIWindowController
 		if let color = userInterface?.sharedColorWhiteOnBlack
 		{
 			boxPanel = UIBoxPanel(frame: UIFrame(origin: .zero, size: window.frame.size), frameColor: color)
-			boxPanel?.frameChars = UIBoxPanel.FrameChars.doubleLine.replacing(
-				right: " ",
-				bottom: " "
-			)
+			boxPanel?.frameChars = UIBoxPanel.FrameChars.thickLine.replacing(right: " ", bottom: " ")
 
 			window.container.addSubPanel(boxPanel!)
 		}

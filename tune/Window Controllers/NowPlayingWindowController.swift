@@ -52,7 +52,7 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 			let color = ui.sharedColorWhiteOnBlack
 
 			let boxPanel = UIBoxPanel(frame: boxPanelFrame, frameColor: color)
-			boxPanel.frameChars = UIBoxPanel.FrameChars.doubleLine.replacing(topLeft: "╦", bottom: " ")
+			boxPanel.frameChars = UIBoxPanel.FrameChars.thickLine.replacing(topLeft: "┳", bottom: " ")
 
 			window.container.addSubPanel(boxPanel)
 

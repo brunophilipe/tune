@@ -78,10 +78,7 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 			let color = ui.sharedColorWhiteOnBlack
 
 			let boxPanel = UIBoxPanel(frame: boxPanelFrame, frameColor: color)
-			boxPanel.frameChars = UIBoxPanel.FrameChars.doubleLine.replacing(
-				topLeft: "╠",
-				right: " "
-			)
+			boxPanel.frameChars = UIBoxPanel.FrameChars.thickLine.replacing(topLeft: "┣", right: " ")
 
 			window.container.addSubPanel(boxPanel)
 

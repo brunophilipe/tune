@@ -209,5 +209,16 @@ class UIBoxPanel: UIPanel
 			top:			"═",
 			bottom:			"═"
 		)
+
+		static var thickLine = FrameChars(
+			topLeft:		"┏",
+			topRight:		"┓",
+			bottomLeft:		"┗",
+			bottomRight:	"┛",
+			left:			"┃",
+			right:			"┃",
+			top:			"━",
+			bottom:			"━"
+		)
 	}
 }

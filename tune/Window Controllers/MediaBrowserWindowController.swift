@@ -44,10 +44,10 @@ class MediaBrowserWindowController: UIWindowController
 			let color = ui.sharedColorWhiteOnBlack
 
 			let boxPanel = UIBoxPanel(frame: boxPanelFrame, frameColor: color)
-			boxPanel.frameChars = UIBoxPanel.FrameChars.doubleLine.replacing(
-				topLeft: "╬",
-				topRight: "╣",
-				bottomLeft:  "╩"
+			boxPanel.frameChars = UIBoxPanel.FrameChars.thickLine.replacing(
+				topLeft: "╋",
+				topRight: "┫",
+				bottomLeft:  "┻"
 			)
 
 			window.container.addSubPanel(boxPanel)
