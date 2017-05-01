@@ -14,6 +14,8 @@ class UICenteredTitlePanel: UIPanel
 
 	var textColor: UIColorPair? = nil
 
+	var attributes: UITextAttributes = [.bold, .reverse]
+
 	override func draw()
 	{
 		if let window = self.window, let textColor = self.textColor ?? window.controller?.userInterface?.sharedColorWhiteOnBlack
@@ -29,7 +31,7 @@ class UICenteredTitlePanel: UIPanel
 			if let title = self.title
 			{
 				// Title
-				window.usingTextAttributes([.bold, .reverse])
+				window.usingTextAttributes(attributes)
 				{
 					let truncatedTitle = title.truncated(to: availableTitleWidth)
 					let pX = max(Int32(availableTitleWidth / 2) - (truncatedTitle.width / 2), 1)

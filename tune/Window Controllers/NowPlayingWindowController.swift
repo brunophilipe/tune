@@ -41,6 +41,7 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 		window.frame = UIFrame(x: 40, y: 0, w: newSize.x - 40, h: 11)
 
 		boxPanel?.frame = boxPanelFrame
+		titlePanel?.frame = titlePanelFrame
 		songInfoPanel?.frame = songInfoPanelFrame
 	}
 
@@ -90,7 +91,30 @@ private class SongInfoPanel: UIPanel
 {
 	private var lastTrackId: Int? = nil
 
+	private var songNamePanel: UICenteredTitlePanel? = nil
+	private var artistNamePanel: UICenteredTitlePanel? = nil
+	private var albumNamePanel: UICenteredTitlePanel? = nil
+
 	var textColor: UIColorPair
+
+	override var frame: UIFrame
+	{
+		didSet
+		{
+			resizeSongInfoPanels()
+		}
+	}
+
+	override var window: UIWindow?
+	{
+		didSet
+		{
+			if songNamePanel == nil
+			{
+				initializeSongInfoPanels()
+			}
+		}
+	}
 
 	init(frame: UIFrame, textColor: UIColorPair)
 	{
@@ -105,7 +129,7 @@ private class SongInfoPanel: UIPanel
 		{
 			let track = controller.track
 			let playbackInfo = controller.playbackInfo
-			let maxLength = Int(frame.width - 11)
+			let maxLength = Int(frame.width - 3)
 
 			// Clean if the track changed
 			if track?.id!() != lastTrackId
@@ -115,22 +139,13 @@ private class SongInfoPanel: UIPanel
 				lastTrackId = track?.id!()
 			}
 
-			if maxLength > 11, let track = track
+			if maxLength > 7, let track = track
 			{
 				let info = processTrackInformation(track)
 
-				// Track information titles
-				window.usingTextAttributes(.underline)
-				{
-					window.drawText("title:",	at: frame.origin.offset(x: 3, y: 1),	withColorPair: textColor)
-					window.drawText("artist:",	at: frame.origin.offset(x: 2, y: 2),	withColorPair: textColor)
-					window.drawText("album:",	at: frame.origin.offset(x: 3, y: 3),	withColorPair: textColor)
-				}
-
-				// Track information
-				window.drawText(info.title.truncated(to: maxLength),	at: frame.origin.offset(x: 10, y: 1), withColorPair: textColor)
-				window.drawText(info.artist.truncated(to: maxLength),	at: frame.origin.offset(x: 10, y: 2), withColorPair: textColor)
-				window.drawText(info.album.truncated(to: maxLength),	at: frame.origin.offset(x: 10, y: 3), withColorPair: textColor)
+				songNamePanel?.title = info.title.truncated(to: maxLength)
+				artistNamePanel?.title = info.artist.truncated(to: maxLength)
+				albumNamePanel?.title = info.album.truncated(to: maxLength)
 
 				// Separator
 				window.drawText("─" * (frame.width - 2), at: UIPoint(frame.origin.x + 1, frame.height - 2), withColorPair: textColor)
@@ -165,6 +180,53 @@ private class SongInfoPanel: UIPanel
 				
 			}
 		}
+
+		super.draw()
+	}
+
+	private func initializeSongInfoPanels()
+	{
+		if let textColor = window?.controller?.userInterface?.registerColorPair(fore: COLOR_BLACK, back: COLOR_WHITE)
+		{
+			let attributes: UITextAttributes = [.reverse]
+
+			songNamePanel	= UICenteredTitlePanel(frame: songNamePanelFrame)
+			songNamePanel?.attributes = attributes
+			songNamePanel?.textColor = textColor
+			addSubPanel(songNamePanel!)
+
+			artistNamePanel = UICenteredTitlePanel(frame: artistNamePanelFrame)
+			artistNamePanel?.attributes = attributes
+			artistNamePanel?.textColor = textColor
+			addSubPanel(artistNamePanel!)
+
+			albumNamePanel	= UICenteredTitlePanel(frame: albumNamePanelFrame)
+			albumNamePanel?.attributes = attributes
+			albumNamePanel?.textColor = textColor
+			addSubPanel(albumNamePanel!)
+		}
+	}
+
+	private var songNamePanelFrame: UIFrame
+	{
+		return UIFrame(origin: UIPoint(1, 3), size: UISize(frame.width, 1))
+	}
+
+	private var artistNamePanelFrame: UIFrame
+	{
+		return UIFrame(origin: UIPoint(1, 4), size: UISize(frame.width, 1))
+	}
+
+	private var albumNamePanelFrame: UIFrame
+	{
+		return UIFrame(origin: UIPoint(1, 5), size: UISize(frame.width, 1))
+	}
+
+	private func resizeSongInfoPanels()
+	{
+		songNamePanel?.frame	= songNamePanelFrame
+		artistNamePanel?.frame	= artistNamePanelFrame
+		albumNamePanel?.frame	= albumNamePanelFrame
 	}
 
 	private func processTrackInformation(_ track: iTunesTrack) -> ProcessedTrackInfo
