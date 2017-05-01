@@ -47,7 +47,7 @@ class CommandsBarWindowController: UIWindowController, DesiresCurrentState
 	required init(userInterface: UserInterface)
 	{
 		self.userInterface = userInterface
-		self.windowStorage = UIWindow(frame: UIFrame(x: 0, y: userInterface.height - 1, w: userInterface.width, h: 1))
+		self.windowStorage = UIDialog(frame: UIFrame(x: 0, y: userInterface.height - 1, w: userInterface.width, h: 1))
 
 		self.windowStorage.controller = self
 

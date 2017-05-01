@@ -37,7 +37,7 @@ class MediaBrowserWindowController: UIWindowController
 	required init(userInterface: UserInterface)
 	{
 		self.userInterface = userInterface
-		self.windowStorage = UIWindow(frame: UIFrame(x: 40, y: 11, w: userInterface.width - 40, h: userInterface.height - 12))
+		self.windowStorage = UIDialog(frame: UIFrame(x: 40, y: 11, w: userInterface.width - 40, h: userInterface.height - 12))
 		self.windowStorage.controller = self
 
 		buildPanels()

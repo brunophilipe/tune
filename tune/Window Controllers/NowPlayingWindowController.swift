@@ -42,7 +42,7 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 	required init(userInterface: UserInterface)
 	{
 		self.userInterface = userInterface
-		self.windowStorage = UIWindow(frame: UIFrame(x: 40, y: 0, w: userInterface.width - 40, h: 11))
+		self.windowStorage = UIDialog(frame: UIFrame(x: 40, y: 0, w: userInterface.width - 40, h: 11))
 
 		self.windowStorage.controller = self
 

@@ -38,7 +38,7 @@ class LogoWindowController: UIWindowController
 	required init(userInterface: UserInterface)
 	{
 		self.userInterface = userInterface
-		self.windowStorage = UIWindow(frame: UIFrame(x: 0, y: 0, w: 40, h: 11))
+		self.windowStorage = UIDialog(frame: UIFrame(x: 0, y: 0, w: 40, h: 11))
 
 		self.windowStorage.controller = self
 

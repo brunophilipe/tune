@@ -68,7 +68,7 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 	required init(userInterface: UserInterface)
 	{
 		self.userInterface = userInterface
-		self.windowStorage = UIWindow(frame: UIFrame(x: 0, y: 11, w: 40, h: userInterface.height - 12))
+		self.windowStorage = UIDialog(frame: UIFrame(x: 0, y: 11, w: 40, h: userInterface.height - 12))
 		self.windowStorage.controller = self
 
 		buildPanels()
