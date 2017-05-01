@@ -67,4 +67,9 @@ extension String
 	{
 		return Int32(characters.count)
 	}
+
+	var fullRange: Range<Index>
+	{
+		return startIndex..<endIndex
+	}
 }

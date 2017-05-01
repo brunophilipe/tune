@@ -32,6 +32,9 @@ class UserInterfaceController
 
 	private var textInputBuffer: String? = nil
 
+	private var invalidTextInputCharacters: CharacterSet = CharacterSet.controlCharacters.union(.illegalCharacters).union(.newlines)
+	private var invalidKeyCodes = KEY_MIN ..< KEY_MAX
+
 	fileprivate var currentState: UIState? = nil
 	{
 		didSet
@@ -104,7 +107,24 @@ class UserInterfaceController
 							textBuffer = textBuffer.substring(to: textBuffer.index(before: textBuffer.endIndex))
 						}
 					}
-					else if let char = UnicodeScalar(Int(keyCode))
+					else if keyCode == KEY_CLEAR_LINE
+					{
+						textBuffer = ""
+					}
+					else if keyCode == KEY_CLEAR_WORD
+					{
+						if let range = textBuffer.rangeOfCharacter(from: .whitespaces, options: .backwards, range: textBuffer.fullRange)
+						{
+							textBuffer = textBuffer.substring(to: range.lowerBound)
+						}
+						else
+						{
+							textBuffer = ""
+						}
+					}
+					else if let char = UnicodeScalar(Int(keyCode)),
+						!invalidTextInputCharacters.contains(char),
+						!invalidKeyCodes.contains(keyCode)
 					{
 						textBuffer.append(String(char))
 					}
@@ -151,13 +171,18 @@ protocol UserInterfaceControllerDelegate
 	func userInterfaceController(_ controller: UserInterfaceController, didChangeToState state: UIState)
 }
 
+// These are just some control characters that are supported
+
+let KEY_ESCAPE = UIKeyCode(27)
+let KEY_DELETE = UIKeyCode(127)
+let KEY_CLEAR_LINE = UIKeyCode(21)
+let KEY_CLEAR_WORD = UIKeyCode(23)
+
 // These definitions are here because converting a character to its ASCII code is expensive, so we only do it once.
 
 let KEY_SPACE = " ".codeUnit!
 let KEY_TAB = "\t".codeUnit!
 let KEY_PERIOD = ".".codeUnit!
-let KEY_ESCAPE = UIKeyCode(27)
-let KEY_DELETE = UIKeyCode(127)
 
 let KEY_0 = "0".codeUnit!
 let KEY_1 = "1".codeUnit!
