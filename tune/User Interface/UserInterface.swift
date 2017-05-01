@@ -162,6 +162,7 @@ struct UITextAttributes: OptionSet
 	static let underline	= UITextAttributes(rawValue: A_UNDERLINE)
 	static let blink		= UITextAttributes(rawValue: A_BLINK)
 	static let standout		= UITextAttributes(rawValue: A_STANDOUT)
+	static let reverse		= UITextAttributes(rawValue: A_REVERSE)
 }
 
 extension UserInterface: UserInterfaceControllerDelegate

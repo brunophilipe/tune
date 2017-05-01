@@ -32,7 +32,7 @@ class UIControlBarPanel: UIPanel
 
 				if usedLength + itemText.width < availableWidth
 				{
-					window.usingTextAttributes(.standout)
+					window.usingTextAttributes(.reverse)
 					{
 						window.drawText(itemText, at: point.offset(x: usedLength), withColorPair: textColor)
 					}
