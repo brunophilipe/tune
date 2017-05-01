@@ -26,6 +26,10 @@ class UIPanel
 	internal weak var window: UIWindow?
 
 	var frame: UIFrame
+	{
+		didSet { needsRedraw = true }
+	}
+
 	var needsRedraw: Bool
 
 	internal var subpanels = [UIPanel]()
@@ -49,5 +53,7 @@ class UIPanel
 		subpanels.append(panel)
 
 		panel.window = window
+
+		needsRedraw = true
 	}
 }

@@ -24,9 +24,19 @@ import Foundation
 class UIListPanel: UIPanel
 {
 	weak var dataSource: UIListPanelDataSource? = nil
+	{
+		didSet { needsRedraw = true }
+	}
 
 	var activeRow: Int? = nil
+	{
+		didSet { needsRedraw = true }
+	}
+
 	var activeRowTextColor: UIColorPair? = nil
+	{
+		didSet { needsRedraw = true }
+	}
 
 	private var lastMinRow: Int = 0
 
@@ -35,15 +45,17 @@ class UIListPanel: UIPanel
 		didSet
 		{
 			activeRowTextColor = window?.controller?.userInterface?.registerColorPair(fore: COLOR_CYAN, back: COLOR_BLACK)
+			needsRedraw = true
 		}
 	}
 
 	override func draw()
 	{
-		if let window = self.window,
-		   let dataSource = self.dataSource,
-		   let activeColor = self.activeRowTextColor,
-		   let normalColor = window.controller?.userInterface?.sharedColorWhiteOnBlack
+		if needsRedraw,
+			let window = self.window,
+			let dataSource = self.dataSource,
+			let activeColor = self.activeRowTextColor,
+			let normalColor = window.controller?.userInterface?.sharedColorWhiteOnBlack
 		{
 			window.cleanRegion(frame: frame)
 
@@ -112,6 +124,8 @@ class UIListPanel: UIPanel
 					                withColorPair: normalColor)
 				}
 			}
+
+			needsRedraw = false
 		}
 	}
 

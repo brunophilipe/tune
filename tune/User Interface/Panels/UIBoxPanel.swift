@@ -24,10 +24,21 @@ import Foundation
 class UIBoxPanel: UIPanel
 {
 	var clearsBackground = false
+	{
+		didSet { needsRedraw = true }
+	}
+
 	var title: String? = nil
+	{
+		didSet { needsRedraw = true }
+	}
 
 	let frameColor: UIColorPair
+
 	var frameChars: FrameChars = .singleLine
+	{
+		didSet { needsRedraw = true }
+	}
 
 	init(frame: UIFrame, frameColor: UIColorPair)
 	{
@@ -38,7 +49,7 @@ class UIBoxPanel: UIPanel
 
 	override func draw()
 	{
-		if let window = self.window
+		if needsRedraw, let window = self.window
 		{
 			if clearsBackground
 			{
@@ -173,6 +184,8 @@ class UIBoxPanel: UIPanel
 				            at: UIPoint(startX + lengthX - 1, startY + lengthY - 1),
 				            withColorPair: frameColor)
 			}
+
+			needsRedraw = false
 		}
 	}
 
