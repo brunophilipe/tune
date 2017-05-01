@@ -1,5 +1,5 @@
 //
-//  ArgumentsParser.swift
+//  iTunesHandler.swift
 //  tune
 //
 //  Created by Bruno Philipe on 7/25/16.
@@ -51,7 +51,7 @@ let kUnknownAlbum = "Unknown Album"
 
 typealias Verb = (names: [String], brief: String, description: [String], extra: String?)
 
-class iTunesController
+class iTunesHandler
 {
 	var currentTrack: iTunesTrack?
 	{
@@ -601,7 +601,7 @@ class iTunesController
 	}
 }
 
-extension iTunesController
+extension iTunesHandler
 {
 	func playpause()
 	{

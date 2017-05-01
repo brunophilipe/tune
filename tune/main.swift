@@ -24,7 +24,7 @@ import Foundation
 class Main
 {
 	private let userInterface = UserInterface()
-	private let iTunes = iTunesController()
+	private let iTunes = iTunesHandler()
 	private var windowControllers: [UIWindowController]? = nil
 
 	func run()
@@ -148,5 +148,7 @@ extension UIState
 	}
 }
 
+
+// Insertion point: This is the initial application point.
 let main = Main()
 main.run()

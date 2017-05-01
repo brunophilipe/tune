@@ -1,5 +1,5 @@
 //
-//  Tools.h
+//  iTunesTools.m
 //  tune
 //
 //  Created by Bruno Philipe on 7/26/16.
@@ -19,11 +19,18 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#import <Foundation/Foundation.h>
-#import <ScriptingBridge/ScriptingBridge.h>
+#import "iTunesTools.h"
 
-@interface Tools : NSObject
+@implementation Tools
 
-+ (SBObject*)instantiateObjectFromApplication:(SBApplication*)app typeName:(NSString*)name andProperties:(NSDictionary*)properties;
+/**
+ * @comment: Bruno
+ * This function is in Objective-C because I wasn't able to implement it in Swift
+ */
++ (SBObject*)instantiateObjectFromApplication:(SBApplication*)app typeName:(NSString*)name andProperties:(NSDictionary*)properties
+{
+	Class className = [app classForScriptingClass:name];
+	return [[className alloc] initWithProperties:properties];
+}
 
 @end
