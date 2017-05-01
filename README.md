@@ -10,6 +10,22 @@ This is an experiment on `ncurses`, `ScriptingBridge`, and `Swift`.
 
 The current version is a reimplementation of the old tune which had a direct launch argument API. Now it uses `ncurses` for a pretty text-based UI.
 
+### Compiling
+
+1. Clone or download this repo
+2. Run `make`
+3. run `./build/tune`
+
+You can run the following command to add tune to your run path without moving any file. And then when you compile a new version, the link will automatically point to the new binary:
+
+```sh
+ln -s $(pwd)/build/Release/tune /usr/local/bin/tune
+```
+
+### Compatibility
+
+This software os only supported on macOS, since `ScriptingBridge` is not available outside of it.
+
 ### License
 
 ```
