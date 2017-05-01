@@ -17,6 +17,7 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 	private var boxPanel: UIBoxPanel? = nil
 	private var titlePanel: UICenteredTitlePanel? = nil
 	private var listPanel: UIListPanel? = nil
+	private var footerPanel: UICenteredTitlePanel? = nil
 
 	private var oldTrackId: Int? = nil
 	private var oldPlaylistId: Int? = nil
@@ -45,6 +46,7 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 			if currentPlaylist?.id!() != oldPlaylistId
 			{
 				updateActiveItem()
+				updateFooterText()
 				oldPlaylistId = currentPlaylist?.id!()
 			}
 		}
@@ -63,8 +65,10 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 	{
 		window.frame = UIFrame(x: 0, y: 11, w: 40, h: newSize.y - 12)
 
-		boxPanel?.frame = UIFrame(origin: .zero, size: window.frame.size)
+		boxPanel?.frame = boxPanelFrame
+		titlePanel?.frame = titlePanelFrame
 		listPanel?.frame = listPanelFrame
+		footerPanel?.frame = footerPanelFrame
 	}
 
 	private func buildPanels()
@@ -91,9 +95,17 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 
 			window.container.addSubPanel(listPanel)
 
+			let footerPanel = UICenteredTitlePanel(frame: footerPanelFrame)
+			footerPanel.title = ""
+			footerPanel.bgAttributes = []
+			footerPanel.attributes = []
+
+			window.container.addSubPanel(footerPanel)
+
 			self.boxPanel = boxPanel
 			self.titlePanel = titlePanel
 			self.listPanel = listPanel
+			self.footerPanel = footerPanel
 		}
 	}
 
@@ -112,6 +124,30 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 		}
 	}
 
+	private func updateFooterText()
+	{
+		if let playlist = self.currentPlaylist
+		{
+			let footerText: String
+			let count = playlist.tracks!().count
+
+			if let duration = playlist.duration
+			{
+				footerText = "\(count) tracks – \(Double(duration).longDurationString)"
+			}
+			else
+			{
+				footerText = "\(count) tracks"
+			}
+
+			footerPanel?.title = footerText
+		}
+		else
+		{
+			footerPanel?.title = ""
+		}
+	}
+
 	private var boxPanelFrame: UIFrame
 	{
 		return UIFrame(origin: .zero, size: window.frame.size)
@@ -124,7 +160,12 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 
 	private var listPanelFrame: UIFrame
 	{
-		return UIFrame(origin: UIPoint(1, 2), size: window.frame.size.offset(x: -1, y: -3))
+		return UIFrame(origin: UIPoint(1, 2), size: window.frame.size.offset(x: -1, y: -4))
+	}
+
+	private var footerPanelFrame: UIFrame
+	{
+		return UIFrame(origin: window.frame.size.offset(y: -2).replacing(x: 1), size: window.frame.size.offset(x: -1).replacing(y: 1))
 	}
 }
 

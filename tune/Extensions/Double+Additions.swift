@@ -16,4 +16,11 @@ extension Double
 		let durSec = Int(self.truncatingRemainder(dividingBy: 60))
 		return "\(durMin < 10 ? "0\(durMin)" : "\(durMin)"):" + "\(durSec < 10 ? "0\(durSec)" : "\(durSec)")"
 	}
+
+	var longDurationString: String
+	{
+		let durMin = Int(self/60)
+		let durSec = Int(self.truncatingRemainder(dividingBy: 60))
+		return "\(durMin)m \(durSec)s"
+	}
 }

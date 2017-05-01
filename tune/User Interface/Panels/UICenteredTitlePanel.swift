@@ -14,6 +14,7 @@ class UICenteredTitlePanel: UIPanel
 
 	var textColor: UIColorPair? = nil
 
+	var bgAttributes: UITextAttributes = .reverse
 	var attributes: UITextAttributes = [.bold, .reverse]
 
 	override func draw()
@@ -23,7 +24,7 @@ class UICenteredTitlePanel: UIPanel
 			let availableTitleWidth = Int(frame.width - 1)
 
 			// Title background
-			window.usingTextAttributes(.reverse)
+			window.usingTextAttributes(bgAttributes)
 			{
 				window.drawText(" " * frame.width, at: frame.origin, withColorPair: textColor)
 			}
