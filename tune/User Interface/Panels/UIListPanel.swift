@@ -89,6 +89,7 @@ class UIListPanel: UIPanel
 				let rowText: [String] = (0 ..< columnCount).map
 				{
 					(colIndex) -> String in
+
 					let alignLeft = dataSource.listPanel(self, textAlignmentForColumn: colIndex) == .left
 					return dataSource.listPanel(self,
 					                             textForColumn: colIndex,

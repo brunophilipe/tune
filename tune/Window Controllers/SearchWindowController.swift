@@ -26,8 +26,21 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 	internal weak var userInterface: UserInterface?
 
 	private var dialog: UIDialog
-
 	private var boxPanel: UIBoxPanel? = nil
+	private var titlePanel: UITextPromptPanel? = nil
+	private var listPanel: UIListPanel? = nil
+
+	fileprivate var lastSearchResult: SearchResult? = nil
+	{
+		didSet
+		{
+			updateTitlePanel()
+		}
+	}
+
+	private let searchStates: [Int] = [
+		UIState.TuneStates.search, UIState.TuneStates.searchTracks, UIState.TuneStates.searchAlbums, UIState.TuneStates.searchPlaylists
+	]
 
 	var window: UIWindow
 	{
@@ -40,14 +53,17 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 		{
 			if currentState != oldValue
 			{
-				if currentState?.identifier == UIState.TuneStates.search
+				if let id = currentState?.identifier, searchStates.contains(id)
 				{
 					dialog.hidden = false
 					dialog.pullToTop()
+
+					updateTitlePanel()
 				}
 				else
 				{
 					dialog.hidden = true
+					lastSearchResult = nil
 				}
 			}
 		}
@@ -70,6 +86,7 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 		window.frame = windowFrame
 
 		boxPanel?.frame = boxPanelFrame
+		listPanel?.frame = listPanelFrame
 	}
 
 	private func buildPanels()
@@ -83,8 +100,55 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 
 			window.container.addSubPanel(boxPanel)
 
+			let titlePanel = UITextPromptPanel(frame: titlePanelFrame)
+			titlePanel.prompt = "Select search mode (see below)"
+
+			window.container.addSubPanel(titlePanel)
+
+			let listPanel = UIListPanel(frame: listPanelFrame)
+			listPanel.dataSource = self
+
+			window.container.addSubPanel(listPanel)
+
 			self.boxPanel = boxPanel
+			self.titlePanel = titlePanel
+			self.listPanel = listPanel
 		}
+	}
+
+	private func updateTitlePanel()
+	{
+		var prompt: String
+		var text: String? = nil
+
+		switch self.currentState?.identifier
+		{
+		case .some(UIState.TuneStates.searchTracks):
+			prompt = "searching (tracks):"
+			text = lastSearchResult?.query
+
+		case .some(UIState.TuneStates.searchAlbums):
+			prompt = "searching (albums):"
+			text = lastSearchResult?.query
+
+		case .some(UIState.TuneStates.searchPlaylists):
+			prompt = "searching (playlists):"
+			text = lastSearchResult?.query
+
+		default:
+			if lastSearchResult != nil
+			{
+				prompt = "Search results:"
+				text = lastSearchResult?.query
+			}
+			else
+			{
+				prompt = "Select search mode (see below)"
+			}
+		}
+
+		titlePanel?.prompt = prompt
+		titlePanel?.text = text
 	}
 
 	private var windowFrame: UIFrame
@@ -132,5 +196,90 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 	private var boxPanelFrame: UIFrame
 	{
 		return UIFrame(origin: .zero, size: window.frame.size)
+	}
+
+	private var titlePanelFrame: UIFrame
+	{
+		return UIFrame(origin: UIPoint(1, 1), size: window.frame.size.offset(x: -2).replacing(y: 1))
+	}
+
+	private var listPanelFrame: UIFrame
+	{
+		return UIFrame(origin: UIPoint(1, 2), size: window.frame.size.offset(x: -2, y: -3))
+	}
+}
+
+extension SearchWindowController: SearchEngineDelegate
+{
+	func searchEngine(_ searchEngine: SearchEngine, gotSearchResult result: SearchResult)
+	{
+		lastSearchResult = result
+	}
+
+	func searchEngine(_ searchEngine: SearchEngine, getErrorForSearchWithQuery text: String)
+	{
+
+	}
+}
+
+extension SearchWindowController: UIListPanelDataSource
+{
+	func numberOfRowsForListPanel(_ listPanel: UIListPanel) -> Int
+	{
+		return lastSearchResult?.resultItems.count ?? 0
+	}
+
+	func numberOfColumnsForListPanel(_ listPanel: UIListPanel) -> Int
+	{
+		return 4
+	}
+
+	func listPanel(_ listPanel: UIListPanel, widthOfColumn column: Int) -> Int
+	{
+		let resultCount = lastSearchResult?.resultItems.count ?? 0
+		let majorColWidth = Double(Int(listPanel.frame.width) - 8 - Int("\(resultCount)".width)) / 2.0
+
+		switch column
+		{
+		case 0: return Int("\(resultCount)".width)
+		case 1: return Int(ceil(majorColWidth))
+		case 2: return Int(floor(majorColWidth))
+		case 3: return 5
+
+		default:
+			return 1
+		}
+	}
+
+	func listPanel(_ listPanel: UIListPanel, textAlignmentForColumn column: Int) -> UIListPanel.TextAlignment
+	{
+		switch column
+		{
+		case 0: return .right
+		default: return .left
+		}
+	}
+
+	func listPanel(_ listPanel: UIListPanel, titleForColumn column: Int) -> String
+	{
+		return ""
+	}
+
+	func listPanel(_ listPanel: UIListPanel, textForColumn column: Int, ofRow row: Int) -> String
+	{
+		if let item = lastSearchResult?.resultItems[row]
+		{
+			switch column
+			{
+			case 0: return String(row + 1)
+			case 1: return item.name
+			case 2: return item.artist
+			case 3: return item.time
+
+			default: return ""
+			}
+		}
+
+		return ""
 	}
 }

@@ -102,9 +102,39 @@ class UIControlState: UIState
 		super.init(label: label)
 	}
 
-	func runBlock()
+	internal func runBlock()
 	{
 		block()
+	}
+}
+
+class UITextInputState: UIState
+{
+	private let feedBlock: (String) -> Void
+
+	let escapeCharacter: UIKeyCode
+
+	init(label: String, escapeCharacter: UIKeyCode = KEY_ESCAPE, id: Int? = nil, textFeedBlock feedBlock: @escaping (String) -> Void)
+	{
+		self.escapeCharacter = escapeCharacter
+		self.feedBlock = feedBlock
+
+		super.init(label: label)
+
+		self.identifier = id
+
+		setSubState(.parentState, forKeyCode: escapeCharacter)
+	}
+
+	internal func runBlock(withInputText text: String)
+	{
+		feedBlock(text)
+	}
+
+	/// **Note:** Do not add substates for normal text keyCodes (letters, numbers, etc..), since this will break the text input mode.
+	override func setSubState(_ state: UIState?, forKeyCode keyCode: UIKeyCode)
+	{
+		super.setSubState(state, forKeyCode: keyCode)
 	}
 }
 

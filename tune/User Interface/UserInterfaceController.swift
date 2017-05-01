@@ -30,6 +30,8 @@ class UserInterfaceController
 	private let screen: OpaquePointer
 	private let rootState: UIState
 
+	private var textInputBuffer: String? = nil
+
 	fileprivate var currentState: UIState? = nil
 	{
 		didSet
@@ -74,7 +76,6 @@ class UserInterfaceController
 				{
 					navigatableStateDelegate.state(currentState, receivedNavigationKeyCode: keyCode)
 				}
-				// Otherwise we just parse the `keyCode` normally.
 				else if let newState = currentState.substate(forKeyCode: keyCode)
 				{
 					switch newState
@@ -91,6 +92,26 @@ class UserInterfaceController
 					default:
 						self.currentState = newState
 					}
+				}
+				else if let textInputState = currentState as? UITextInputState
+				{
+					var textBuffer = self.textInputBuffer ?? ""
+
+					if [KEY_DELETE, KEY_BACKSPACE].contains(keyCode)
+					{
+						if textBuffer.width > 0
+						{
+							textBuffer = textBuffer.substring(to: textBuffer.index(before: textBuffer.endIndex))
+						}
+					}
+					else if let char = UnicodeScalar(Int(keyCode))
+					{
+						textBuffer.append(String(char))
+					}
+
+					textInputState.runBlock(withInputText: textBuffer)
+
+					self.textInputBuffer = textBuffer
 				}
 				else
 				{
@@ -136,6 +157,7 @@ let KEY_SPACE = " ".codeUnit!
 let KEY_TAB = "\t".codeUnit!
 let KEY_PERIOD = ".".codeUnit!
 let KEY_ESCAPE = UIKeyCode(27)
+let KEY_DELETE = UIKeyCode(127)
 
 let KEY_0 = "0".codeUnit!
 let KEY_1 = "1".codeUnit!

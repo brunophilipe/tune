@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		150FEB571D46ACF100147D0C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150FEB561D46ACF100147D0C /* main.swift */; };
 		150FEB641D46B50900147D0C /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150FEB631D46B50900147D0C /* ScriptingBridge.framework */; };
 		154EAEF51EB591AF0096A2B6 /* Double+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154EAEF41EB591AF0096A2B6 /* Double+Additions.swift */; };
 		1564DF7D1EB64C020042EA7F /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF7C1EB64C020042EA7F /* UIWindow.swift */; };
@@ -21,12 +20,16 @@
 		1564DF961EB69FCA0042EA7F /* UIListPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF951EB69FCA0042EA7F /* UIListPanel.swift */; };
 		1564DF981EB6A1E60042EA7F /* UIControlBarPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF971EB6A1E60042EA7F /* UIControlBarPanel.swift */; };
 		1564DF9A1EB6A4890042EA7F /* CommandsBarWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF991EB6A4890042EA7F /* CommandsBarWindowController.swift */; };
+		159679D71EB7F0BB001DC3B6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150FEB561D46ACF100147D0C /* main.swift */; };
+		159679D91EB7F1D6001DC3B6 /* UITextPromptPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159679D81EB7F1D6001DC3B6 /* UITextPromptPanel.swift */; };
 		15BA30041EB6B34700AB691B /* UICenteredTitlePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30031EB6B34700AB691B /* UICenteredTitlePanel.swift */; };
 		15BA30061EB6CFC200AB691B /* SearchWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30051EB6CFC200AB691B /* SearchWindowController.swift */; };
 		15D00C601EB7D7C4000E9782 /* iTunes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D00C5B1EB7D7C4000E9782 /* iTunes.swift */; };
 		15D00C611EB7D7C4000E9782 /* iTunesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D00C5C1EB7D7C4000E9782 /* iTunesHandler.swift */; };
 		15D00C621EB7D7C4000E9782 /* iTunesScripting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D00C5D1EB7D7C4000E9782 /* iTunesScripting.swift */; };
 		15D00C631EB7D7C4000E9782 /* iTunesTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D00C5F1EB7D7C4000E9782 /* iTunesTools.m */; };
+		15D00C661EB7D923000E9782 /* SearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D00C651EB7D923000E9782 /* SearchEngine.swift */; };
+		15D00C681EB7DA01000E9782 /* MediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D00C671EB7DA01000E9782 /* MediaPlayer.swift */; };
 		15DCCA551EB6E11B00400F8B /* libpanel.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 15DCCA541EB6E11B00400F8B /* libpanel.tbd */; };
 		15DCCA571EB6E2E200400F8B /* UIDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DCCA561EB6E2E200400F8B /* UIDialog.swift */; };
 		15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */; };
@@ -77,6 +80,7 @@
 		1564DF951EB69FCA0042EA7F /* UIListPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIListPanel.swift; sourceTree = "<group>"; };
 		1564DF971EB6A1E60042EA7F /* UIControlBarPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIControlBarPanel.swift; sourceTree = "<group>"; };
 		1564DF991EB6A4890042EA7F /* CommandsBarWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandsBarWindowController.swift; sourceTree = "<group>"; };
+		159679D81EB7F1D6001DC3B6 /* UITextPromptPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextPromptPanel.swift; sourceTree = "<group>"; };
 		15BA30031EB6B34700AB691B /* UICenteredTitlePanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICenteredTitlePanel.swift; sourceTree = "<group>"; };
 		15BA30051EB6CFC200AB691B /* SearchWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchWindowController.swift; sourceTree = "<group>"; };
 		15D00C561EB7D603000E9782 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -87,6 +91,8 @@
 		15D00C5D1EB7D7C4000E9782 /* iTunesScripting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iTunesScripting.swift; sourceTree = "<group>"; };
 		15D00C5E1EB7D7C4000E9782 /* iTunesTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunesTools.h; sourceTree = "<group>"; };
 		15D00C5F1EB7D7C4000E9782 /* iTunesTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTunesTools.m; sourceTree = "<group>"; };
+		15D00C651EB7D923000E9782 /* SearchEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
+		15D00C671EB7DA01000E9782 /* MediaPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPlayer.swift; sourceTree = "<group>"; };
 		15DCCA541EB6E11B00400F8B /* libpanel.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpanel.tbd; path = usr/lib/libpanel.tbd; sourceTree = SDKROOT; };
 		15DCCA561EB6E2E200400F8B /* UIDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIDialog.swift; path = "User Interface/UIDialog.swift"; sourceTree = "<group>"; };
 		15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundColor.swift; sourceTree = "<group>"; };
@@ -149,6 +155,7 @@
 				15FFB3C21EB2D01B00634F1A /* User Interface */,
 				15F0CDDC1EB42001009B13CA /* Extensions */,
 				1564DF841EB6555C0042EA7F /* Window Controllers */,
+				15D00C641EB7D90E000E9782 /* Search */,
 				15D00C591EB7D7C4000E9782 /* Player Interfaces */,
 				15D00C551EB7D5E9000E9782 /* Supporting Files */,
 			);
@@ -162,6 +169,7 @@
 				1564DF951EB69FCA0042EA7F /* UIListPanel.swift */,
 				1564DF971EB6A1E60042EA7F /* UIControlBarPanel.swift */,
 				15BA30031EB6B34700AB691B /* UICenteredTitlePanel.swift */,
+				159679D81EB7F1D6001DC3B6 /* UITextPromptPanel.swift */,
 			);
 			name = Panels;
 			path = "User Interface/Panels";
@@ -194,6 +202,7 @@
 		15D00C591EB7D7C4000E9782 /* Player Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				15D00C671EB7DA01000E9782 /* MediaPlayer.swift */,
 				15D00C5A1EB7D7C4000E9782 /* iTunes */,
 			);
 			path = "Player Interfaces";
@@ -209,6 +218,14 @@
 				15D00C5F1EB7D7C4000E9782 /* iTunesTools.m */,
 			);
 			path = iTunes;
+			sourceTree = "<group>";
+		};
+		15D00C641EB7D90E000E9782 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				15D00C651EB7D923000E9782 /* SearchEngine.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		15E8EE151D46C18B00B8C266 /* dep */ = {
@@ -336,20 +353,23 @@
 				1564DF941EB69BE00042EA7F /* MediaBrowserWindowController.swift in Sources */,
 				15D00C621EB7D7C4000E9782 /* iTunesScripting.swift in Sources */,
 				15E8EE271D46C18B00B8C266 /* OutputTarget.swift in Sources */,
+				159679D91EB7F1D6001DC3B6 /* UITextPromptPanel.swift in Sources */,
 				1564DF8C1EB677AF0042EA7F /* NowPlayingWindowController.swift in Sources */,
 				15E8EE281D46C18B00B8C266 /* Rainbow.swift in Sources */,
+				15D00C661EB7D923000E9782 /* SearchEngine.swift in Sources */,
 				15BA30061EB6CFC200AB691B /* SearchWindowController.swift in Sources */,
 				15E8EE291D46C18B00B8C266 /* String+Rainbow.swift in Sources */,
 				15F0CDE01EB426A4009B13CA /* ncurses+missingdefs.swift in Sources */,
 				1564DF8A1EB66E4A0042EA7F /* UIBoxPanel.swift in Sources */,
 				15F0CDDE1EB42011009B13CA /* String+Additions.swift in Sources */,
 				15DCCA571EB6E2E200400F8B /* UIDialog.swift in Sources */,
+				159679D71EB7F0BB001DC3B6 /* main.swift in Sources */,
 				15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */,
 				15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */,
 				1564DF7D1EB64C020042EA7F /* UIWindow.swift in Sources */,
 				15F0CDE41EB4CAE3009B13CA /* UserInterfaceController.swift in Sources */,
-				150FEB571D46ACF100147D0C /* main.swift in Sources */,
 				1564DF921EB69AEB0042EA7F /* PlayQueueWindowController.swift in Sources */,
+				15D00C681EB7DA01000E9782 /* MediaPlayer.swift in Sources */,
 				15D00C611EB7D7C4000E9782 /* iTunesHandler.swift in Sources */,
 				15F0CDE71EB4D638009B13CA /* UIState.swift in Sources */,
 				15E8EE241D46C18B00B8C266 /* Color.swift in Sources */,

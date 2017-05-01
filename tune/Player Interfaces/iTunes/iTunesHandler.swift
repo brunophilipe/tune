@@ -83,102 +83,13 @@ class iTunesHandler
 	}
 
 	fileprivate var iTunesApp: iTunesApplication?
-	
-	fileprivate let verbs: [Verb] = [
-		(
-			["info", "i"],
-			"Information on the current track.",
-			["If playing, will display info on the current track."],
-			nil
-		),(
-			["play"],
-			"Start playing music.",
-			["If paused, will resume playing. If stopped, will play the last", "played song."],
-			nil
-		), (
-			["pause"],
-			"Pause playback.",
-			["If playing, will pause playback. If stopped, does nothing."],
-			nil
-		), (
-			["stop"],
-			"Stop playback.",
-			["If playing, will stop playback. If stopped, does nothing."],
-			nil
-		), (
-			["next", "n"],
-			"Go to the next track.",
-			["Goes to the next track in the \"Up Next\" list or in the Apple", "Music stream."],
-			nil
-		), (
-			["prev", "p", "previous"],
-			"Go to the previous track.",
-			["Goes to the previously played track (if possible)."],
-			nil
-		), (
-			["search", "s"],
-			"Search for tracks.",
-			[
-				"Searches for tracks by name.",
-				"Requires search string argument."
-			],
-			"search string"
-		), (
-			["album", "a"],
-			"Search for albums.",
-			[
-				"Searches for albums by name.",
-				"Requires search string argument."
-			],
-			"search string"
-		)
-	]
-	
+
 	init()
 	{
 		iTunesApp = SBApplication(bundleIdentifier: "com.apple.iTunes")
 	}
-	
-	func parseArguments(_ arguments: [String])
-	{
-		if !runParser(arguments)
-		{
-			printUsage()
-		}
-	}
-	
-	fileprivate func printUsage()
-	{
-//		printLogo()
-//		print("Quick iTunes control from the command line.".underline)
-//		print("\n")
-//		
-//		print("Usage:".bold)
-//		print("\ttune <verb> [extra arguments]\n")
-//		print("Where <verb> is one of: (\("underlined".underline) text denotes extra argument(s))\n")
-//		
-//		for verb in verbs
-//		{
-//			var names = verb.names.map({arg in return arg.bold}).joined(separator: ", ")
-//			let hasExtra = verb.extra != nil
-//			
-//			if hasExtra
-//			{
-//				names = "(\(names))"
-//			}
-//			
-//			print("\t\(names)\(hasExtra ? " \(verb.extra!.underline)" : ""): \(verb.brief)")
-//			
-//			for descLine in verb.description
-//			{
-//				print("\t\t\(descLine)")
-//			}
-//			
-//			print("")
-//		}
-//		
-//		print("\t")
-	}
+
+	/*
 	
 	fileprivate func runParser(_ arguments: [String]) -> Bool
 	{
@@ -222,80 +133,36 @@ class iTunesHandler
 		
 		return true
 	}
+
+	*/
 	
-	fileprivate func runTrackSearch(_ arguments: [String])
+	fileprivate func runTrackSearch(_ searchString: String) -> [SearchResultItem]
 	{
-		if arguments.count < 3
-		{
-			print("No search arguments provided!\n")
-			return
-		}
-		
-		let searchString = arguments.suffix(from: 2).joined(separator: " ")
-		
 		if searchString.characters.count == 0
 		{
-			print("No search arguments provided!\n")
-			return
+			return []
 		}
 		
 		if let libraryPlaylist = getLibraryPlaylist()
 		{
-			print("Searching for \"\(searchString)\"...")
-			
 			let results = libraryPlaylist.searchFor!(searchString, only: .all)
-			let maxCount = 9
-			let displayCount = min(results.count, maxCount)
 			
 			if results.count == 0
 			{
-				print("Got no results for your search. Please try a different search argument.\n")
-				return
+				return []
 			}
-			else
-			{
-				let word = results.count > displayCount ? "top" : "all"
-				print("Listing \(displayCount != 1 ? word+" " : "")\(displayCount) result\(displayCount != 1 ? "s" : ""):")
-			}
+
+			var processedResults = [SearchResultItem]()
 			
-			for i in 0 ..< displayCount
+			for result in results
 			{
-				var desc: String
-				
-				if let track = results[i] as? iTunesTrack
+				if let track = result as? iTunesTrack
 				{
-					var artist = track.artist
-					var title = track.name
-					var album = track.album
-					
-					if artist == nil || artist == ""
-					{
-						artist = kUnknownArtist
-					}
-					
-					if title == nil || title == ""
-					{
-						title = kUnknownTrack
-					}
-					
-					if album == nil || album == ""
-					{
-						album = kUnknownAlbum
-					}
-					
-					desc = "\(artist!) - \"\(title!)\" (\(album!))"
+					processedResults.append(iTunesTrackSearchResult(track: track))
 				}
-				else
-				{
-					desc = "Unknwon track (could not parse...)"
-				}
-				
-				let listItem = "[\(i+1)]".bold
-				
-				print("\t\(listItem): \(desc)")
 			}
-			
-			print("\nInsert [1-\(displayCount)] to pick song to play, 'a' to play all in a queue, or 0 to cancel: ")
+
+			/*
 			
 			if let input = getUserInput()
 			{
@@ -337,13 +204,14 @@ class iTunesHandler
 					}
 				}
 			}
-			
-			print("Invalid user input.. Exiting.")
-			return
+
+			*/
+
+			return processedResults
 		}
 		else
 		{
-			print("Could not get iTunes library!\n")
+			return []
 		}
 	}
 	
@@ -402,6 +270,8 @@ class iTunesHandler
 				let listItem = "[\(i+1)]".bold
 				print("\t\(listItem): \(albums[i].human)")
 			}
+
+			/*
 			
 			print("\nInsert value [1-\(displayCount)] to pick album to play or 0 to cancel: ")
 			
@@ -445,6 +315,8 @@ class iTunesHandler
 					return
 				}
 			}
+
+			*/
 			
 			print("Invalid user input.. Exiting.")
 			return
@@ -453,60 +325,6 @@ class iTunesHandler
 		{
 			print("Could not get iTunes library!\n")
 		}
-	}
-	
-	fileprivate func printCurrentTrackInfo()
-	{
-		printLogo()
-		if let track = iTunesApp?.currentTrack, track.size > 0
-		{
-			print("Current track information:")
-			printTrackInfo(track)
-		}
-		else
-		{
-			print("No track currently being played.")
-			print("Use \("tune s <string>".underline) to lookup songs.")
-		}
-	}
-	
-	fileprivate func printTrackInfo(_ track: iTunesTrack)
-	{
-		var artist = track.artist
-		var title = track.name
-		var album = track.album
-		
-		if artist == nil || artist?.characters.count == 0
-		{
-			artist = kUnknownArtist
-		}
-		
-		if title == nil || title?.characters.count == 0
-		{
-			title = kUnknownTrack
-		}
-		
-		if album == nil || album?.characters.count == 0
-		{
-			album = kUnknownAlbum
-		}
-		
-		let duration = track.duration ?? 0.0
-		let durMin = Int(duration/60)
-		let durSec = Int(duration.truncatingRemainder(dividingBy: 60))
-		let durString = "\(durMin < 10 ? "0\(durMin)" : "\(durMin)"):" + "\(durSec < 10 ? "0\(durSec)" : "\(durSec)")"
-		
-		var year = track.year
-		
-		if year == 0
-		{
-			year = nil
-		}
-		
-		print("\t   \("title".bold): \(title!)")
-		print("\t  \("artist".bold): \(artist!)")
-		print("\t   \("album".bold): \(album!) \(year != nil ? "(\(year!))" :"")")
-		print("\t\("duration".bold): \(durString)")
 	}
 	
 	fileprivate func getLibraryPlaylist() -> iTunesLibraryPlaylist?
@@ -582,30 +400,17 @@ class iTunesHandler
 		
 		return nil
 	}
-	
-	fileprivate func getUserInput() -> String?
-	{
-		let stdin = FileHandle.standardInput
-		var capture = String(data: stdin.availableData, encoding: .utf8)
-		capture = capture?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-		return capture
-	}
-	
-	fileprivate func printLogo()
-	{
-		print("  dP                              ".red)
-		print("  88                              ".lightRed)
-		print("d8888P dP    dP 88d888b. .d8888b. ".yellow)
-		print("  88   88    88 88'  `88 88ooood8 ".green)
-		print("  88   88.  .88 88    88 88.  ... ".lightBlue)
-		print("  dP   `88888P' dP    dP `88888P' ".blue)
-		print("\n")
-	}
 }
 
-extension iTunesHandler
+extension iTunesHandler: MediaPlayer
 {
-	func playpause()
+	/// Internal identification of this media player, such as "itunes"
+	var playerId: String
+	{
+		return "itunes"
+	}
+
+	func playPause()
 	{
 		iTunesApp?.playpause!()
 	}
@@ -629,6 +434,21 @@ extension iTunesHandler
 	{
 		iTunesApp?.previousTrack!()
 	}
+
+	func search(forTracks text: String) -> SearchResult
+	{
+		return SearchResult(withItems: runTrackSearch(text), forQuery: text)
+	}
+
+	func search(forAlbums text: String) -> SearchResult
+	{
+		return SearchResult(withItems: [], forQuery: text)
+	}
+
+	func search(forPlaylists text: String) -> SearchResult
+	{
+		return SearchResult(withItems: [], forQuery: text)
+	}
 }
 
 func pprint(_ string: String)
@@ -642,7 +462,37 @@ struct iTunesPlaybackInfo
 	let status: iTunesEPlS
 }
 
-extension iTunesTrack
+struct iTunesTrackSearchResult: SearchResultItem
+{
+	private let track: iTunesTrack
+
+	fileprivate init(track: iTunesTrack)
+	{
+		self.track = track
+	}
+
+	var name: String
+	{
+		return track.name ?? kUnknownTrack
+	}
+
+	var artist: String
+	{
+		return track.artist ?? kUnknownArtist
+	}
+
+	var album: String
+	{
+		return track.album ?? kUnknownAlbum
+	}
+
+	var time: String
+	{
+		return track.duration?.durationString ?? "--:--"
+	}
+}
+
+private extension iTunesTrack
 {
 	var prettyAlbumDescription: String?
 	{
