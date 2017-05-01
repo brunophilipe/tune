@@ -32,7 +32,8 @@ class UserInterface
 
 	private var screen: OpaquePointer? = nil
 	private var registeredColorsCount: Int16 = 0
-	private var windows = [UIWindow]()
+
+	fileprivate var windows = [UIWindow]()
 
 	/// This hook is invoked before every `draw()` call.
 	var preDrawHook: (() -> Void)? = nil
@@ -167,11 +168,12 @@ extension UserInterface: UserInterfaceControllerDelegate
 {
 	func userInterfaceControllerReceivedResizeEvent(_ controller: UserInterfaceController)
 	{
-//		if let mainModule = self.mainUIModule
-//		{
-//			clean()
-//			dispatchDraw(toModule: mainModule)
-//		}
+		let newSize = UISize(width, height)
+
+		for window in windows
+		{
+			window.controller?.availableSizeChanged(newSize: newSize)
+		}
 	}
 
 	func userInterfaceController(_ controller: UserInterfaceController, didChangeToState state: UIState)

@@ -37,40 +37,39 @@ class Main
 			exit(-1)
 		}
 
-		let windowControllers = buildWindowControllers(userInterface)
-
-		for controller in windowControllers
-		{
-			userInterface.registerWindow(controller.window)
-		}
-
-		self.windowControllers = windowControllers
+		self.windowControllers = buildWindowControllers()
 
 		userInterface.preDrawHook =
 		{
 			let iTunes = self.iTunes
-//			let ui = self.userInterface
+			let ui = self.userInterface
 
 			if let windowControllers = self.windowControllers
 			{
 				for controller in windowControllers
 				{
-					switch controller
+					if var desiree = controller as? DesiresTrackInfo
 					{
-					case let nowPlayingController as NowPlayingWindowController:
-						nowPlayingController.track			= iTunes.currentTrack
-						nowPlayingController.playbackInfo	= iTunes.currentPlaybackInfo
-
-					default:
-						break
+						desiree.track			= iTunes.currentTrack
 					}
+
+					if var desiree = controller as? DesiresPlaybackInfo
+					{
+						desiree.playbackInfo	= iTunes.currentPlaybackInfo
+					}
+
+					if var desiree = controller as? DesiresCurrentPlaylist
+					{
+						desiree.currentPlaylist = iTunes.currentPlaylist
+					}
+
+					if var desiree = controller as? DesiresCurrentState
+					{
+						desiree.currentState	= ui.currentState
+					}
+
 				}
 			}
-
-//			mainModule.currentState			= ui.currentState
-//			mainModule.currentTrack			= iTunes.currentTrack
-//			mainModule.currentPlaybackInfo	= iTunes.currentPlaybackInfo
-//			mainModule.currentPlaylist		= iTunes.currentPlaylist
 		}
 
 		userInterface.startEventLoop()
@@ -100,13 +99,43 @@ class Main
 		return rootState
 	}
 
-	private func buildWindowControllers(_ ui: UserInterface) -> [UIWindowController]
+	private func buildWindowControllers() -> [UIWindowController]
 	{
-		return [
-			LogoWindowController(userInterface: ui),
-			NowPlayingWindowController(userInterface: ui)
+		let controllers: [UIWindowController] = [
+			LogoWindowController(userInterface: userInterface),
+			NowPlayingWindowController(userInterface: userInterface),
+			PlayQueueWindowController(userInterface: userInterface),
+			MediaBrowserWindowController(userInterface: userInterface),
+			CommandsBarWindowController(userInterface: userInterface)
 		]
+
+		for controller in controllers
+		{
+			userInterface.registerWindow(controller.window)
+		}
+
+		return controllers
 	}
+}
+
+protocol DesiresTrackInfo
+{
+	var track: iTunesTrack? { get set }
+}
+
+protocol DesiresPlaybackInfo
+{
+	var playbackInfo: iTunesPlaybackInfo? { get set }
+}
+
+protocol DesiresCurrentPlaylist
+{
+	var currentPlaylist: iTunesPlaylist? { get set }
+}
+
+protocol DesiresCurrentState
+{
+	var currentState: UIState? { get set }
 }
 
 extension UIState

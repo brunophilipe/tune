@@ -8,11 +8,14 @@
 
 import Foundation
 
-class NowPlayingWindowController: UIWindowController
+class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresPlaybackInfo
 {
 	internal weak var userInterface: UserInterface?
 
 	private var windowStorage: UIWindow
+
+	private var boxPanel: UIBoxPanel? = nil
+	private var songInfoPanel: SongInfoPanel? = nil
 
 	var window: UIWindow
 	{
@@ -32,6 +35,14 @@ class NowPlayingWindowController: UIWindowController
 		buildPanels()
 	}
 
+	func availableSizeChanged(newSize: UISize)
+	{
+		window.frame = UIFrame(x: 40, y: 0, w: newSize.x - 40, h: 11)
+
+		boxPanel?.frame = UIFrame(origin: .zero, size: window.frame.size)
+		songInfoPanel?.frame = UIFrame(origin: UIPoint(1, 1), size: window.frame.size.offset(x: -2, y: -1))
+	}
+
 	private func buildPanels()
 	{
 		if let ui = self.userInterface
@@ -46,18 +57,20 @@ class NowPlayingWindowController: UIWindowController
 
 			window.container.addSubPanel(boxPanel)
 
-			let songInfoPanel = SongInfoPanel(frame: UIFrame(origin: window.frame.origin.replacing(x: 1, y: 1),
-			                                                 size: window.frame.size.offset(x: -2, y: -2)),
+			let songInfoPanel = SongInfoPanel(frame: UIFrame(origin: UIPoint(1, 1), size: window.frame.size.offset(x: -2, y: -1)),
 			                                  textColor: color)
 
 			window.container.addSubPanel(songInfoPanel)
+
+			self.boxPanel = boxPanel
+			self.songInfoPanel = songInfoPanel
 		}
 	}
 }
 
 private class SongInfoPanel: UIPanel
 {
-	private var lastTrackHash: Int? = nil
+	private var lastTrackId: Int? = nil
 
 	var textColor: UIColorPair
 
@@ -77,16 +90,17 @@ private class SongInfoPanel: UIPanel
 			let maxLength = Int(frame.width - 11)
 
 			// Clean if the track changed
-			if track?.hash != lastTrackHash
+			if track?.id!() != lastTrackId
 			{
 				window.cleanRegion(frame: frame)
 
-				lastTrackHash = track?.hash
+				lastTrackId = track?.id!()
 			}
 
 			if maxLength > 11, let track = track
 			{
 				let info = processTrackInformation(track)
+				let availableTitleWidth = frame.width - 1
 
 				// Title background
 				window.usingTextAttributes(.standout)
@@ -95,11 +109,10 @@ private class SongInfoPanel: UIPanel
 				}
 
 				// Title
-				let title = "\("Current Track Information".truncated(to: Int(frame.width) - 2)):"
+				let title = "\("Current Track Information".truncated(to: Int(availableTitleWidth))):"
 				window.usingTextAttributes([.bold, .standout])
 				{
-
-					let pX = (frame.width / 2) - (title.width / 2)
+					let pX = max((availableTitleWidth / 2) - (title.width / 2), 1)
 					window.drawText(title, at: frame.origin.replacing(x: pX), withColorPair: textColor)
 				}
 

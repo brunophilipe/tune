@@ -14,4 +14,6 @@ protocol UIWindowController: class
 	var userInterface: UserInterface? { get }
 
 	init(userInterface: UserInterface)
+
+	func availableSizeChanged(newSize: UISize)
 }

@@ -24,6 +24,8 @@ class UIWindow
 			mvwin(windowRef, frame.y, frame.x)
 			wresize(windowRef, frame.height, frame.width)
 
+			wclear(windowRef)
+
 			container.frame = UIFrame(size: frame.size)
 		}
 	}

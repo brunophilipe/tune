@@ -32,6 +32,11 @@ class LogoWindowController: UIWindowController
 		buildPanels()
 	}
 
+	func availableSizeChanged(newSize: UISize)
+	{
+		// Nothing to do
+	}
+
 	private func buildPanels()
 	{
 		if let color = userInterface?.sharedColorWhiteOnBlack
