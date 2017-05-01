@@ -21,7 +21,7 @@ class UICenteredTitlePanel: UIPanel
 			let availableTitleWidth = Int(frame.width - 1)
 
 			// Title background
-			window.usingTextAttributes(.standout)
+			window.usingTextAttributes(.reverse)
 			{
 				window.drawText(" " * frame.width, at: frame.origin, withColorPair: textColor)
 			}
@@ -29,7 +29,7 @@ class UICenteredTitlePanel: UIPanel
 			if let title = self.title
 			{
 				// Title
-				window.usingTextAttributes([.bold, .standout])
+				window.usingTextAttributes([.bold, .reverse])
 				{
 					let truncatedTitle = title.truncated(to: availableTitleWidth)
 					let pX = max(Int32(availableTitleWidth / 2) - (truncatedTitle.width / 2), 1)

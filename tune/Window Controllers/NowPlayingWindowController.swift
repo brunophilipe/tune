@@ -15,6 +15,7 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 	private var windowStorage: UIWindow
 
 	private var boxPanel: UIBoxPanel? = nil
+	private var titlePanel: UICenteredTitlePanel? = nil
 	private var songInfoPanel: SongInfoPanel? = nil
 
 	var window: UIWindow
@@ -39,8 +40,8 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 	{
 		window.frame = UIFrame(x: 40, y: 0, w: newSize.x - 40, h: 11)
 
-		boxPanel?.frame = UIFrame(origin: .zero, size: window.frame.size)
-		songInfoPanel?.frame = UIFrame(origin: UIPoint(1, 1), size: window.frame.size.offset(x: -2, y: -1))
+		boxPanel?.frame = boxPanelFrame
+		songInfoPanel?.frame = songInfoPanelFrame
 	}
 
 	private func buildPanels()
@@ -49,22 +50,39 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 		{
 			let color = ui.sharedColorWhiteOnBlack
 
-			let boxPanel = UIBoxPanel(frame: UIFrame(origin: .zero, size: window.frame.size), frameColor: color)
-			boxPanel.frameChars = UIBoxPanel.FrameChars.doubleLine.replacing(
-				topLeft: "╦",
-				bottom: " "
-			)
+			let boxPanel = UIBoxPanel(frame: boxPanelFrame, frameColor: color)
+			boxPanel.frameChars = UIBoxPanel.FrameChars.doubleLine.replacing(topLeft: "╦", bottom: " ")
 
 			window.container.addSubPanel(boxPanel)
 
-			let songInfoPanel = SongInfoPanel(frame: UIFrame(origin: UIPoint(1, 1), size: window.frame.size.offset(x: -2, y: -1)),
-			                                  textColor: color)
+			let titlePanel = UICenteredTitlePanel(frame: titlePanelFrame)
+			titlePanel.title = "Now Playing:"
+
+			window.container.addSubPanel(titlePanel)
+
+			let songInfoPanel = SongInfoPanel(frame: songInfoPanelFrame, textColor: color)
 
 			window.container.addSubPanel(songInfoPanel)
 
 			self.boxPanel = boxPanel
+			self.titlePanel = titlePanel
 			self.songInfoPanel = songInfoPanel
 		}
+	}
+
+	private var boxPanelFrame: UIFrame
+	{
+		return UIFrame(origin: .zero, size: window.frame.size)
+	}
+
+	private var titlePanelFrame: UIFrame
+	{
+		return UIFrame(origin: UIPoint(1, 1), size: window.frame.size.offset(x: -2).replacing(y: 1))
+	}
+
+	private var songInfoPanelFrame: UIFrame
+	{
+		return UIFrame(origin: UIPoint(1, 2), size: window.frame.size.offset(x: -2, y: -2))
 	}
 }
 
@@ -100,50 +118,31 @@ private class SongInfoPanel: UIPanel
 			if maxLength > 11, let track = track
 			{
 				let info = processTrackInformation(track)
-				let availableTitleWidth = frame.width - 1
-
-				// Title background
-				window.usingTextAttributes(.standout)
-				{
-					window.drawText(" " * frame.width, at: frame.origin, withColorPair: textColor)
-				}
-
-				// Title
-				let title = "\("Current Track Information".truncated(to: Int(availableTitleWidth))):"
-				window.usingTextAttributes([.bold, .standout])
-				{
-					let pX = max((availableTitleWidth / 2) - (title.width / 2), 1)
-					window.drawText(title, at: frame.origin.replacing(x: pX), withColorPair: textColor)
-				}
 
 				// Track information titles
 				window.usingTextAttributes(.underline)
 				{
-					window.drawText("title:",	at: frame.origin.offset(x: 3, y: 2),	withColorPair: textColor)
-					window.drawText("artist:",	at: frame.origin.offset(x: 2, y: 3),	withColorPair: textColor)
-					window.drawText("album:",	at: frame.origin.offset(x: 3, y: 4),	withColorPair: textColor)
+					window.drawText("title:",	at: frame.origin.offset(x: 3, y: 1),	withColorPair: textColor)
+					window.drawText("artist:",	at: frame.origin.offset(x: 2, y: 2),	withColorPair: textColor)
+					window.drawText("album:",	at: frame.origin.offset(x: 3, y: 3),	withColorPair: textColor)
 				}
 
 				// Track information
-				window.drawText(info.title.truncated(to: maxLength),	at: frame.origin.offset(x: 10, y: 2), withColorPair: textColor)
-				window.drawText(info.artist.truncated(to: maxLength),	at: frame.origin.offset(x: 10, y: 3), withColorPair: textColor)
-				window.drawText(info.album.truncated(to: maxLength),	at: frame.origin.offset(x: 10, y: 4), withColorPair: textColor)
+				window.drawText(info.title.truncated(to: maxLength),	at: frame.origin.offset(x: 10, y: 1), withColorPair: textColor)
+				window.drawText(info.artist.truncated(to: maxLength),	at: frame.origin.offset(x: 10, y: 2), withColorPair: textColor)
+				window.drawText(info.album.truncated(to: maxLength),	at: frame.origin.offset(x: 10, y: 3), withColorPair: textColor)
 
 				// Separator
-				window.drawText("─" * (frame.width - 2), at: UIPoint(frame.origin.x + 1, frame.height - 3), withColorPair: textColor)
+				window.drawText("─" * (frame.width - 2), at: UIPoint(frame.origin.x + 1, frame.height - 2), withColorPair: textColor)
 
 				// Track progress + duration bar
-				let pY = frame.height - 1
+				let pY = frame.height
 				let availableWidth = frame.width - 4
 				let lengthStr = info.duration
 				let progressStr = (playbackInfo?.progress ?? 0.0).durationString
 
-				window.drawText(progressStr,
-				            at: UIPoint(frame.origin.x + 2, pY),
-				            withColorPair: textColor)
-				window.drawText(lengthStr,
-				            at: UIPoint(frame.origin.x + 2 + availableWidth - lengthStr.width, pY),
-				            withColorPair: textColor)
+				window.drawText(progressStr, at: UIPoint(frame.origin.x + 2, pY), withColorPair: textColor)
+				window.drawText(lengthStr, at: UIPoint(frame.origin.x + 2 + availableWidth - lengthStr.width, pY), withColorPair: textColor)
 
 				let barLength = availableWidth - lengthStr.width - progressStr.width - 4
 				var playedBarLength: Int32 = 0
@@ -155,12 +154,14 @@ private class SongInfoPanel: UIPanel
 
 				if playedBarLength > 0
 				{
-					window.drawText("▓" * playedBarLength, at: UIPoint(frame.origin.x + progressStr.width + 4, pY), withColorPair: textColor)
+					window.drawText("▓" * playedBarLength,
+					                at: UIPoint(frame.origin.x + progressStr.width + 4, pY),
+					                withColorPair: textColor)
 				}
 
 				window.drawText("░" * (barLength - playedBarLength),
-				            at: UIPoint(frame.origin.x + progressStr.width + playedBarLength + 4, pY),
-				            withColorPair: textColor)
+				                at: UIPoint(frame.origin.x + progressStr.width + playedBarLength + 4, pY),
+				                withColorPair: textColor)
 				
 			}
 		}
