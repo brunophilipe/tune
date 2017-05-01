@@ -41,7 +41,7 @@ class SearchEngine
 			// This forces one search to be executed at a time, without blocking the main queue (thread(s))
 			searchQueue.sync
 			{
-				if let result = mediaPlayer?.search(forAlbums: text)
+				if let result = self.mediaPlayer?.search(forAlbums: text)
 				{
 					delegate.searchEngine(self, gotSearchResult: result)
 				}

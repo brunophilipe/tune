@@ -190,6 +190,26 @@ extension UserInterface: UserInterfaceControllerDelegate
 	}
 }
 
+extension UIKeyCode
+{
+	var display: String
+	{
+		switch self
+		{
+		case KEY_LEFT:		return "←"
+		case KEY_RIGHT:		return "→"
+		case KEY_UP:		return "↑"
+		case KEY_DOWN:		return "↓"
+		case KEY_TAB:		return "⇥"
+		case KEY_ENTER:		return "↩︎"
+		case KEY_SPACE:		return "⎵"
+		case KEY_ESCAPE:	return "⎋"
+		default:
+			return String(UnicodeScalar.init(Int(self))!)
+		}
+	}
+}
+
 struct UIPoint
 {
 	var x: Int32

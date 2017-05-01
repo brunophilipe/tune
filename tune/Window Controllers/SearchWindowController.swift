@@ -29,12 +29,14 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 	private var boxPanel: UIBoxPanel? = nil
 	private var titlePanel: UITextPromptPanel? = nil
 	private var listPanel: UIListPanel? = nil
-
+	private var footerPanel: UICenteredTitlePanel? = nil
+	
 	fileprivate var lastSearchResult: SearchResult? = nil
 	{
 		didSet
 		{
-			updateTitlePanel()
+			updateTitleFooterPanels()
+			listPanel?.needsRedraw = true
 		}
 	}
 
@@ -55,15 +57,29 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 			{
 				if let id = currentState?.identifier, searchStates.contains(id)
 				{
-					dialog.hidden = false
-					dialog.pullToTop()
+					// We are in a search state, so we show the search window
+					if dialog.hidden
+					{
+						dialog.hidden = false
+						dialog.pullToTop()
+					}
 
-					updateTitlePanel()
+					// These states are equivalent, so we remove the redundancy right away
+					if id == UIState.TuneStates.search, lastSearchResult?.query == ""
+					{
+						lastSearchResult = nil
+					}
+
+					updateTitleFooterPanels()
 				}
 				else
 				{
-					dialog.hidden = true
-					lastSearchResult = nil
+					// We are not in a search state, so we hide the search window
+					if !dialog.hidden
+					{
+						dialog.hidden = true
+						lastSearchResult = nil
+					}
 				}
 			}
 		}
@@ -86,7 +102,9 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 		window.frame = windowFrame
 
 		boxPanel?.frame = boxPanelFrame
+		titlePanel?.frame = titlePanelFrame
 		listPanel?.frame = listPanelFrame
+		footerPanel?.frame = footerPanelFrame
 	}
 
 	private func buildPanels()
@@ -110,30 +128,45 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 
 			window.container.addSubPanel(listPanel)
 
+			let footerPanel = UICenteredTitlePanel(frame: footerPanelFrame)
+			footerPanel.title = ""
+
+			window.container.addSubPanel(footerPanel)
+
 			self.boxPanel = boxPanel
 			self.titlePanel = titlePanel
 			self.listPanel = listPanel
+			self.footerPanel = footerPanel
 		}
 	}
 
-	private func updateTitlePanel()
+	private func updateTitleFooterPanels()
 	{
 		var prompt: String
 		var text: String? = nil
+		var footer: String? = nil
+
+		if let lastSearchResult = self.lastSearchResult
+		{
+			footer = "\(lastSearchResult.resultItems.count) results"
+		}
 
 		switch self.currentState?.identifier
 		{
 		case .some(UIState.TuneStates.searchTracks):
 			prompt = "searching (tracks):"
 			text = lastSearchResult?.query
+			footer?.append(" - press \(KEY_ESCAPE.display) to browse results")
 
 		case .some(UIState.TuneStates.searchAlbums):
 			prompt = "searching (albums):"
 			text = lastSearchResult?.query
+			footer?.append(" - press \(KEY_ESCAPE.display) to browse results")
 
 		case .some(UIState.TuneStates.searchPlaylists):
 			prompt = "searching (playlists):"
 			text = lastSearchResult?.query
+			footer?.append(" - press \(KEY_ESCAPE.display) to browse results")
 
 		default:
 			if lastSearchResult != nil
@@ -143,12 +176,13 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 			}
 			else
 			{
-				prompt = "Select search mode (see below)"
+				prompt = "Select search mode (see control bar)"
 			}
 		}
 
 		titlePanel?.prompt = prompt
 		titlePanel?.text = text
+		footerPanel?.title = footer
 	}
 
 	private var windowFrame: UIFrame
@@ -206,6 +240,11 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 	private var listPanelFrame: UIFrame
 	{
 		return UIFrame(origin: UIPoint(1, 2), size: window.frame.size.offset(x: -2, y: -3))
+	}
+
+	private var footerPanelFrame: UIFrame
+	{
+		return UIFrame(origin: window.frame.size.offset(y: -2).replacing(x: 1), size: window.frame.size.offset(x: -2).replacing(y: 1))
 	}
 }
 
