@@ -21,7 +21,7 @@
 
 #import "iTunesTools.h"
 
-@implementation Tools
+@implementation iTunesTools
 
 /**
  * @comment: Bruno

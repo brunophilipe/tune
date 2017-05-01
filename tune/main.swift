@@ -25,6 +25,7 @@ class Main
 {
 	private let userInterface = UserInterface()
 	private let iTunes = iTunesHandler()
+	private let searchEngine = SearchEngine()
 	private var windowControllers: [UIWindowController]? = nil
 
 	func run()
@@ -83,9 +84,9 @@ class Main
 		let searchState = UIState(label: "search")
 		searchState.identifier = UIState.TuneStates.search
 		searchState.setSubState(UIState.parentState, forKeyCode: KEY_ESCAPE)
-		searchState.setSubState(UIControlState(label: "tracks") { iTunes.playpause() }, forKeyCode: KEY_T_LOWER)
-		searchState.setSubState(UIControlState(label: "albums") { iTunes.playpause() }, forKeyCode: KEY_A_LOWER)
-		searchState.setSubState(UIControlState(label: "playlists") { iTunes.playpause() }, forKeyCode: KEY_P_LOWER)
+		searchState.setSubState(UITextInputState(label: "tracks") { self.searchEngine.search(forTracks: $0) }, forKeyCode: KEY_T_LOWER)
+		searchState.setSubState(UITextInputState(label: "albums") { self.searchEngine.search(forAlbums: $0) }, forKeyCode: KEY_A_LOWER)
+		searchState.setSubState(UITextInputState(label: "playlists") { self.searchEngine.search(forPlaylists: $0) }, forKeyCode: KEY_P_LOWER)
 
 		let rootState = UIState(label: "Root")
 		rootState.identifier = UIState.TuneStates.root
@@ -148,7 +149,5 @@ extension UIState
 	}
 }
 
-
-// Insertion point: This is the initial application point.
 let main = Main()
 main.run()

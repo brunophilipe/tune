@@ -570,7 +570,9 @@ class iTunesHandler
 		}
 		
 		// Create new playlist
-		if let object = Tools.instantiateObject(from: iTunesApp as! SBApplication, typeName: "playlist", andProperties: ["name": "tune"])
+		if let object = iTunesTools.instantiateObject(from: iTunesApp as! SBApplication,
+		                                              typeName: "playlist",
+		                                              andProperties: ["name": "tune"])
 		{
 			let playlists = (librarySource?.playlists!() as SBElementArray!) as NSMutableArray
 			playlists.add(object)

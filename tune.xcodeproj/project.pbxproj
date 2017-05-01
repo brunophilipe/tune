@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		150FEB571D46ACF100147D0C /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150FEB561D46ACF100147D0C /* Main.swift */; };
+		150FEB571D46ACF100147D0C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150FEB561D46ACF100147D0C /* main.swift */; };
 		150FEB641D46B50900147D0C /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150FEB631D46B50900147D0C /* ScriptingBridge.framework */; };
 		154EAEF51EB591AF0096A2B6 /* Double+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154EAEF41EB591AF0096A2B6 /* Double+Additions.swift */; };
 		1564DF7D1EB64C020042EA7F /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF7C1EB64C020042EA7F /* UIWindow.swift */; };
@@ -63,7 +63,7 @@
 
 /* Begin PBXFileReference section */
 		150FEB531D46ACF100147D0C /* tune */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tune; sourceTree = BUILT_PRODUCTS_DIR; };
-		150FEB561D46ACF100147D0C /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		150FEB561D46ACF100147D0C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		150FEB631D46B50900147D0C /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		154EAEF41EB591AF0096A2B6 /* Double+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Additions.swift"; sourceTree = "<group>"; };
 		1564DF7C1EB64C020042EA7F /* UIWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWindow.swift; path = "User Interface/UIWindow.swift"; sourceTree = "<group>"; };
@@ -145,12 +145,12 @@
 		150FEB551D46ACF100147D0C /* tune */ = {
 			isa = PBXGroup;
 			children = (
+				150FEB561D46ACF100147D0C /* main.swift */,
 				15FFB3C21EB2D01B00634F1A /* User Interface */,
 				15F0CDDC1EB42001009B13CA /* Extensions */,
 				1564DF841EB6555C0042EA7F /* Window Controllers */,
 				15D00C591EB7D7C4000E9782 /* Player Interfaces */,
 				15D00C551EB7D5E9000E9782 /* Supporting Files */,
-				150FEB561D46ACF100147D0C /* Main.swift */,
 			);
 			path = tune;
 			sourceTree = "<group>";
@@ -348,7 +348,7 @@
 				15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */,
 				1564DF7D1EB64C020042EA7F /* UIWindow.swift in Sources */,
 				15F0CDE41EB4CAE3009B13CA /* UserInterfaceController.swift in Sources */,
-				150FEB571D46ACF100147D0C /* Main.swift in Sources */,
+				150FEB571D46ACF100147D0C /* main.swift in Sources */,
 				1564DF921EB69AEB0042EA7F /* PlayQueueWindowController.swift in Sources */,
 				15D00C611EB7D7C4000E9782 /* iTunesHandler.swift in Sources */,
 				15F0CDE71EB4D638009B13CA /* UIState.swift in Sources */,
