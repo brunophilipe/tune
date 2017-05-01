@@ -18,13 +18,19 @@ The current version is a reimplementation of the old tune which had a direct lau
 
 You can run the following command to add tune to your run path without moving any file. And then when you compile a new version, the link will automatically point to the new binary:
 
-```sh
+```
 ln -s $(pwd)/build/Release/tune /usr/local/bin/tune
 ```
 
 ### Compatibility
 
 This software os only supported on macOS, since `ScriptingBridge` is not available outside of it.
+
+### To-Do
+
+* **Other media players**
+
+It would be nice to make tune support other media players, such as Spotify. If that's to be implemented, there needs to be a refactor of the media information objects first: The `iTunesTrack`, `iTunesPlaylist` and other iTunes-coupled types need to be wrapped in generic protocols that can be reused for other software APIs.
 
 ### License
 
