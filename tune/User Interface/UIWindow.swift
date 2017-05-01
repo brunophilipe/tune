@@ -13,7 +13,7 @@ private var temp = UInt32(0)
 
 class UIWindow
 {
-	let windowRef: OpaquePointer
+	internal let windowRef: OpaquePointer
 
 	var controller: UIWindowController? = nil
 
@@ -50,7 +50,6 @@ class UIWindow
 
 	func draw()
 	{
-//		wclear(windowRef)
 		container.draw()
 		wrefresh(windowRef)
 	}

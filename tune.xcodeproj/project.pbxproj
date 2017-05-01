@@ -25,6 +25,9 @@
 		1564DF981EB6A1E60042EA7F /* UIControlBarPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF971EB6A1E60042EA7F /* UIControlBarPanel.swift */; };
 		1564DF9A1EB6A4890042EA7F /* CommandsBarWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF991EB6A4890042EA7F /* CommandsBarWindowController.swift */; };
 		15BA30041EB6B34700AB691B /* UICenteredTitlePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30031EB6B34700AB691B /* UICenteredTitlePanel.swift */; };
+		15BA30061EB6CFC200AB691B /* SearchWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30051EB6CFC200AB691B /* SearchWindowController.swift */; };
+		15DCCA551EB6E11B00400F8B /* libpanel.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 15DCCA541EB6E11B00400F8B /* libpanel.tbd */; };
+		15DCCA571EB6E2E200400F8B /* UIDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DCCA561EB6E2E200400F8B /* UIDialog.swift */; };
 		15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */; };
 		15E8EE231D46C18B00B8C266 /* CodesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE181D46C18B00B8C266 /* CodesParser.swift */; };
 		15E8EE241D46C18B00B8C266 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE191D46C18B00B8C266 /* Color.swift */; };
@@ -65,12 +68,7 @@
 		150FEB5E1D46AD1A00147D0C /* iTunesScripting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iTunesScripting.swift; sourceTree = "<group>"; };
 		150FEB611D46AE2F00147D0C /* iTunesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iTunesController.swift; sourceTree = "<group>"; };
 		150FEB631D46B50900147D0C /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
-		15231C5C1EB4078D001CD2B8 /* UIBoxModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIBoxModule.swift; path = "User Interface/Modules/UIBoxModule.swift"; sourceTree = "<group>"; };
-		154EAEF21EB589480096A2B6 /* UIListModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIListModule.swift; path = "User Interface/Modules/UIListModule.swift"; sourceTree = "<group>"; };
 		154EAEF41EB591AF0096A2B6 /* Double+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Additions.swift"; sourceTree = "<group>"; };
-		1564DF761EB54A290042EA7F /* UIPlayQueueModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIPlayQueueModule.swift; path = "User Interface/Modules/UIPlayQueueModule.swift"; sourceTree = "<group>"; };
-		1564DF781EB623230042EA7F /* UISearchModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UISearchModule.swift; path = "User Interface/Modules/UISearchModule.swift"; sourceTree = "<group>"; };
-		1564DF7A1EB637D40042EA7F /* UITextInputModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UITextInputModule.swift; path = "User Interface/Modules/UITextInputModule.swift"; sourceTree = "<group>"; };
 		1564DF7C1EB64C020042EA7F /* UIWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWindow.swift; path = "User Interface/UIWindow.swift"; sourceTree = "<group>"; };
 		1564DF801EB64CB40042EA7F /* UIPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIPanel.swift; path = "User Interface/UIPanel.swift"; sourceTree = "<group>"; };
 		1564DF851EB655940042EA7F /* UIWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIWindowController.swift; path = "User Interface/UIWindowController.swift"; sourceTree = "<group>"; };
@@ -83,6 +81,9 @@
 		1564DF971EB6A1E60042EA7F /* UIControlBarPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIControlBarPanel.swift; sourceTree = "<group>"; };
 		1564DF991EB6A4890042EA7F /* CommandsBarWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandsBarWindowController.swift; sourceTree = "<group>"; };
 		15BA30031EB6B34700AB691B /* UICenteredTitlePanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICenteredTitlePanel.swift; sourceTree = "<group>"; };
+		15BA30051EB6CFC200AB691B /* SearchWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchWindowController.swift; sourceTree = "<group>"; };
+		15DCCA541EB6E11B00400F8B /* libpanel.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpanel.tbd; path = usr/lib/libpanel.tbd; sourceTree = SDKROOT; };
+		15DCCA561EB6E2E200400F8B /* UIDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIDialog.swift; path = "User Interface/UIDialog.swift"; sourceTree = "<group>"; };
 		15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundColor.swift; sourceTree = "<group>"; };
 		15E8EE181D46C18B00B8C266 /* CodesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodesParser.swift; sourceTree = "<group>"; };
 		15E8EE191D46C18B00B8C266 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -97,17 +98,13 @@
 		15E8EE2E1D4728B200B8C266 /* tune-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tune-Bridging-Header.h"; sourceTree = "<group>"; };
 		15E8EE2F1D4728B300B8C266 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		15E8EE301D4728B300B8C266 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
-		15F0CDDA1EB41C53009B13CA /* UINowPlayingModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UINowPlayingModule.swift; path = "User Interface/Modules/UINowPlayingModule.swift"; sourceTree = "<group>"; };
 		15F0CDDD1EB42011009B13CA /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		15F0CDDF1EB426A4009B13CA /* ncurses+missingdefs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ncurses+missingdefs.swift"; sourceTree = "<group>"; };
 		15F0CDE31EB4CAE3009B13CA /* UserInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterfaceController.swift; path = "User Interface/UserInterfaceController.swift"; sourceTree = "<group>"; };
 		15F0CDE61EB4D638009B13CA /* UIState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIState.swift; path = "User Interface/UIState.swift"; sourceTree = "<group>"; };
-		15F0CDE81EB4DD74009B13CA /* UIControlBarModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIControlBarModule.swift; path = "User Interface/Modules/UIControlBarModule.swift"; sourceTree = "<group>"; };
 		15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.5.tbd; path = usr/lib/libncurses.5.tbd; sourceTree = SDKROOT; };
-		15FFB3C41EB2D06600634F1A /* UIMainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIMainModule.swift; path = "User Interface/Modules/UIMainModule.swift"; sourceTree = "<group>"; };
 		15FFB3C61EB2D09D00634F1A /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterface.swift; path = "User Interface/UserInterface.swift"; sourceTree = "<group>"; };
 		15FFB3C71EB2D09D00634F1A /* UserInterfaceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterfaceModule.swift; path = "User Interface/UserInterfaceModule.swift"; sourceTree = "<group>"; };
-		15FFB3CA1EB2D10000634F1A /* UILogoModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UILogoModule.swift; path = "User Interface/Modules/UILogoModule.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15DCCA551EB6E11B00400F8B /* libpanel.tbd in Frameworks */,
 				15FFB3BF1EB1706200634F1A /* libncurses.5.tbd in Frameworks */,
 				150FEB641D46B50900147D0C /* ScriptingBridge.framework in Frameworks */,
 			);
@@ -178,6 +176,7 @@
 				1564DF911EB69AEB0042EA7F /* PlayQueueWindowController.swift */,
 				1564DF931EB69BE00042EA7F /* MediaBrowserWindowController.swift */,
 				1564DF991EB6A4890042EA7F /* CommandsBarWindowController.swift */,
+				15BA30051EB6CFC200AB691B /* SearchWindowController.swift */,
 			);
 			path = "Window Controllers";
 			sourceTree = "<group>";
@@ -221,6 +220,7 @@
 		15FFB3BD1EB1706200634F1A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15DCCA541EB6E11B00400F8B /* libpanel.tbd */,
 				150FEB631D46B50900147D0C /* ScriptingBridge.framework */,
 				15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */,
 			);
@@ -232,31 +232,15 @@
 			children = (
 				1564DF851EB655940042EA7F /* UIWindowController.swift */,
 				1564DF7C1EB64C020042EA7F /* UIWindow.swift */,
+				15DCCA561EB6E2E200400F8B /* UIDialog.swift */,
 				1564DF801EB64CB40042EA7F /* UIPanel.swift */,
 				15FFB3C61EB2D09D00634F1A /* UserInterface.swift */,
 				15F0CDE31EB4CAE3009B13CA /* UserInterfaceController.swift */,
 				15FFB3C71EB2D09D00634F1A /* UserInterfaceModule.swift */,
 				15F0CDE61EB4D638009B13CA /* UIState.swift */,
 				1564DF821EB653D30042EA7F /* Panels */,
-				15FFB3C31EB2D02600634F1A /* Modules */,
 			);
 			name = "User Interface";
-			sourceTree = "<group>";
-		};
-		15FFB3C31EB2D02600634F1A /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-				15231C5C1EB4078D001CD2B8 /* UIBoxModule.swift */,
-				154EAEF21EB589480096A2B6 /* UIListModule.swift */,
-				1564DF7A1EB637D40042EA7F /* UITextInputModule.swift */,
-				15F0CDE81EB4DD74009B13CA /* UIControlBarModule.swift */,
-				15FFB3C41EB2D06600634F1A /* UIMainModule.swift */,
-				15FFB3CA1EB2D10000634F1A /* UILogoModule.swift */,
-				15F0CDDA1EB41C53009B13CA /* UINowPlayingModule.swift */,
-				1564DF761EB54A290042EA7F /* UIPlayQueueModule.swift */,
-				1564DF781EB623230042EA7F /* UISearchModule.swift */,
-			);
-			name = Modules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,12 +306,14 @@
 				15E8EE271D46C18B00B8C266 /* OutputTarget.swift in Sources */,
 				1564DF8C1EB677AF0042EA7F /* NowPlayingWindowController.swift in Sources */,
 				15E8EE281D46C18B00B8C266 /* Rainbow.swift in Sources */,
+				15BA30061EB6CFC200AB691B /* SearchWindowController.swift in Sources */,
 				15E8EE311D4728B300B8C266 /* Tools.m in Sources */,
 				15E8EE291D46C18B00B8C266 /* String+Rainbow.swift in Sources */,
 				15F0CDE01EB426A4009B13CA /* ncurses+missingdefs.swift in Sources */,
 				1564DF8A1EB66E4A0042EA7F /* UIBoxPanel.swift in Sources */,
 				150FEB601D46AD1A00147D0C /* iTunesScripting.swift in Sources */,
 				15F0CDDE1EB42011009B13CA /* String+Additions.swift in Sources */,
+				15DCCA571EB6E2E200400F8B /* UIDialog.swift in Sources */,
 				15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */,
 				15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */,
 				1564DF7D1EB64C020042EA7F /* UIWindow.swift in Sources */,

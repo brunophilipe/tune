@@ -133,6 +133,9 @@ class UserInterface
 			window.draw()
 		}
 
+		update_panels()
+		doupdate()
+
 		redrawQueue.asyncAfter(deadline: DispatchTime.now() + 0.25, execute: self.draw)
 	}
 
@@ -189,8 +192,8 @@ extension UserInterface: UserInterfaceControllerDelegate
 
 struct UIPoint
 {
-	let x: Int32
-	let y: Int32
+	var x: Int32
+	var y: Int32
 
 	init(_ x: Int32, _ y: Int32)
 	{

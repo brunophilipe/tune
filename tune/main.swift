@@ -106,7 +106,8 @@ class Main
 			NowPlayingWindowController(userInterface: userInterface),
 			PlayQueueWindowController(userInterface: userInterface),
 			MediaBrowserWindowController(userInterface: userInterface),
-			CommandsBarWindowController(userInterface: userInterface)
+			CommandsBarWindowController(userInterface: userInterface),
+			SearchWindowController(userInterface: userInterface)
 		]
 
 		for controller in controllers

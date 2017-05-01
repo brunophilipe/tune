@@ -41,10 +41,13 @@ class LogoWindowController: UIWindowController
 	{
 		if let color = userInterface?.sharedColorWhiteOnBlack
 		{
-			boxPanel = UIBoxPanel(frame: UIFrame(origin: .zero, size: window.frame.size), frameColor: color)
-			boxPanel?.frameChars = UIBoxPanel.FrameChars.thickLine.replacing(right: " ", bottom: " ")
+			let boxPanel = UIBoxPanel(frame: UIFrame(origin: .zero, size: window.frame.size), frameColor: color)
+			boxPanel.clearsBackground = true
+			boxPanel.frameChars = UIBoxPanel.FrameChars.thickLine.replacing(right: " ", bottom: " ")
 
-			window.container.addSubPanel(boxPanel!)
+			window.container.addSubPanel(boxPanel)
+
+			self.boxPanel = boxPanel
 		}
 
 		logoPanel = LogoPanel(frame: UIFrame(origin: UIPoint(4, 2), size: UISize(33, 8)))
