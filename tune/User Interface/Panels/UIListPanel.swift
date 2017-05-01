@@ -26,8 +26,9 @@ class UIListPanel: UIPanel
 	weak var dataSource: UIListPanelDataSource? = nil
 
 	var activeRow: Int? = nil
-
 	var activeRowTextColor: UIColorPair? = nil
+
+	private var lastMinRow: Int = 0
 
 	override var window: UIWindow?
 	{
@@ -59,7 +60,31 @@ class UIListPanel: UIPanel
 
 			let columnWidths: [Int] = (0 ..< columnCount).map({dataSource.listPanel(self, widthOfColumn: $0)})
 
-			for row in 0 ..< min(rowCount, Int(frame.height))
+			let maxRow = min(rowCount, Int(frame.height))
+
+			if let activeRow = self.activeRow
+			{
+				if frame.height < 3
+				{
+					lastMinRow = activeRow
+				}
+				else if frame.height < 5
+				{
+					lastMinRow = activeRow - 1
+				}
+				else if activeRow > (lastMinRow + maxRow) - 3
+				{
+					lastMinRow = min((activeRow - maxRow) + 3, rowCount)
+				}
+				else if activeRow < lastMinRow + 2
+				{
+					lastMinRow = max(activeRow - 2, 0)
+				}
+			}
+
+			let minRow = lastMinRow
+
+			for row in minRow ..< (minRow + maxRow)
 			{
 				let rowText: [String] = (0 ..< columnCount).map
 				{
@@ -75,14 +100,14 @@ class UIListPanel: UIPanel
 					window.usingTextAttributes(.bold)
 					{
 						window.drawText(rowText.joined(separator: "·"),
-						                at: point.offset(y: Int32(row)),
+						                at: point.offset(y: Int32(row - minRow)),
 						                withColorPair: activeColor)
 					}
 				}
 				else
 				{
 					window.drawText(rowText.joined(separator: "·"),
-					                at: point.offset(y: Int32(row)),
+					                at: point.offset(y: Int32(row - minRow)),
 					                withColorPair: normalColor)
 				}
 			}
