@@ -91,6 +91,9 @@ class UIState
 	static var quitState = UIState(label: "quit")
 }
 
+/// A state that triggers a void block whenever a key event with its `keyCode` is received by its parent state.
+///
+/// **Note:** This state can never become the current state, and it can not be the root state.
 class UIControlState: UIState
 {
 	private let block: () -> Void
@@ -108,6 +111,9 @@ class UIControlState: UIState
 	}
 }
 
+/// A state that triggers a block with a `String` parameter whenever it receives key events that are not assigned to substates.
+///
+/// **Note:** This state has a default substate to return to the parent state assigned to the escape key (`KEY_ESCAPE`).
 class UITextInputState: UIState
 {
 	private let feedBlock: (String) -> Void

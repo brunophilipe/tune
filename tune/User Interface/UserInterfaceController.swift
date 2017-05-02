@@ -136,6 +136,7 @@ class UserInterfaceController
 				else
 				{
 					#if DEBUG
+						// Show the unidentified code in the top left corner
 						move(0, 0)
 						addstr("   ")
 						move(0, 0)
