@@ -24,7 +24,7 @@ import Darwin
 
 typealias UIKeyCode = Int32
 
-/// This class performs initial configuration based on the launch arguments and then proceeds to control the application through key events.
+/// This class controls the application through key events, based on the UIState object chain.
 class UserInterfaceController
 {
 	private let screen: OpaquePointer
@@ -251,6 +251,7 @@ let KEY_Z_UPPER = "Z".codeUnit!
 
 extension String
 {
+	/// Returns the UTF-8 code unit of the first character in the string.
 	var codeUnit: UIKeyCode?
 	{
 		if let codeUnit = self.utf8.first

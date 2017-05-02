@@ -21,6 +21,7 @@
 
 import Foundation
 
+/// Controller for a UIWindow. It creates the window and is responsible for resizing things, including the window UIPanel objects.
 protocol UIWindowController: class
 {
 	var window: UIWindow { get }

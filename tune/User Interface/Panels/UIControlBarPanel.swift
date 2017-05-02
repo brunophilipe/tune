@@ -21,6 +21,7 @@
 
 import Foundation
 
+/// This panel draws a list of available key commands, based on the current `UIState`.
 class UIControlBarPanel: UIPanel
 {
 	var barItems: [String]? = nil

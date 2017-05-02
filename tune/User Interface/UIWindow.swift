@@ -24,6 +24,7 @@ import Darwin.ncurses
 
 private var temp = UInt32(0)
 
+/// Wrapper around the ncurses `window` object.
 class UIWindow
 {
 	internal let windowRef: OpaquePointer

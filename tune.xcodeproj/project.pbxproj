@@ -49,7 +49,6 @@
 		15F0CDE71EB4D638009B13CA /* UIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDE61EB4D638009B13CA /* UIState.swift */; };
 		15FFB3BF1EB1706200634F1A /* libncurses.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */; };
 		15FFB3C81EB2D09D00634F1A /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3C61EB2D09D00634F1A /* UserInterface.swift */; };
-		15FFB3C91EB2D09D00634F1A /* UserInterfaceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FFB3C71EB2D09D00634F1A /* UserInterfaceModule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -113,7 +112,6 @@
 		15F0CDE61EB4D638009B13CA /* UIState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIState.swift; path = "User Interface/UIState.swift"; sourceTree = "<group>"; };
 		15FFB3BE1EB1706200634F1A /* libncurses.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.5.tbd; path = usr/lib/libncurses.5.tbd; sourceTree = SDKROOT; };
 		15FFB3C61EB2D09D00634F1A /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterface.swift; path = "User Interface/UserInterface.swift"; sourceTree = "<group>"; };
-		15FFB3C71EB2D09D00634F1A /* UserInterfaceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserInterfaceModule.swift; path = "User Interface/UserInterfaceModule.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,7 +281,6 @@
 				1564DF801EB64CB40042EA7F /* UIPanel.swift */,
 				15FFB3C61EB2D09D00634F1A /* UserInterface.swift */,
 				15F0CDE31EB4CAE3009B13CA /* UserInterfaceController.swift */,
-				15FFB3C71EB2D09D00634F1A /* UserInterfaceModule.swift */,
 				15F0CDE61EB4D638009B13CA /* UIState.swift */,
 				1564DF821EB653D30042EA7F /* Panels */,
 			);
@@ -383,7 +380,6 @@
 				15E8EE2A1D46C18B00B8C266 /* StringGenerator.swift in Sources */,
 				15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */,
 				1564DF811EB64CB40042EA7F /* UIPanel.swift in Sources */,
-				15FFB3C91EB2D09D00634F1A /* UserInterfaceModule.swift in Sources */,
 				15D00C631EB7D7C4000E9782 /* iTunesTools.m in Sources */,
 				15FFB3C81EB2D09D00634F1A /* UserInterface.swift in Sources */,
 				1564DF881EB656370042EA7F /* LogoWindowController.swift in Sources */,

@@ -21,6 +21,7 @@
 
 import Foundation
 
+/// This bar draws a text line, aligned to the center.
 class UICenteredTitlePanel: UIPanel
 {
 	var title: String? = nil

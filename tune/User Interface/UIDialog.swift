@@ -21,6 +21,7 @@
 
 import Foundation
 
+/// Wrapper around the ncurses `panel` object. 
 class UIDialog: UIWindow
 {
 	internal var panel: UnsafeMutablePointer<PANEL>? = nil

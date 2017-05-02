@@ -21,6 +21,7 @@
 
 import Foundation
 
+/// This panel draws a box around its perimeter, using configurable characters.
 class UIBoxPanel: UIPanel
 {
 	var clearsBackground = false
