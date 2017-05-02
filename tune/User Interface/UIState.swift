@@ -21,6 +21,8 @@
 
 import Foundation
 
+/// A UIState object represents a particular state that the application can be. UIStates are navigatable using key events, and are
+/// managed by the `UIInterfaceController` class.
 class UIState
 {
 	/// The parent state of this state. It is set automatically when `subStates` is set.

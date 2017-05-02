@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// This panel draws a line of text with a prompt (instruction to the user). The text is drawn aligned to the left.
 class UITextPromptPanel: UIPanel
 {
 	var prompt: String? = nil

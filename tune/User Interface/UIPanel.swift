@@ -21,6 +21,7 @@
 
 import Foundation
 
+/// This is a data structure that represents a sub-element inside a UIWindow.
 class UIPanel
 {
 	internal weak var window: UIWindow?

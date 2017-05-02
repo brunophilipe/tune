@@ -21,6 +21,10 @@
 
 import Foundation
 
+/// This class should be called 'ThingsThatDidntGoAnywhereElseYetAndLauncher', since that's what it is.
+/// Ideally things should be split in different classes and be called in the most modular way possible,
+/// and this is partially done with `buildWindowControllers()` for example, but it could be better.
+/// I just haven't figured out an obvious good way of organizing things, mostly because the goals aren't clear.
 class Main
 {
 	private let userInterface = UserInterface()

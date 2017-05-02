@@ -21,6 +21,7 @@
 
 import Foundation
 
+/// This panel draws a generic list of items as told by its `UIListPanelDataSource` object.
 class UIListPanel: UIPanel
 {
 	weak var dataSource: UIListPanelDataSource? = nil

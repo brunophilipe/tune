@@ -24,6 +24,7 @@ import Darwin.ncurses
 
 typealias UIColorPair = Int16
 
+/// This class initializes, builds, and maintains the ncurses objects structure.
 class UserInterface
 {
 	private var redrawQueue: DispatchQueue = DispatchQueue(label: "Redraw Queue", qos: DispatchQoS.background)
@@ -210,6 +211,7 @@ extension UIKeyCode
 	}
 }
 
+/// Represents a point with two coordinates (X, Y).
 struct UIPoint
 {
 	var x: Int32
@@ -221,16 +223,19 @@ struct UIPoint
 		self.y = y
 	}
 
+	/// Returns a point with the parameter values added to the receiver coordinates. Use negative parameters to subtract.
 	func offset(x offsetX: Int32 = 0, y offsetY: Int32 = 0) -> UIPoint
 	{
 		return UIPoint(x + offsetX, y + offsetY)
 	}
 
+	/// Returns a point with the parameter values replacing the receiver value for each coordinate.
 	func replacing(x: Int32? = nil, y: Int32? = nil) -> UIPoint
 	{
 		return UIPoint(x ?? self.x, y ?? self.y)
 	}
 
+	/// Returns the origin point (0, 0).
 	static var zero = UIPoint(0, 0)
 }
 
@@ -242,8 +247,10 @@ extension UIPoint: Equatable
 	}
 }
 
+/// Reuse of the UIPoint struct with a specific name.
 typealias UISize = UIPoint
 
+/// Represents a rectangle with an origin point and a size.
 struct UIFrame
 {
 	let origin: UIPoint
