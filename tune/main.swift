@@ -30,6 +30,8 @@ class Main
 	private let userInterface = UserInterface()
 	private let iTunes = iTunesHandler()
 	private let searchEngine = SearchEngine()
+
+	private var searchState: UIState? = nil
 	private var windowControllers: [UIWindowController]? = nil
 
 	func run()
@@ -111,12 +113,14 @@ class Main
 		rootState.setSubState(UIControlState(label: "prev") { iTunes.previousTrack() }, forKeyCode: KEY_LEFT)
 		rootState.setSubState(UIControlState(label: "next") { iTunes.nextTrack() },		forKeyCode: KEY_RIGHT)
 
+		self.searchState = searchState
+
 		return rootState
 	}
 
 	private func buildWindowControllers() -> [UIWindowController]
 	{
-		let searchController = SearchWindowController(userInterface: userInterface)
+		let searchWindowController = SearchWindowController(userInterface: userInterface)
 
 		let controllers: [UIWindowController] = [
 			LogoWindowController(userInterface: userInterface),
@@ -124,10 +128,11 @@ class Main
 			PlayQueueWindowController(userInterface: userInterface),
 			MediaBrowserWindowController(userInterface: userInterface),
 			CommandsBarWindowController(userInterface: userInterface),
-			searchController
+			searchWindowController
 		]
 
-		searchEngine.delegate = searchController
+		searchEngine.delegate = searchWindowController
+		self.searchState?.delegate = searchWindowController
 
 		for controller in controllers
 		{

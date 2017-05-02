@@ -167,10 +167,10 @@ extension UIKeyCode
 
 protocol UIStateDelegate
 {
-	func state(_ state: UIState, shouldMoveToSubstate substate: UIState) -> Bool
+	func state(_ state: UIState, shouldSwitchToState substate: UIState) -> Bool
 }
 
-protocol UINavigatableStateDelegate
+protocol UINavigatableStateDelegate: UIStateDelegate
 {
 	func state(_ state: UIState, receivedNavigationKeyCode keyCode: UIKeyCode)
 }

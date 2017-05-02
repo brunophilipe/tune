@@ -36,6 +36,7 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 		didSet
 		{
 			updateTitleFooterPanels()
+			listPanel?.activeRow = lastSearchResult != nil ? 0 : nil
 			listPanel?.needsRedraw = true
 		}
 	}
@@ -185,6 +186,32 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 		footerPanel?.title = footer
 	}
 
+	fileprivate func processNavigationKeyEvent(_ keyCode: UIKeyCode)
+	{
+		if let result = lastSearchResult, let listPanel = self.listPanel
+		{
+			var activeRow = listPanel.activeRow ?? 0
+
+			switch keyCode
+			{
+			case KEY_UP:
+				activeRow = max(activeRow - 1, 0)
+
+			case KEY_DOWN:
+				activeRow = min(activeRow + 1, result.resultItems.count)
+
+			default:
+				break
+			}
+
+			listPanel.activeRow = activeRow
+		}
+		else
+		{
+			listPanel?.activeRow = nil
+		}
+	}
+
 	private var windowFrame: UIFrame
 	{
 		if let ui = self.userInterface
@@ -261,6 +288,19 @@ extension SearchWindowController: SearchEngineDelegate
 	}
 }
 
+extension SearchWindowController: UINavigatableStateDelegate
+{
+	func state(_ state: UIState, receivedNavigationKeyCode keyCode: UIKeyCode)
+	{
+		processNavigationKeyEvent(keyCode)
+	}
+
+	func state(_ state: UIState, shouldSwitchToState substate: UIState) -> Bool
+	{
+		return true
+	}
+}
+
 extension SearchWindowController: UIListPanelDataSource
 {
 	func numberOfRowsForListPanel(_ listPanel: UIListPanel) -> Int
@@ -306,8 +346,10 @@ extension SearchWindowController: UIListPanelDataSource
 
 	func listPanel(_ listPanel: UIListPanel, textForColumn column: Int, ofRow row: Int) -> String
 	{
-		if let item = lastSearchResult?.resultItems[row]
+		if let result = lastSearchResult, row < result.resultItems.count
 		{
+			let item = result.resultItems[row]
+
 			switch column
 			{
 			case 0: return String(row + 1)

@@ -87,13 +87,22 @@ class UserInterfaceController
 						controlState.runBlock()
 
 					case UIState.parentState:
-						self.currentState = currentState.parentState
+						// If a delegate is set, we ask it if we should descend into the substate. If there's no delegate, we assume `true`.
+						if let parentState = currentState.parentState,
+							currentState.delegate?.state(currentState, shouldSwitchToState: parentState) ?? true
+						{
+							self.currentState = parentState
+						}
 
 					case UIState.quitState:
 						stop = true
 						
 					default:
-						self.currentState = newState
+						// If a delegate is set, we ask it if we should descend into the substate. If there's no delegate, we assume `true`.
+						if currentState.delegate?.state(currentState, shouldSwitchToState: newState) ?? true
+						{
+							self.currentState = newState
+						}
 					}
 				}
 				else if let textInputState = currentState as? UITextInputState
