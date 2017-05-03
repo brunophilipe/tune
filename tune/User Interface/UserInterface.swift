@@ -202,7 +202,7 @@ extension UIKeyCode
 		case KEY_UP:		return "↑"
 		case KEY_DOWN:		return "↓"
 		case KEY_TAB:		return "⇥"
-		case KEY_ENTER:		return "↩︎"
+		case KEY_RETURN, KEY_ENTER:	return "⏎"
 		case KEY_SPACE:		return "⎵"
 		case KEY_ESCAPE:	return "⎋"
 		default:

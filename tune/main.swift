@@ -31,20 +31,21 @@ class Main
 	private let iTunes = iTunesHandler()
 	private let searchEngine = SearchEngine()
 
-	private var searchState: UIState? = nil
 	private var windowControllers: [UIWindowController]? = nil
 
 	func run()
 	{
 		setlocale(LC_ALL, "en_US.UTF-8")
 
-		guard userInterface.setup(rootState: buildStatesChain()) else
+		let (rootState, searchBrowseState) = buildStatesChain()
+
+		guard userInterface.setup(rootState: rootState) else
 		{
 			print("Failed to initialize screen")
 			exit(-1)
 		}
 
-		self.windowControllers = buildWindowControllers()
+		self.windowControllers = buildWindowControllers(searchBrowseState: searchBrowseState)
 
 		searchEngine.mediaPlayer = iTunes
 
@@ -85,27 +86,13 @@ class Main
 		userInterface.finalize()
 	}
 
-	private func buildStatesChain() -> UIState
+	private func buildStatesChain() -> (rootState: UIState, searchBrowseState: UIState)
 	{
 		let iTunes = self.iTunes
 
-		let searchState = UIState(label: "search")
-		searchState.identifier = UIState.TuneStates.search
-		searchState.setSubState(UIState.parentState, forKeyCode: KEY_ESCAPE)
-		searchState.setSubState(UITextInputState(label: "tracks",
-		                                         id: UIState.TuneStates.searchTracks) { self.searchEngine.search(forTracks: $0) },
-		                        forKeyCode: KEY_T_LOWER)
+		let (searchState, searchBrowseState) = buildSearchState()
 
-		searchState.setSubState(UITextInputState(label: "albums",
-		                                         id: UIState.TuneStates.searchAlbums) { self.searchEngine.search(forAlbums: $0) },
-		                        forKeyCode: KEY_A_LOWER)
-
-		searchState.setSubState(UITextInputState(label: "playlists",
-		                                         id: UIState.TuneStates.searchPlaylists) { self.searchEngine.search(forPlaylists: $0) },
-		                        forKeyCode: KEY_P_LOWER)
-
-		let rootState = UIState(label: "Root")
-		rootState.identifier = UIState.TuneStates.root
+		let rootState = UIState(label: "Root", id: UIState.TuneStates.root)
 		rootState.setSubState(UIState.quitState, forKeyCode: KEY_Q_LOWER)
 		rootState.setSubState(UIControlState(label: "pause") { iTunes.playPause() },	forKeyCode: KEY_SPACE)
 		rootState.setSubState(UIControlState(label: "stop") { iTunes.stop() },			forKeyCode: KEY_PERIOD)
@@ -113,12 +100,50 @@ class Main
 		rootState.setSubState(UIControlState(label: "prev") { iTunes.previousTrack() }, forKeyCode: KEY_LEFT)
 		rootState.setSubState(UIControlState(label: "next") { iTunes.nextTrack() },		forKeyCode: KEY_RIGHT)
 
-		self.searchState = searchState
-
-		return rootState
+		return (rootState, searchBrowseState)
 	}
 
-	private func buildWindowControllers() -> [UIWindowController]
+	private func buildSearchState() -> (searchState: UIState, searchBrowsingState: UIState)
+	{
+		let searchState = UIState(label: "search", id: UIState.TuneStates.search)
+		searchState.setSubState(UIState.popStackState, forKeyCode: KEY_ESCAPE)
+
+		// Search Tracks State
+
+		let searchTracksState = UITextInputState(label: "tracks",
+		                                         id: UIState.TuneStates.searchTracks,
+		                                         textFeedBlock: self.searchEngine.search(forTracks:))
+
+		searchState.setSubState(searchTracksState, forKeyCode: KEY_T_LOWER)
+
+		// Search Albums State
+
+		let searchAlbumsState = UITextInputState(label: "albums",
+		                                         id: UIState.TuneStates.searchAlbums,
+		                                         textFeedBlock: self.searchEngine.search(forAlbums:))
+
+		searchState.setSubState(searchAlbumsState, forKeyCode: KEY_A_LOWER)
+
+		// Search Playlists State
+
+		let searchPlaylistsState = UITextInputState(label: "playlists",
+		                                            id: UIState.TuneStates.searchPlaylists,
+		                                            textFeedBlock: self.searchEngine.search(forPlaylists:))
+
+		searchState.setSubState(searchPlaylistsState, forKeyCode: KEY_P_LOWER)
+
+		// Search Results Browsing State
+
+		let searchBrowseState = UIState(label: "browse results", id: UIState.TuneStates.searchBrowsing)
+		searchBrowseState.setSubState(.popStackState, forKeyCode: KEY_ESCAPE)
+		searchTracksState.setSubState(searchBrowseState, forKeyCode: KEY_RETURN)
+		searchAlbumsState.setSubState(searchBrowseState, forKeyCode: KEY_RETURN)
+		searchPlaylistsState.setSubState(searchBrowseState, forKeyCode: KEY_RETURN)
+
+		return (searchState, searchBrowseState)
+	}
+
+	private func buildWindowControllers(searchBrowseState: UIState) -> [UIWindowController]
 	{
 		let searchWindowController = SearchWindowController(userInterface: userInterface)
 
@@ -132,7 +157,7 @@ class Main
 		]
 
 		searchEngine.delegate = searchWindowController
-		self.searchState?.delegate = searchWindowController
+		searchBrowseState.delegate = searchWindowController
 
 		for controller in controllers
 		{
@@ -172,6 +197,7 @@ extension UIState
 		static let searchTracks = 3
 		static let searchAlbums = 4
 		static let searchPlaylists = 5
+		static let searchBrowsing = 6
 	}
 }
 

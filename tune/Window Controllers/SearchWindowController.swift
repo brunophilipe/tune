@@ -42,7 +42,11 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 	}
 
 	private let searchStates: [Int] = [
-		UIState.TuneStates.search, UIState.TuneStates.searchTracks, UIState.TuneStates.searchAlbums, UIState.TuneStates.searchPlaylists
+		UIState.TuneStates.search,
+		UIState.TuneStates.searchTracks,
+		UIState.TuneStates.searchAlbums,
+		UIState.TuneStates.searchPlaylists,
+		UIState.TuneStates.searchBrowsing
 	]
 
 	var window: UIWindow
@@ -157,17 +161,17 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 		case .some(UIState.TuneStates.searchTracks):
 			prompt = "searching (tracks):"
 			text = lastSearchResult?.query
-			footer?.append(" - press \(KEY_ESCAPE.display) to browse results")
+			footer?.append(" - press \(KEY_RETURN.display) to browse results")
 
 		case .some(UIState.TuneStates.searchAlbums):
 			prompt = "searching (albums):"
 			text = lastSearchResult?.query
-			footer?.append(" - press \(KEY_ESCAPE.display) to browse results")
+			footer?.append(" - press \(KEY_RETURN.display) to browse results")
 
 		case .some(UIState.TuneStates.searchPlaylists):
 			prompt = "searching (playlists):"
 			text = lastSearchResult?.query
-			footer?.append(" - press \(KEY_ESCAPE.display) to browse results")
+			footer?.append(" - press \(KEY_RETURN.display) to browse results")
 
 		default:
 			if lastSearchResult != nil

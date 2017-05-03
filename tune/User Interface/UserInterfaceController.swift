@@ -29,6 +29,7 @@ class UserInterfaceController
 {
 	private let screen: OpaquePointer
 	private let rootState: UIState
+	private let stateStack = Stack<UIState>()
 
 	private var textInputBuffer: String? = nil
 
@@ -39,7 +40,7 @@ class UserInterfaceController
 	{
 		didSet
 		{
-			if let state = currentState
+			if let state = currentState, state != oldValue
 			{
 				delegate?.userInterfaceController(self, didChangeToState: state)
 			}
@@ -86,12 +87,12 @@ class UserInterfaceController
 					case let controlState as UIControlState:
 						controlState.runBlock()
 
-					case UIState.parentState:
+					case UIState.popStackState:
 						// If a delegate is set, we ask it if we should descend into the substate. If there's no delegate, we assume `true`.
-						if let parentState = currentState.parentState,
-							currentState.delegate?.state(currentState, shouldSwitchToState: parentState) ?? true
+						if let popStackState = stateStack.pop(),
+							currentState.delegate?.state(currentState, shouldSwitchToState: popStackState) ?? true
 						{
-							self.currentState = parentState
+							self.currentState = popStackState
 						}
 
 					case UIState.quitState:
@@ -101,6 +102,7 @@ class UserInterfaceController
 						// If a delegate is set, we ask it if we should descend into the substate. If there's no delegate, we assume `true`.
 						if currentState.delegate?.state(currentState, shouldSwitchToState: newState) ?? true
 						{
+							stateStack.push(currentState)
 							self.currentState = newState
 						}
 					}
@@ -138,9 +140,11 @@ class UserInterfaceController
 						textBuffer.append(String(char))
 					}
 
-					textInputState.runBlock(withInputText: textBuffer)
-
-					self.textInputBuffer = textBuffer
+					if textBuffer != self.textInputBuffer
+					{
+						textInputState.runBlock(withInputText: textBuffer)
+						self.textInputBuffer = textBuffer
+					}
 				}
 				else
 				{
@@ -193,6 +197,7 @@ let KEY_CLEAR_WORD = UIKeyCode(23)
 let KEY_SPACE = " ".codeUnit!
 let KEY_TAB = "\t".codeUnit!
 let KEY_PERIOD = ".".codeUnit!
+let KEY_RETURN = UIKeyCode(10)
 
 let KEY_0 = "0".codeUnit!
 let KEY_1 = "1".codeUnit!

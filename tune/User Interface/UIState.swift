@@ -25,9 +25,6 @@ import Foundation
 /// managed by the `UIInterfaceController` class.
 class UIState
 {
-	/// The parent state of this state. It is set automatically when `subStates` is set.
-	var parentState: UIState? = nil
-
 	/// An array which maps individual `UIKeyCode` events to different substates. When the user triggers an event with the key code
 	/// `UIKeyCode`, the application state will move to the associated state in the array. If no state is associated with the key
 	/// code, then nothing happens.
@@ -48,9 +45,10 @@ class UIState
 		return self.subStates
 	}
 
-	init(label: String)
+	init(label: String, id: Int? = nil)
 	{
 		self.label = label
+		self.identifier = id
 	}
 
 	/// Sets the substate associated with the specified key code. Passing `nil` to the `state` parameter will clear the substate associated
@@ -60,7 +58,6 @@ class UIState
 		if let newState = state
 		{
 			subStates.append((keyCode, newState))
-			state?.parentState = self
 		}
 		else
 		{
@@ -86,7 +83,7 @@ class UIState
 
 	/// Use this proxy state in the subStates array to represent which key should
 	/// return the application to the parent state of the current state.
-	static var parentState = UIState(label: "back")
+	static var popStackState = UIState(label: "back")
 
 	/// Use this proxy state in the subStates array to represent which key should
 	/// cause the application to stop the event loop and quit.
@@ -131,7 +128,7 @@ class UITextInputState: UIState
 
 		self.identifier = id
 
-		setSubState(.parentState, forKeyCode: escapeCharacter)
+		setSubState(.popStackState, forKeyCode: escapeCharacter)
 	}
 
 	internal func runBlock(withInputText text: String)
@@ -157,7 +154,7 @@ extension UIState: Equatable
 
 extension UIKeyCode
 {
-	private static let navigationKeyCodes = [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_ENTER]
+	private static let navigationKeyCodes = [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_PPAGE, KEY_NPAGE]
 
 	var isNavigationKeyCode: Bool
 	{
