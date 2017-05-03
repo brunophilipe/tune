@@ -22,7 +22,7 @@
 import Foundation
 
 /// Simple wrapper around an array that only exposes a traditional Stack interface. You can `push()`, `pop()`, and query the `count` of
-/// elements.
+/// elements; and you can also `empty()` the stack to clear all its elements quickly.
 ///
 /// Ideally this class should be refactored to conform with some Swift collection protocol, but what is here works good enough.
 class Stack<T>
@@ -46,6 +46,12 @@ class Stack<T>
 		{
 			return nil
 		}
+	}
+
+	/// Empties the stack.
+	func empty()
+	{
+		storage.removeAll()
 	}
 
 	/// Returns the amount of elements in the stack.
