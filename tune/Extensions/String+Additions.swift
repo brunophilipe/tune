@@ -31,14 +31,18 @@ extension String
 		}
 		else
 		{
-			let truncationIndex = index(startIndex, offsetBy: maxLength - 1)
-			return (substring(to: truncationIndex).trimmingCharacters(in: .whitespaces) + "…").padded(to: maxLength)
+			let truncationIndex = index(startIndex, offsetBy: max(maxLength - 1, 0))
+			return (substring(to: truncationIndex).trimmingCharacters(in: .whitespaces) + "…").padded(to: max(maxLength, 0))
 		}
 	}
 	
 	func padded(to length: Int, alignLeft: Bool = true) -> String
 	{
-		if width > Int32(length)
+		if length <= 0
+		{
+			return ""
+		}
+		else if width > Int32(length)
 		{
 			return truncated(to: length)
 		}
