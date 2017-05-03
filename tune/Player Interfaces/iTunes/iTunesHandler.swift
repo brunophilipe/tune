@@ -554,18 +554,44 @@ private extension iTunesTrack
 	}
 }
 
+private var libraryRowHashMap: [String: Int]? = nil
+private var usedHashValue: Int = 0
+
 extension iTunesPlaylist
 {
 	func positionOfTrack(_ desiredTrack: iTunesTrack) -> Int?
 	{
-		for index in 0..<tracks!().count
+		// We index the library playlist because the iTunes API does a terrible job at providing a decent war of looking up the row
+		// of a track in a playlist.
+		if self is iTunesLibraryPlaylist
 		{
-			if let track = tracks!()[index] as? iTunesTrack, track.persistentID == desiredTrack.persistentID
+			// We reindex the playlist if its hashValue changes.
+			if libraryRowHashMap == nil || usedHashValue != tracks!().hashValue
 			{
-				return index
+				let tracksArray = tracks!()
+
+				libraryRowHashMap = [String: Int]()
+				usedHashValue = tracksArray.hashValue
+
+				for i in 0 ..< tracksArray.count
+				{
+					libraryRowHashMap![(tracksArray[i] as! iTunesItem).persistentID!] = i
+				}
 			}
+
+			return libraryRowHashMap![desiredTrack.persistentID!]
 		}
-		
-		return nil
+		else
+		{
+			for index in 0..<tracks!().count
+			{
+				if let track = tracks!()[index] as? iTunesTrack, track.persistentID == desiredTrack.persistentID
+				{
+					return index
+				}
+			}
+
+			return nil
+		}
 	}
 }
