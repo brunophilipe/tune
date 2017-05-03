@@ -107,6 +107,7 @@ private class SongInfoPanel: UIPanel
 	private var songNamePanel: UICenteredTitlePanel? = nil
 	private var artistNamePanel: UICenteredTitlePanel? = nil
 	private var albumNamePanel: UICenteredTitlePanel? = nil
+	private var infoIconsPanel: UICenteredTitlePanel? = nil
 
 	var textColor: UIColorPair
 
@@ -198,6 +199,27 @@ private class SongInfoPanel: UIPanel
 				artistNamePanel?.title = nil
 				albumNamePanel?.title = "press s to search for music"
 			}
+
+			if let playbackInfo = playbackInfo
+			{
+				var infoString = ""
+
+				if playbackInfo.shuffleOn
+				{
+					infoString += "⤨ "
+				}
+
+				if playbackInfo.repeatOn
+				{
+					infoString += "⟳ "
+				}
+
+				infoIconsPanel?.title = infoString
+			}
+			else
+			{
+				infoIconsPanel?.title = nil
+			}
 		}
 
 		super.draw()
@@ -209,20 +231,30 @@ private class SongInfoPanel: UIPanel
 		{
 			let attributes: UITextAttributes = [.reverse]
 
-			songNamePanel	= UICenteredTitlePanel(frame: songNamePanelFrame)
-			songNamePanel?.attributes = attributes
-			songNamePanel?.textColor = textColor
-			addSubPanel(songNamePanel!)
+			let songNamePanel	= UICenteredTitlePanel(frame: songNamePanelFrame)
+			songNamePanel.attributes = attributes
+			songNamePanel.textColor = textColor
+			addSubPanel(songNamePanel)
 
-			artistNamePanel = UICenteredTitlePanel(frame: artistNamePanelFrame)
-			artistNamePanel?.attributes = attributes
-			artistNamePanel?.textColor = textColor
-			addSubPanel(artistNamePanel!)
+			let artistNamePanel = UICenteredTitlePanel(frame: artistNamePanelFrame)
+			artistNamePanel.attributes = attributes
+			artistNamePanel.textColor = textColor
+			addSubPanel(artistNamePanel)
 
-			albumNamePanel	= UICenteredTitlePanel(frame: albumNamePanelFrame)
-			albumNamePanel?.attributes = attributes
-			albumNamePanel?.textColor = textColor
-			addSubPanel(albumNamePanel!)
+			let albumNamePanel	= UICenteredTitlePanel(frame: albumNamePanelFrame)
+			albumNamePanel.attributes = attributes
+			albumNamePanel.textColor = textColor
+			addSubPanel(albumNamePanel)
+
+			let infoIconsPanel	= UICenteredTitlePanel(frame: infoIconsPanelFrame)
+			infoIconsPanel.attributes = attributes
+			infoIconsPanel.textColor = textColor
+			addSubPanel(infoIconsPanel)
+
+			self.songNamePanel = songNamePanel
+			self.artistNamePanel = artistNamePanel
+			self.albumNamePanel = albumNamePanel
+			self.infoIconsPanel = infoIconsPanel
 		}
 	}
 
@@ -241,11 +273,17 @@ private class SongInfoPanel: UIPanel
 		return UIFrame(origin: UIPoint(1, 5), size: UISize(frame.width, 1))
 	}
 
+	private var infoIconsPanelFrame: UIFrame
+	{
+		return UIFrame(origin: UIPoint(1, 6), size: UISize(frame.width, 1))
+	}
+
 	private func resizeSongInfoPanels()
 	{
 		songNamePanel?.frame	= songNamePanelFrame
 		artistNamePanel?.frame	= artistNamePanelFrame
 		albumNamePanel?.frame	= albumNamePanelFrame
+		infoIconsPanel?.frame	= infoIconsPanelFrame
 	}
 
 	private func processTrackInformation(_ track: MediaPlayerItem) -> ProcessedTrackInfo

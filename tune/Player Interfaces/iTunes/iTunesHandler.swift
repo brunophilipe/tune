@@ -85,9 +85,14 @@ class iTunesHandler
 
 	var currentPlaybackInfo: MediaPlayerPlaybackInfo?
 	{
-		if let iTunesApp = self.iTunesApp, let progress = iTunesApp.playerPosition, let status = iTunesApp.playerState
+		if let iTunesApp = self.iTunesApp,
+		   let progress = iTunesApp.playerPosition,
+		   let status = iTunesApp.playerState,
+		   let shuffle = iTunesApp.shuffleEnabled
 		{
-			return MediaPlayerPlaybackInfo(progress: progress, status: .init(status))
+			let repeatOn = iTunesApp.songRepeat != .off
+
+			return MediaPlayerPlaybackInfo(progress: progress, status: .init(status), shuffleOn: shuffle, repeatOn: repeatOn)
 		}
 		else
 		{

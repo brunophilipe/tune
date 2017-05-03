@@ -36,6 +36,8 @@ struct MediaPlayerPlaybackInfo
 {
 	let progress: Double
 	let status: PlayerStatus
+	let shuffleOn: Bool
+	let repeatOn: Bool
 
 	enum PlayerStatus
 	{
