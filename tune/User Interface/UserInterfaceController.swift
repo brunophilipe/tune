@@ -103,6 +103,13 @@ class UserInterfaceController
 						if currentState.delegate?.state(currentState, shouldSwitchToState: newState) ?? true
 						{
 							stateStack.push(currentState)
+
+							// We clear the text buffer if we DESCEND into a text input state
+							if newState is UITextInputState
+							{
+								self.textInputBuffer = nil
+							}
+
 							self.currentState = newState
 						}
 					}
