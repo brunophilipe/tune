@@ -123,9 +123,14 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 	{
 		if let listPanel = self.listPanel
 		{
-			if let track = self.track, let row = currentPlaylist?.positionOfTrack(track)
+			if let track = self.track
 			{
-				listPanel.activeRow = row
+				currentPlaylist?.positionOfTrack(track)
+				{
+					row in
+
+					listPanel.activeRow = row
+				}
 			}
 			else
 			{

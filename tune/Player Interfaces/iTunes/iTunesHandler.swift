@@ -559,39 +559,45 @@ private var usedHashValue: Int = 0
 
 extension iTunesPlaylist
 {
-	func positionOfTrack(_ desiredTrack: iTunesTrack) -> Int?
+	func positionOfTrack(_ desiredTrack: iTunesTrack, result: @escaping (Int?) -> Void)
 	{
-		// We index the library playlist because the iTunes API does a terrible job at providing a decent war of looking up the row
-		// of a track in a playlist.
-		if self is iTunesLibraryPlaylist
+		DispatchQueue.global(qos: .background).async
 		{
-			// We reindex the playlist if its hashValue changes.
-			if libraryRowHashMap == nil || usedHashValue != tracks!().hashValue
+			// We index the library playlist because the iTunes API does a terrible job at providing a decent war of looking up the row
+			// of a track in a playlist.
+			if self is iTunesLibraryPlaylist
 			{
-				let tracksArray = tracks!()
-
-				libraryRowHashMap = [String: Int]()
-				usedHashValue = tracksArray.hashValue
-
-				for i in 0 ..< tracksArray.count
+				// We reindex the playlist if its hashValue changes.
+				if libraryRowHashMap == nil || usedHashValue != self.tracks!().hashValue
 				{
-					libraryRowHashMap![(tracksArray[i] as! iTunesItem).persistentID!] = i
-				}
-			}
+					let tracksArray = self.tracks!()
 
-			return libraryRowHashMap![desiredTrack.persistentID!]
-		}
-		else
-		{
-			for index in 0..<tracks!().count
+					libraryRowHashMap = [String: Int]()
+					usedHashValue = tracksArray.hashValue
+
+					for i in 0 ..< tracksArray.count
+					{
+						libraryRowHashMap![(tracksArray[i] as! iTunesItem).persistentID!] = i
+					}
+				}
+
+				result(libraryRowHashMap![desiredTrack.persistentID!])
+			}
+			else
 			{
-				if let track = tracks!()[index] as? iTunesTrack, track.persistentID == desiredTrack.persistentID
-				{
-					return index
-				}
-			}
+				var foundIndex: Int? = nil
 
-			return nil
+				for index in 0..<self.tracks!().count
+				{
+					if let track = self.tracks!()[index] as? iTunesTrack, track.persistentID == desiredTrack.persistentID
+					{
+						foundIndex = index
+						break
+					}
+				}
+				
+				result(foundIndex)
+			}
 		}
 	}
 }
