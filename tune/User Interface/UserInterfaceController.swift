@@ -95,9 +95,15 @@ class UserInterfaceController
 							self.currentState = popStackState
 						}
 
+					case UIState.popToRootState:
+						if currentState.delegate?.state(currentState, shouldSwitchToState: rootState) ?? true
+						{
+							popToRootState()
+						}
+
 					case UIState.quitState:
 						stop = true
-						
+
 					default:
 						// If a delegate is set, we ask it if we should descend into the substate. If there's no delegate, we assume `true`.
 						if currentState.delegate?.state(currentState, shouldSwitchToState: newState) ?? true
@@ -175,6 +181,12 @@ class UserInterfaceController
 			}
 		}
 		while !stop
+	}
+
+	func popToRootState()
+	{
+		stateStack.empty()
+		self.currentState = rootState
 	}
 }
 

@@ -89,6 +89,11 @@ class UserInterface
 		controller?.runEventLoop()
 	}
 
+	func popToRootState()
+	{
+		controller?.popToRootState()
+	}
+
 	func registerColorPair(fore: Int32, back: Int32) -> UIColorPair
 	{
 		registeredColorsCount += 1

@@ -402,6 +402,8 @@ fileprivate extension SearchWindowController // Media Player
 		{
 			let track = results[selectedRow]
 			mediaPlayer.play(track: track)
+
+			userInterface?.popToRootState()
 		}
 	}
 }

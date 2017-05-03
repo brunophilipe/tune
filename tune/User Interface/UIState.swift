@@ -82,8 +82,12 @@ class UIState
 	}
 
 	/// Use this proxy state in the subStates array to represent which key should
-	/// return the application to the parent state of the current state.
+	/// return the application to the previous state of the current state.
 	static var popStackState = UIState(label: "back")
+
+	/// Use this proxy state in the subStates array to represent which key should
+	/// return the application to the root state.
+	static var popToRootState = UIState(label: "back")
 
 	/// Use this proxy state in the subStates array to represent which key should
 	/// cause the application to stop the event loop and quit.
