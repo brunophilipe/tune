@@ -69,8 +69,8 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 						dialog.pullToTop()
 					}
 
-					// These states are equivalent, so we remove the redundancy right away
-					if id == UIState.TuneStates.search, lastSearchResult?.query == ""
+					// If we arrive in this state, we always want to clear the old results (if any)
+					if id == UIState.TuneStates.search
 					{
 						lastSearchResult = nil
 					}
