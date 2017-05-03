@@ -102,7 +102,7 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 
 private class SongInfoPanel: UIPanel
 {
-	private var lastTrackId: Int? = nil
+	private var oldTrackId: String? = nil
 
 	private var songNamePanel: UICenteredTitlePanel? = nil
 	private var artistNamePanel: UICenteredTitlePanel? = nil
@@ -145,11 +145,11 @@ private class SongInfoPanel: UIPanel
 			let maxLength = Int(frame.width - 3)
 
 			// Clean if the track changed
-			if track?.id!() != lastTrackId
+			if track?.persistentID != oldTrackId
 			{
 				window.cleanRegion(frame: frame)
 
-				lastTrackId = track?.id!()
+				oldTrackId = track?.persistentID
 			}
 
 			if maxLength > 7, let track = track

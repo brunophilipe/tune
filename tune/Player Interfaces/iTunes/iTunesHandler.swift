@@ -548,7 +548,7 @@ extension iTunesPlaylist
 	{
 		for index in 0..<tracks!().count
 		{
-			if let track = tracks!()[index] as? iTunesTrack, track.id!() == desiredTrack.id!()
+			if let track = tracks!()[index] as? iTunesTrack, track.persistentID == desiredTrack.persistentID
 			{
 				return index
 			}

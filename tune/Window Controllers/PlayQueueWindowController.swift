@@ -32,8 +32,8 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 	private var listPanel: UIListPanel? = nil
 	private var footerPanel: UICenteredTitlePanel? = nil
 
-	private var oldTrackId: Int? = nil
-	private var oldPlaylistId: Int? = nil
+	private var oldTrackId: String? = nil
+	private var oldPlaylistId: String? = nil
 
 	var window: UIWindow
 	{
@@ -44,10 +44,10 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 	{
 		didSet
 		{
-			if track?.id!() != oldTrackId
+			if track?.persistentID != oldTrackId
 			{
 				updateActiveItem()
-				oldTrackId = track?.id!()
+				oldTrackId = track?.persistentID
 			}
 		}
 	}
@@ -56,11 +56,11 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 	{
 		didSet
 		{
-			if currentPlaylist?.id!() != oldPlaylistId
+			if currentPlaylist?.persistentID != oldPlaylistId
 			{
 				updateActiveItem()
 				updateFooterText()
-				oldPlaylistId = currentPlaylist?.id!()
+				oldPlaylistId = currentPlaylist?.persistentID
 			}
 		}
 	}
