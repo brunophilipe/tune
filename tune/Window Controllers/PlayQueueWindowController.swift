@@ -123,14 +123,10 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 	{
 		if let listPanel = self.listPanel
 		{
-			if let track = self.track
+			if let trackIndex = self.track?.index
 			{
-				currentPlaylist?.positionOfTrack(track)
-				{
-					row in
-
-					listPanel.activeRow = row
-				}
+				// ScriptingBridge indexes start at 1
+				listPanel.activeRow = trackIndex - 1
 			}
 			else
 			{

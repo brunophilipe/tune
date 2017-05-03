@@ -68,9 +68,9 @@ class Main
 						desiree.playbackInfo	= iTunes.currentPlaybackInfo
 					}
 
-					if var desiree = controller as? DesiresCurrentPlaylist
+					if var desiree = controller as? DesiresCurrentPlaylist, let playlist = iTunes.currentPlaylist?.get() as? iTunesPlaylist
 					{
-						desiree.currentPlaylist = iTunes.currentPlaylist
+						desiree.currentPlaylist = playlist
 					}
 
 					if var desiree = controller as? DesiresCurrentState
