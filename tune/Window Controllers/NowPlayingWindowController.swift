@@ -192,6 +192,12 @@ private class SongInfoPanel: UIPanel
 				                withColorPair: textColor)
 				
 			}
+			else
+			{
+				songNamePanel?.title = "Nothing..."
+				artistNamePanel?.title = nil
+				albumNamePanel?.title = "press s to search for music"
+			}
 		}
 
 		super.draw()
