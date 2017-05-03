@@ -303,7 +303,7 @@ extension SearchWindowController: SearchEngineDelegate
 		lastSearchResult = result
 	}
 
-	func searchEngine(_ searchEngine: SearchEngine, getErrorForSearchWithQuery text: String)
+	func searchEngine(_ searchEngine: SearchEngine, gotErrorForSearchWithQuery text: String)
 	{
 
 	}

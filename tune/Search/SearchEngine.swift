@@ -28,7 +28,7 @@ class SearchEngine
 				}
 				else
 				{
-					delegate.searchEngine(self, getErrorForSearchWithQuery: text)
+					delegate.searchEngine(self, gotErrorForSearchWithQuery: text)
 				}
 			}
 		}
@@ -47,7 +47,7 @@ class SearchEngine
 				}
 				else
 				{
-					delegate.searchEngine(self, getErrorForSearchWithQuery: text)
+					delegate.searchEngine(self, gotErrorForSearchWithQuery: text)
 				}
 			}
 		}
@@ -66,7 +66,7 @@ class SearchEngine
 				}
 				else
 				{
-					delegate.searchEngine(self, getErrorForSearchWithQuery: text)
+					delegate.searchEngine(self, gotErrorForSearchWithQuery: text)
 				}
 			}
 		}
@@ -83,7 +83,7 @@ protocol MediaSearchable
 protocol SearchEngineDelegate
 {
 	func searchEngine(_ searchEngine: SearchEngine, gotSearchResult: SearchResult)
-	func searchEngine(_ searchEngine: SearchEngine, getErrorForSearchWithQuery text: String)
+	func searchEngine(_ searchEngine: SearchEngine, gotErrorForSearchWithQuery text: String)
 }
 
 class SearchResult
