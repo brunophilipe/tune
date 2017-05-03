@@ -36,7 +36,7 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 		didSet
 		{
 			updateTitleFooterPanels()
-			listPanel?.activeRow = lastSearchResult != nil ? 0 : nil
+			updateActiveRow()
 			listPanel?.needsRedraw = true
 		}
 	}
@@ -75,6 +75,7 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 						lastSearchResult = nil
 					}
 
+					updateActiveRow()
 					updateTitleFooterPanels()
 				}
 				else
@@ -173,6 +174,10 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 			text = lastSearchResult?.query
 			footer?.append(" - press \(KEY_RETURN.display) to browse results")
 
+		case .some(UIState.TuneStates.searchPlaylists):
+			footer?.append(" - Use ↑ and ↓ to navigate")
+			fallthrough
+
 		default:
 			if lastSearchResult != nil
 			{
@@ -190,6 +195,18 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 		footerPanel?.title = footer
 	}
 
+	private func updateActiveRow()
+	{
+		if lastSearchResult != nil, currentState?.identifier == UIState.TuneStates.searchBrowsing
+		{
+			listPanel?.activeRow = 0
+		}
+		else
+		{
+			listPanel?.activeRow = nil
+		}
+	}
+
 	fileprivate func processNavigationKeyEvent(_ keyCode: UIKeyCode)
 	{
 		if let result = lastSearchResult, let listPanel = self.listPanel
@@ -202,7 +219,7 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 				activeRow = max(activeRow - 1, 0)
 
 			case KEY_DOWN:
-				activeRow = min(activeRow + 1, result.resultItems.count)
+				activeRow = min(activeRow + 1, result.resultItems.count - 1)
 
 			default:
 				break
@@ -270,7 +287,7 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 
 	private var listPanelFrame: UIFrame
 	{
-		return UIFrame(origin: UIPoint(1, 2), size: window.frame.size.offset(x: -2, y: -3))
+		return UIFrame(origin: UIPoint(1, 2), size: window.frame.size.offset(x: -2, y: -4))
 	}
 
 	private var footerPanelFrame: UIFrame
@@ -358,7 +375,7 @@ extension SearchWindowController: UIListPanelDataSource
 			{
 			case 0: return String(row + 1)
 			case 1: return item.name
-			case 2: return item.artist
+			case 2: return "\(item.artist) - \(item.album)"
 			case 3: return item.time
 
 			default: return ""
