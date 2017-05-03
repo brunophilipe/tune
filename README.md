@@ -4,8 +4,6 @@ Control iTunes from the command line
 
 ---
 
-<script type="text/javascript" src="https://asciinema.org/a/118730.js" id="asciicast-118730" async></script>
-
 ![screenshot](http://i.imgur.com/cvQBFbI.png)
 
 This is an experiment on `ncurses`, `ScriptingBridge`, and `Swift`.
