@@ -22,6 +22,7 @@
 		1564DF9A1EB6A4890042EA7F /* CommandsBarWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564DF991EB6A4890042EA7F /* CommandsBarWindowController.swift */; };
 		159679D71EB7F0BB001DC3B6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150FEB561D46ACF100147D0C /* main.swift */; };
 		159679D91EB7F1D6001DC3B6 /* UITextPromptPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159679D81EB7F1D6001DC3B6 /* UITextPromptPanel.swift */; };
+		159679DB1EB95157001DC3B6 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159679DA1EB95157001DC3B6 /* Stack.swift */; };
 		15BA30041EB6B34700AB691B /* UICenteredTitlePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30031EB6B34700AB691B /* UICenteredTitlePanel.swift */; };
 		15BA30061EB6CFC200AB691B /* SearchWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA30051EB6CFC200AB691B /* SearchWindowController.swift */; };
 		15D00C601EB7D7C4000E9782 /* iTunes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D00C5B1EB7D7C4000E9782 /* iTunes.swift */; };
@@ -80,6 +81,7 @@
 		1564DF971EB6A1E60042EA7F /* UIControlBarPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIControlBarPanel.swift; sourceTree = "<group>"; };
 		1564DF991EB6A4890042EA7F /* CommandsBarWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandsBarWindowController.swift; sourceTree = "<group>"; };
 		159679D81EB7F1D6001DC3B6 /* UITextPromptPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextPromptPanel.swift; sourceTree = "<group>"; };
+		159679DA1EB95157001DC3B6 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		15BA30031EB6B34700AB691B /* UICenteredTitlePanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICenteredTitlePanel.swift; sourceTree = "<group>"; };
 		15BA30051EB6CFC200AB691B /* SearchWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchWindowController.swift; sourceTree = "<group>"; };
 		15D00C561EB7D603000E9782 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -150,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				150FEB561D46ACF100147D0C /* main.swift */,
+				159679DA1EB95157001DC3B6 /* Stack.swift */,
 				15FFB3C21EB2D01B00634F1A /* User Interface */,
 				15F0CDDC1EB42001009B13CA /* Extensions */,
 				1564DF841EB6555C0042EA7F /* Window Controllers */,
@@ -381,6 +384,7 @@
 				15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */,
 				1564DF811EB64CB40042EA7F /* UIPanel.swift in Sources */,
 				15D00C631EB7D7C4000E9782 /* iTunesTools.m in Sources */,
+				159679DB1EB95157001DC3B6 /* Stack.swift in Sources */,
 				15FFB3C81EB2D09D00634F1A /* UserInterface.swift in Sources */,
 				1564DF881EB656370042EA7F /* LogoWindowController.swift in Sources */,
 				15E8EE231D46C18B00B8C266 /* CodesParser.swift in Sources */,
