@@ -87,7 +87,7 @@ class UIListPanel: UIPanel
 				}
 				else if activeRow > (lastMinRow + maxRow) - 3
 				{
-					lastMinRow = min((activeRow - maxRow) + 3, rowCount)
+					lastMinRow = min((activeRow - maxRow) + 3, rowCount - maxRow)
 				}
 				else if activeRow < lastMinRow + 2
 				{
