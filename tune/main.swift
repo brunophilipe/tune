@@ -68,7 +68,7 @@ class Main
 						desiree.playbackInfo	= iTunes.currentPlaybackInfo
 					}
 
-					if var desiree = controller as? DesiresCurrentPlaylist, let playlist = iTunes.currentPlaylist?.get() as? iTunesPlaylist
+					if var desiree = controller as? DesiresCurrentPlaylist, let playlist = iTunes.currentPlaylist
 					{
 						desiree.currentPlaylist = playlist
 					}
@@ -169,17 +169,17 @@ class Main
 
 protocol DesiresTrackInfo
 {
-	var track: iTunesTrack? { get set }
+	var track: MediaPlayerItem? { get set }
 }
 
 protocol DesiresPlaybackInfo
 {
-	var playbackInfo: iTunesPlaybackInfo? { get set }
+	var playbackInfo: MediaPlayerPlaybackInfo? { get set }
 }
 
 protocol DesiresCurrentPlaylist
 {
-	var currentPlaylist: iTunesPlaylist? { get set }
+	var currentPlaylist: MediaPlayerPlaylist? { get set }
 }
 
 protocol DesiresCurrentState

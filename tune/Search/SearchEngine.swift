@@ -88,20 +88,12 @@ protocol SearchEngineDelegate
 
 class SearchResult
 {
-	let resultItems: [SearchResultItem]
+	let resultItems: [MediaPlayerItem]
 	let query: String
 
-	init(withItems items: [SearchResultItem], forQuery query: String)
+	init(withItems items: [MediaPlayerItem], forQuery query: String)
 	{
 		self.resultItems = items
 		self.query = query
 	}
-}
-
-protocol SearchResultItem
-{
-	var name: String { get }
-	var artist: String { get }
-	var album: String { get }
-	var time: String { get }
 }

@@ -32,35 +32,35 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 	private var listPanel: UIListPanel? = nil
 	private var footerPanel: UICenteredTitlePanel? = nil
 
-	private var oldTrackId: String? = nil
-	private var oldPlaylistId: String? = nil
+	private var oldTrack: MediaPlayerItem? = nil
+	private var oldPlaylist: MediaPlayerPlaylist? = nil
 
 	var window: UIWindow
 	{
 		return windowStorage
 	}
 
-	var track: iTunesTrack? = nil
+	var track: MediaPlayerItem? = nil
 	{
 		didSet
 		{
-			if track?.persistentID != oldTrackId
+			if track != oldTrack
 			{
 				updateActiveItem()
-				oldTrackId = track?.persistentID
+				oldTrack = track
 			}
 		}
 	}
 
-	var currentPlaylist: iTunesPlaylist? = nil
+	var currentPlaylist: MediaPlayerPlaylist? = nil
 	{
 		didSet
 		{
-			if currentPlaylist?.persistentID != oldPlaylistId
+			if currentPlaylist != oldPlaylist
 			{
 				updateActiveItem()
 				updateFooterText()
-				oldPlaylistId = currentPlaylist?.persistentID
+				oldPlaylist = currentPlaylist
 			}
 		}
 	}
@@ -140,9 +140,9 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 		if let playlist = self.currentPlaylist
 		{
 			let footerText: String
-			let count = playlist.tracks!().count
+			let count = playlist.count
 
-			if let duration = playlist.duration
+			if let duration = playlist.time
 			{
 				footerText = "\(count) tracks – \(Double(duration).longDurationString)"
 			}
@@ -184,7 +184,7 @@ extension PlayQueueWindowController: UIListPanelDataSource
 {
 	func numberOfRowsForListPanel(_ listPanel: UIListPanel) -> Int
 	{
-		return currentPlaylist?.tracks!().count ?? 0
+		return currentPlaylist?.count ?? 0
 	}
 
 	func numberOfColumnsForListPanel(_ listPanel: UIListPanel) -> Int
@@ -196,8 +196,8 @@ extension PlayQueueWindowController: UIListPanelDataSource
 	{
 		switch column
 		{
-		case 0: return Int("\(currentPlaylist?.tracks!().count ?? 1)".width)
-		case 1: return Int(listPanel.frame.width) - 7 - Int("\(currentPlaylist?.tracks!().count ?? 1)".width)
+		case 0: return Int("\(currentPlaylist?.count ?? 1)".width)
+		case 1: return Int(listPanel.frame.width) - 7 - Int("\(currentPlaylist?.count ?? 1)".width)
 		case 2: return 5
 
 		default:
@@ -221,13 +221,13 @@ extension PlayQueueWindowController: UIListPanelDataSource
 
 	func listPanel(_ listPanel: UIListPanel, textForColumn column: Int, ofRow row: Int) -> String
 	{
-		if let playlist = self.currentPlaylist, let track = playlist.tracks!()[row] as? iTunesTrack
+		if let playlist = self.currentPlaylist, let track = playlist.item(at: row)
 		{
 			switch column
 			{
 			case 0: return "\(row+1)"
-			case 1: return "\(track.name ?? kUnknownTrack)"
-			case 2: return track.duration?.durationString ?? "--"
+			case 1: return track.name
+			case 2: return track.time?.durationString ?? "--:--"
 
 			default:
 				return ""

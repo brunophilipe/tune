@@ -53,11 +53,11 @@ typealias Verb = (names: [String], brief: String, description: [String], extra: 
 
 class iTunesHandler
 {
-	var currentTrack: iTunesTrack?
+	var currentTrack: MediaPlayerItem?
 	{
-		if let track = iTunesApp?.currentTrack, track.duration > 0
+		if let track = iTunesApp?.currentTrack?.get() as? iTunesTrack, track.duration > 0
 		{
-			return track
+			return iTunesTrackMediaItem(track: track)
 		}
 		else
 		{
@@ -65,16 +65,29 @@ class iTunesHandler
 		}
 	}
 	
-	var currentPlaylist: iTunesPlaylist?
+	var currentPlaylist: MediaPlayerPlaylist?
 	{
-		return iTunesApp?.currentPlaylist
+		if let track = iTunesApp?.currentTrack?.get() as? iTunesTrack, track.duration > 0,
+		   let playlist = track.container?.get() as? iTunesPlaylist
+		{
+			// This returns a playlist that's more likely to have the correct track `index` property, since it depends on the sorting.
+			return iTunesMediaPlaylist(playlist: playlist)
+		}
+		else if let playlist = iTunesApp?.currentPlaylist?.get() as? iTunesPlaylist
+		{
+			return iTunesMediaPlaylist(playlist: playlist)
+		}
+		else
+		{
+			return nil
+		}
 	}
 
-	var currentPlaybackInfo: iTunesPlaybackInfo?
+	var currentPlaybackInfo: MediaPlayerPlaybackInfo?
 	{
 		if let iTunesApp = self.iTunesApp, let progress = iTunesApp.playerPosition, let status = iTunesApp.playerState
 		{
-			return iTunesPlaybackInfo(progress: progress, status: status)
+			return MediaPlayerPlaybackInfo(progress: progress, status: .init(status))
 		}
 		else
 		{
@@ -87,56 +100,11 @@ class iTunesHandler
 	init()
 	{
 		iTunesApp = SBApplication(bundleIdentifier: "com.apple.iTunes")
+
+		iTunesApp?.setFixedIndexing!(true)
 	}
 
-	/*
-	
-	fileprivate func runParser(_ arguments: [String]) -> Bool
-	{
-		if arguments.count < 2
-		{
-			return false
-		}
-		
-		switch arguments[1]
-		{
-		case "help":
-			printUsage()
-			
-		case "play":
-			iTunesApp?.playpause!()
-			
-		case "pause":
-			iTunesApp?.pause!()
-			
-		case "stop":
-			iTunesApp?.stop!()
-			
-		case "next", "n":
-			iTunesApp?.nextTrack!()
-			
-		case "prev", "p", "previous":
-			iTunesApp?.previousTrack!()
-			
-		case "search", "s":
-			runTrackSearch(arguments)
-			
-		case "album", "a":
-			runAlbumSearch(arguments)
-			
-		case "info", "i":
-			printCurrentTrackInfo()
-			
-		default:
-			return false
-		}
-		
-		return true
-	}
-
-	*/
-	
-	fileprivate func runTrackSearch(_ searchString: String) -> [SearchResultItem]
+	fileprivate func runTrackSearch(_ searchString: String) -> [MediaPlayerItem]
 	{
 		if searchString.characters.count == 0
 		{
@@ -152,60 +120,15 @@ class iTunesHandler
 				return []
 			}
 
-			var processedResults = [SearchResultItem]()
+			var processedResults = [MediaPlayerItem]()
 			
 			for result in results
 			{
 				if let track = result as? iTunesTrack
 				{
-					processedResults.append(iTunesTrackSearchResult(track: track))
+					processedResults.append(iTunesTrackMediaItem(track: track))
 				}
 			}
-
-			/*
-			
-			if let input = getUserInput()
-			{
-				if input == "a", let queue = getQueuePlaylist()
-				{
-					for i in 0 ..< displayCount
-					{
-						if let track = results[i] as? iTunesTrack
-						{
-							_ = track.duplicateTo!(queue as! SBObject)
-						}
-					}
-					
-					queue.playOnce!(true)
-					
-					print("Playing all results as a queue. Enjoy the music!")
-					return
-				}
-				else if let number = Int(input)
-				{
-					if number == 0
-					{
-						print("Exiting on user request.")
-						return
-					}
-					else if number > 0 && number <= displayCount
-					{
-						if let track = results[number-1] as? iTunesTrack
-						{
-							track.playOnce!(true)
-							print("Enjoy the music!")
-							return
-						}
-					}
-					else
-					{
-						print("Invalid user input \"\(number)\". Exiting.")
-						return
-					}
-				}
-			}
-
-			*/
 
 			return processedResults
 		}
@@ -215,60 +138,27 @@ class iTunesHandler
 		}
 	}
 	
-	fileprivate func runAlbumSearch(_ arguments: [String])
+	fileprivate func runAlbumSearch(_ searchString: String)
 	{
-		if arguments.count < 3
-		{
-			print("No search arguments provided!\n")
-			return
-		}
-		
-		let searchString = arguments.suffix(from: 2).joined(separator: " ")
-		
-		if searchString.characters.count == 0
-		{
-			print("No search arguments provided!\n")
-			return
-		}
-		
 		if let libraryPlaylist = getLibraryPlaylist()
 		{
-			print("Searching albums for \"\(searchString)\"...")
-			
 			let results = libraryPlaylist.searchFor!(searchString, only: .all)
 			var albums: [(human: String, query: String)] = []
 			
 			for result in results
 			{
 				if let track = result as? iTunesTrack,
-					   let albumDesc = track.prettyAlbumDescription,
-					   let albumQuery = track.searchableAlbumDescription, !albums.contains(
-					where: { entry in
-						return albumQuery == entry.query
-					})
+					let albumDesc = track.prettyAlbumDescription,
+					let albumQuery = track.searchableAlbumDescription,
+					!albums.contains(where:
+						{
+							entry in
+
+							return albumQuery == entry.query
+						})
 				{
 					albums.append((albumDesc, albumQuery))
 				}
-			}
-			
-			let maxCount = 9
-			let displayCount = min(albums.count, maxCount)
-			
-			if albums.count == 0
-			{
-				print("Got no results for your search. Please try a different search argument.\n")
-				return
-			}
-			else
-			{
-				let word = albums.count > displayCount ? "top" : "all"
-				print("Listing \(displayCount != 1 ? word+" " : "")\(displayCount) result\(displayCount != 1 ? "s" : ""):")
-			}
-			
-			for i in 0 ..< displayCount
-			{
-				let listItem = "[\(i+1)]".bold
-				print("\t\(listItem): \(albums[i].human)")
 			}
 
 			/*
@@ -348,7 +238,7 @@ class iTunesHandler
 		for playlistElement in librarySource?.playlists!() as SBElementArray!
 		{
 			if let playlist = playlistElement as? iTunesPlaylist, playlist.specialKind == .library,
-			   let libraryPlaylist = playlist as? iTunesLibraryPlaylist
+			   let libraryPlaylist = playlist.get() as? iTunesLibraryPlaylist
 			{
 				return libraryPlaylist
 			}
@@ -390,7 +280,7 @@ class iTunesHandler
 		// Create new playlist
 		if let object = iTunesTools.instantiateObject(from: iTunesApp as! SBApplication,
 		                                              typeName: "playlist",
-		                                              andProperties: ["name": "tune"])
+		                                              andProperties: ["name": "tune", "visible": false])
 		{
 			let playlists = (librarySource?.playlists!() as SBElementArray!) as NSMutableArray
 			playlists.add(object)
@@ -399,6 +289,23 @@ class iTunesHandler
 		}
 		
 		return nil
+	}
+}
+
+private extension MediaPlayerPlaybackInfo.PlayerStatus
+{
+	/// Maps from an iTunes internal `iTunesEPlS` type to the generic `MediaPlayerPlaybackInfo.PlayerStatus` type.
+	init(_ status: iTunesEPlS)
+	{
+		switch status
+		{
+		case .playing: self = .playing
+		case .paused:  self = .paused
+		case .stopped: self = .stopped
+
+		// The MediaPlayer protocol doesn't yet support advanced states
+		default: self = .playing
+		}
 	}
 }
 
@@ -454,9 +361,9 @@ extension iTunesHandler: MediaPlayer
 
 	// MARK: - Media control functions
 
-	func play(track: SearchResultItem)
+	func play(track: MediaPlayerItem)
 	{
-		if let iTunesItem = track as? iTunesTrackSearchResult
+		if let iTunesItem = track as? iTunesTrackMediaItem
 		{
 			iTunesItem.track.playOnce!(true)
 		}
@@ -468,19 +375,18 @@ func pprint(_ string: String)
 	print(string.replacingOccurrences(of: "\t", with: "        "))
 }
 
-struct iTunesPlaybackInfo
-{
-	let progress: Double
-	let status: iTunesEPlS
-}
-
-struct iTunesTrackSearchResult: SearchResultItem
+struct iTunesTrackMediaItem: MediaPlayerItem
 {
 	fileprivate let track: iTunesTrack
 
 	fileprivate init(track: iTunesTrack)
 	{
 		self.track = track
+	}
+
+	var kind: MediaPlayerItemKind
+	{
+		return .track
 	}
 
 	var name: String
@@ -498,9 +404,128 @@ struct iTunesTrackSearchResult: SearchResultItem
 		return track.album ?? kUnknownAlbum
 	}
 
-	var time: String
+	var time: Double?
 	{
-		return track.duration?.durationString ?? "--:--"
+		return track.duration
+	}
+
+	var index: Int?
+	{
+		return track.index
+	}
+
+	var year: String?
+	{
+		if let year = track.year, year > 0
+		{
+			return "\(year)"
+		}
+		else
+		{
+			return nil
+		}
+	}
+
+	func compare(_ otherItem: MediaPlayerItem?) -> Bool
+	{
+		if let otherItem = otherItem, otherItem.kind == kind, let otherTrack = (otherItem as? iTunesTrackMediaItem)?.track
+		{
+			return otherTrack.persistentID == track.persistentID
+		}
+
+		return false
+	}
+}
+
+struct iTunesAlbumMediaItem: MediaPlayerItem
+{
+	var kind: MediaPlayerItemKind
+	{
+		return .album
+	}
+
+	var name: String
+	{
+		return ""
+	}
+
+	var artist: String
+	{
+		return ""
+	}
+
+	var album: String
+	{
+		return ""
+	}
+
+	var year: String?
+	{
+		return ""
+	}
+
+	var time: Double?
+	{
+		return nil
+	}
+
+	var index: Int?
+	{
+		return nil
+	}
+
+	func compare(_ otherItem: MediaPlayerItem?) -> Bool
+	{
+		return false
+	}
+}
+
+struct iTunesMediaPlaylist: MediaPlayerPlaylist
+{
+	fileprivate let playlist: iTunesPlaylist
+
+	fileprivate init(playlist: iTunesPlaylist)
+	{
+		self.playlist = playlist
+	}
+
+	var name: String?
+	{
+		return playlist.name
+	}
+
+	var count: Int
+	{
+		return playlist.tracks?().count ?? 0
+	}
+
+	var time: Double?
+	{
+		if let duration = playlist.duration
+		{
+			return Double(duration)
+		}
+		else
+		{
+			return nil
+		}
+	}
+
+	func item(at index: Int) -> MediaPlayerItem?
+	{
+		if let tracks = playlist.tracks?(), index < tracks.count, let track = tracks.object(at: index) as? iTunesTrack
+		{
+			return iTunesTrackMediaItem(track: track)
+		}
+		else
+		{
+			return nil
+		}
+	}
+
+	func compare(_ otherPlaylist: MediaPlayerPlaylist?) -> Bool
+	{
+		return (otherPlaylist as? iTunesMediaPlaylist)?.playlist.persistentID == playlist.persistentID
 	}
 }
 
@@ -509,7 +534,7 @@ private extension iTunesTrack
 	var prettyAlbumDescription: String?
 	{
 		var artistName = self.artist
-		
+
 		if artistName == nil || artistName == ""
 		{
 			artistName = kUnknownArtist

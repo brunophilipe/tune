@@ -36,8 +36,8 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 		return windowStorage
 	}
 
-	var track: iTunesTrack? = nil
-	var playbackInfo: iTunesPlaybackInfo? = nil
+	var track: MediaPlayerItem? = nil
+	var playbackInfo: MediaPlayerPlaybackInfo? = nil
 
 	required init(userInterface: UserInterface)
 	{
@@ -102,7 +102,7 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 
 private class SongInfoPanel: UIPanel
 {
-	private var oldTrackId: String? = nil
+	private var oldTrack: MediaPlayerItem? = nil
 
 	private var songNamePanel: UICenteredTitlePanel? = nil
 	private var artistNamePanel: UICenteredTitlePanel? = nil
@@ -145,11 +145,11 @@ private class SongInfoPanel: UIPanel
 			let maxLength = Int(frame.width - 3)
 
 			// Clean if the track changed
-			if track?.persistentID != oldTrackId
+			if track != oldTrack
 			{
 				window.cleanRegion(frame: frame)
 
-				oldTrackId = track?.persistentID
+				oldTrack = track
 			}
 
 			if maxLength > 7, let track = track
@@ -175,7 +175,7 @@ private class SongInfoPanel: UIPanel
 				let barLength = availableWidth - lengthStr.width - progressStr.width - 4
 				var playedBarLength: Int32 = 0
 
-				if let duration = track.duration, let progress = playbackInfo?.progress, progress > 0
+				if let duration = track.time, let progress = playbackInfo?.progress, progress > 0
 				{
 					playedBarLength = Int32(ceil(Double(barLength) * (progress / duration)))
 				}
@@ -248,45 +248,16 @@ private class SongInfoPanel: UIPanel
 		albumNamePanel?.frame	= albumNamePanelFrame
 	}
 
-	private func processTrackInformation(_ track: iTunesTrack) -> ProcessedTrackInfo
+	private func processTrackInformation(_ track: MediaPlayerItem) -> ProcessedTrackInfo
 	{
-		var artist = track.artist
-		var title = track.name
 		var album = track.album
 
-		if artist == nil || artist?.characters.count == 0
+		if let year = track.year
 		{
-			artist = kUnknownArtist
+			album += " (\(year))"
 		}
 
-		if title == nil || title?.characters.count == 0
-		{
-			title = kUnknownTrack
-		}
-
-		let year: String?
-
-		if let y = track.year, y > 0
-		{
-			year = "\(y)"
-		}
-		else
-		{
-			year = nil
-		}
-
-		if album == nil || album?.characters.count == 0
-		{
-			album = kUnknownAlbum
-		}
-		else if album != nil, let year = year
-		{
-			album! += " (\(year))"
-		}
-
-		let durString = (track.duration ?? 0.0).durationString
-
-		return ProcessedTrackInfo(title: title!, artist: artist!, album: album!, duration: durString)
+		return ProcessedTrackInfo(title: track.name, artist: track.artist, album: album, duration: track.time?.durationString ?? "--:--")
 	}
 
 	private struct ProcessedTrackInfo

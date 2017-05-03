@@ -384,7 +384,7 @@ extension SearchWindowController: UIListPanelDataSource
 			case 0: return String(row + 1)
 			case 1: return item.name
 			case 2: return "\(item.artist) - \(item.album)"
-			case 3: return item.time
+			case 3: return item.time?.durationString ?? "--:--"
 
 			default: return ""
 			}
