@@ -25,6 +25,8 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 {
 	internal weak var userInterface: UserInterface?
 
+	fileprivate weak var searchEngine: SearchEngine? = nil
+
 	private var dialog: UIDialog
 	private var boxPanel: UIBoxPanel? = nil
 	private var titlePanel: UITextPromptPanel? = nil
@@ -39,6 +41,11 @@ class SearchWindowController: UIWindowController, DesiresCurrentState
 			updateActiveRow()
 			listPanel?.needsRedraw = true
 		}
+	}
+
+	fileprivate var selectedRow: Int?
+	{
+		return listPanel?.activeRow
 	}
 
 	private let searchStates: [Int] = [
@@ -300,12 +307,13 @@ extension SearchWindowController: SearchEngineDelegate
 {
 	func searchEngine(_ searchEngine: SearchEngine, gotSearchResult result: SearchResult)
 	{
+		self.searchEngine = searchEngine
 		lastSearchResult = result
 	}
 
 	func searchEngine(_ searchEngine: SearchEngine, gotErrorForSearchWithQuery text: String)
 	{
-
+		self.searchEngine = searchEngine
 	}
 }
 
@@ -383,5 +391,36 @@ extension SearchWindowController: UIListPanelDataSource
 		}
 
 		return ""
+	}
+}
+
+fileprivate extension SearchWindowController // Media Player
+{
+	func playSelectedTrackOnly()
+	{
+		if let results = lastSearchResult?.resultItems, let selectedRow = self.selectedRow, let mediaPlayer = searchEngine?.mediaPlayer
+		{
+			let track = results[selectedRow]
+			mediaPlayer.play(track: track)
+		}
+	}
+}
+
+class SearchResultsBrowserState: UIState
+{
+	init()
+	{
+		super.init(label: "browse results", id: UIState.TuneStates.searchBrowsing)
+
+		setSubState(.popStackState, forKeyCode: KEY_ESCAPE)
+		setSubState(UIControlState(label: "play song", playResultSong), forKeyCode: KEY_RETURN)
+	}
+
+	private func playResultSong()
+	{
+		if let controller = self.delegate as? SearchWindowController
+		{
+			controller.playSelectedTrackOnly()
+		}
 	}
 }

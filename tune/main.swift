@@ -134,8 +134,7 @@ class Main
 
 		// Search Results Browsing State
 
-		let searchBrowseState = UIState(label: "browse results", id: UIState.TuneStates.searchBrowsing)
-		searchBrowseState.setSubState(.popStackState, forKeyCode: KEY_ESCAPE)
+		let searchBrowseState = SearchResultsBrowserState()
 		searchTracksState.setSubState(searchBrowseState, forKeyCode: KEY_RETURN)
 		searchAlbumsState.setSubState(searchBrowseState, forKeyCode: KEY_RETURN)
 		searchPlaylistsState.setSubState(searchBrowseState, forKeyCode: KEY_RETURN)

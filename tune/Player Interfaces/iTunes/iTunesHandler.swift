@@ -410,6 +410,8 @@ extension iTunesHandler: MediaPlayer
 		return "itunes"
 	}
 
+	// MARK: - Playback control functions
+
 	func playPause()
 	{
 		iTunesApp?.playpause!()
@@ -449,6 +451,16 @@ extension iTunesHandler: MediaPlayer
 	{
 		return SearchResult(withItems: [], forQuery: text)
 	}
+
+	// MARK: - Media control functions
+
+	func play(track: SearchResultItem)
+	{
+		if let iTunesItem = track as? iTunesTrackSearchResult
+		{
+			iTunesItem.track.playOnce!(true)
+		}
+	}
 }
 
 func pprint(_ string: String)
@@ -464,7 +476,7 @@ struct iTunesPlaybackInfo
 
 struct iTunesTrackSearchResult: SearchResultItem
 {
-	private let track: iTunesTrack
+	fileprivate let track: iTunesTrack
 
 	fileprivate init(track: iTunesTrack)
 	{

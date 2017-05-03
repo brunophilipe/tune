@@ -20,4 +20,8 @@ protocol MediaPlayer: MediaSearchable
 	func stop()
 	func nextTrack()
 	func previousTrack()
+
+	// MARK: - Media control functions
+
+	func play(track: SearchResultItem)
 }
