@@ -4,11 +4,15 @@ Control iTunes from the command line
 
 ---
 
+<script type="text/javascript" src="https://asciinema.org/a/118730.js" id="asciicast-118730" async></script>
+
 ![screenshot](http://i.imgur.com/cvQBFbI.png)
 
 This is an experiment on `ncurses`, `ScriptingBridge`, and `Swift`.
 
 The current version is a reimplementation of the old tune which had a direct launch argument API. Now it uses `ncurses` for a pretty text-based UI.
+
+You can see the evolution of tune through [some asciicasts I've recorded in asciinema](https://asciinema.org/~brunophilipe).
 
 ### Compiling
 
