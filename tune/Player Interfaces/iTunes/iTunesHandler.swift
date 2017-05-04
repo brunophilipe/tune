@@ -391,7 +391,11 @@ struct iTunesTrackMediaItem: MediaPlayerItem
 	fileprivate init(track: iTunesTrack)
 	{
 		self.track = track
+		
+		self.hashFix = ((track.name ?? "fucking apple").hashValue + (track.index ?? 0).hashValue).hashValue
 	}
+	
+	private var hashFix: Int
 
 	var kind: MediaPlayerItemKind
 	{
@@ -437,9 +441,9 @@ struct iTunesTrackMediaItem: MediaPlayerItem
 
 	func compare(_ otherItem: MediaPlayerItem?) -> Bool
 	{
-		if let otherItem = otherItem, otherItem.kind == kind, let otherTrack = (otherItem as? iTunesTrackMediaItem)?.track
+		if let otherItem = otherItem, otherItem.kind == kind, let otherTrack = otherItem as? iTunesTrackMediaItem
 		{
-			return otherTrack.persistentID == track.persistentID && otherTrack.name == track.name
+			return otherTrack.track.persistentID == track.persistentID && hashFix == otherTrack.hashFix
 		}
 
 		return false
