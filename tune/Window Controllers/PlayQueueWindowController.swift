@@ -71,12 +71,14 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 		self.windowStorage = UIDialog(frame: UIFrame(x: 0, y: 11, w: 40, h: userInterface.height - 12))
 		self.windowStorage.controller = self
 
+		window.frame = windowFrame
+
 		buildPanels()
 	}
 
 	func availableSizeChanged(newSize: UISize)
 	{
-		window.frame = UIFrame(x: 0, y: 11, w: 40, h: newSize.y - 12)
+		window.frame = windowFrame
 
 		boxPanel?.frame = boxPanelFrame
 		titlePanel?.frame = titlePanelFrame
@@ -156,6 +158,25 @@ class PlayQueueWindowController: UIWindowController, DesiresTrackInfo, DesiresCu
 		else
 		{
 			footerPanel?.title = ""
+		}
+	}
+
+	private var windowFrame: UIFrame
+	{
+		if let ui = self.userInterface
+		{
+			if ui.width < 70
+			{
+				return UIFrame(x: 0, y: 13, w: 40, h: ui.height - 14)
+			}
+			else
+			{
+				return UIFrame(x: 0, y: 11, w: 40, h: ui.height - 12)
+			}
+		}
+		else
+		{
+			return UIFrame(x: 0, y: 11, w: 40, h: 10)
 		}
 	}
 

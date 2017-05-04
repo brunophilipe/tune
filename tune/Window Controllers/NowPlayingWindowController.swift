@@ -46,16 +46,30 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 
 		self.windowStorage.controller = self
 
+		window.frame = windowFrame
+
 		buildPanels()
 	}
 
 	func availableSizeChanged(newSize: UISize)
 	{
-		window.frame = UIFrame(x: 40, y: 0, w: newSize.x - 40, h: 11)
+		window.frame = windowFrame
 
 		boxPanel?.frame = boxPanelFrame
 		titlePanel?.frame = titlePanelFrame
 		songInfoPanel?.frame = songInfoPanelFrame
+
+		if let frameChars = boxPanel?.frameChars
+		{
+			if (userInterface?.width ?? 70) < 70
+			{
+				boxPanel?.frameChars = frameChars.replacing(topLeft: "┣", topRight: "┫")
+			}
+			else
+			{
+				boxPanel?.frameChars = frameChars.replacing(topLeft: "┳", topRight: "┓")
+			}
+		}
 	}
 
 	private func buildPanels()
@@ -81,6 +95,25 @@ class NowPlayingWindowController: UIWindowController, DesiresTrackInfo, DesiresP
 			self.boxPanel = boxPanel
 			self.titlePanel = titlePanel
 			self.songInfoPanel = songInfoPanel
+		}
+	}
+
+	private var windowFrame: UIFrame
+	{
+		if let ui = userInterface
+		{
+			if ui.width < 70
+			{
+				return UIFrame(x: 0, y: 2, w: ui.width, h: 11)
+			}
+			else
+			{
+				return UIFrame(x: 40, y: 0, w: ui.width - 40, h: 11)
+			}
+		}
+		else
+		{
+			return UIFrame(x: 40, y: 0, w: 40, h: 11)
 		}
 	}
 

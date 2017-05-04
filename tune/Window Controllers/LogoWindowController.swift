@@ -42,29 +42,80 @@ class LogoWindowController: UIWindowController
 
 		self.windowStorage.controller = self
 
+		window.frame = windowFrame
+
 		buildPanels()
 	}
 
 	func availableSizeChanged(newSize: UISize)
 	{
-		// Nothing to do
+		window.frame = windowFrame
+
+		boxPanel?.frame = boxPanelFrame
+		logoPanel?.frame = logoPanelFrame
+
+		if let frameChars = boxPanel?.frameChars
+		{
+			if window.frame.height < 11
+			{
+				boxPanel?.frameChars = frameChars.replacing(topRight: "┓", right: "┃")
+			}
+			else
+			{
+				boxPanel?.frameChars = frameChars.replacing(topRight: " ", right: " ")
+			}
+		}
 	}
 
 	private func buildPanels()
 	{
 		if let color = userInterface?.sharedColorWhiteOnBlack
 		{
-			let boxPanel = UIBoxPanel(frame: UIFrame(origin: .zero, size: window.frame.size), frameColor: color)
+			let boxPanel = UIBoxPanel(frame: boxPanelFrame, frameColor: color)
 			boxPanel.clearsBackground = true
 			boxPanel.frameChars = UIBoxPanel.FrameChars.thickLine.replacing(right: " ", bottom: " ")
 
 			window.container.addSubPanel(boxPanel)
 
-			self.boxPanel = boxPanel
-		}
+			let logoPanel = LogoPanel(frame: logoPanelFrame)
 
-		logoPanel = LogoPanel(frame: UIFrame(origin: UIPoint(4, 2), size: UISize(33, 8)))
-		window.container.addSubPanel(logoPanel!)
+			window.container.addSubPanel(logoPanel)
+
+			self.boxPanel = boxPanel
+			self.logoPanel = logoPanel
+		}
+	}
+
+	private var windowFrame: UIFrame
+	{
+		if let ui = userInterface, ui.width < 70
+		{
+			return UIFrame(x: 0, y: 0, w: ui.width, h: 2)
+		}
+		else
+		{
+			return UIFrame(x: 0, y: 0, w: 40, h: 11)
+		}
+	}
+
+	private var boxPanelFrame: UIFrame
+	{
+		let frameSize = window.frame.size
+		return UIFrame(origin: .zero, size: frameSize.x < 40 ? window.frame.size.offset(x: -1, y: -1) : window.frame.size)
+	}
+
+	private var logoPanelFrame: UIFrame
+	{
+		let frameSize = window.frame.size
+
+		if frameSize.y < 11
+		{
+			return UIFrame(origin: window.frame.size.offset(x: -2).replacing(y: 1), size: UISize(4, 1))
+		}
+		else
+		{
+			return UIFrame(origin: UIPoint(4, 2), size: UISize(33, 8))
+		}
 	}
 }
 
@@ -90,46 +141,60 @@ private class LogoPanel: UIPanel
 
 	override func draw()
 	{
-		if let window = self.window, let logoColors = self.logoColors
+		if needsRedraw, let window = self.window, let logoColors = self.logoColors
 		{
-			let point = self.frame.origin
+			if frame.height > 2
+			{
+				let point = frame.origin
 
-			// Draw logo
-			window.drawText("888   ", at: point,				withColorPair: logoColors.char1)
-			window.drawText("888   ", at: point.offset(y: 1),	withColorPair: logoColors.char1)
-			window.drawText("888   ", at: point.offset(y: 2),	withColorPair: logoColors.char1)
-			window.drawText("888888", at: point.offset(y: 3),	withColorPair: logoColors.char1)
-			window.drawText("888   ", at: point.offset(y: 4),	withColorPair: logoColors.char1)
-			window.drawText("888   ", at: point.offset(y: 5),	withColorPair: logoColors.char1)
-			window.drawText("Y88b. ", at: point.offset(y: 6),	withColorPair: logoColors.char1)
-			window.drawText(" \"Y888", at: point.offset(y: 7),	withColorPair: logoColors.char1)
+				// Draw logo
+				window.drawText("888   ", at: point,				withColorPair: logoColors.char1)
+				window.drawText("888   ", at: point.offset(y: 1),	withColorPair: logoColors.char1)
+				window.drawText("888   ", at: point.offset(y: 2),	withColorPair: logoColors.char1)
+				window.drawText("888888", at: point.offset(y: 3),	withColorPair: logoColors.char1)
+				window.drawText("888   ", at: point.offset(y: 4),	withColorPair: logoColors.char1)
+				window.drawText("888   ", at: point.offset(y: 5),	withColorPair: logoColors.char1)
+				window.drawText("Y88b. ", at: point.offset(y: 6),	withColorPair: logoColors.char1)
+				window.drawText(" \"Y888", at: point.offset(y: 7),	withColorPair: logoColors.char1)
 
-			window.drawText("        ", at: point.offset(x: 7),			withColorPair: logoColors.char2)
-			window.drawText("        ", at: point.offset(x: 7, y: 1),	withColorPair: logoColors.char2)
-			window.drawText("        ", at: point.offset(x: 7, y: 2),	withColorPair: logoColors.char2)
-			window.drawText("888  888", at: point.offset(x: 7, y: 3),	withColorPair: logoColors.char2)
-			window.drawText("888  888", at: point.offset(x: 7, y: 4),	withColorPair: logoColors.char2)
-			window.drawText("888  888", at: point.offset(x: 7, y: 5),	withColorPair: logoColors.char2)
-			window.drawText("Y88b 888", at: point.offset(x: 7, y: 6),	withColorPair: logoColors.char2)
-			window.drawText(" \"Y88888", at: point.offset(x: 7, y: 7),	withColorPair: logoColors.char2)
+				window.drawText("        ", at: point.offset(x: 7),			withColorPair: logoColors.char2)
+				window.drawText("        ", at: point.offset(x: 7, y: 1),	withColorPair: logoColors.char2)
+				window.drawText("        ", at: point.offset(x: 7, y: 2),	withColorPair: logoColors.char2)
+				window.drawText("888  888", at: point.offset(x: 7, y: 3),	withColorPair: logoColors.char2)
+				window.drawText("888  888", at: point.offset(x: 7, y: 4),	withColorPair: logoColors.char2)
+				window.drawText("888  888", at: point.offset(x: 7, y: 5),	withColorPair: logoColors.char2)
+				window.drawText("Y88b 888", at: point.offset(x: 7, y: 6),	withColorPair: logoColors.char2)
+				window.drawText(" \"Y88888", at: point.offset(x: 7, y: 7),	withColorPair: logoColors.char2)
 
-			window.drawText("        ", at: point.offset(x: 16),		withColorPair: logoColors.char3)
-			window.drawText("        ", at: point.offset(x: 16, y: 1),	withColorPair: logoColors.char3)
-			window.drawText("        ", at: point.offset(x: 16, y: 2),	withColorPair: logoColors.char3)
-			window.drawText("88888b. ", at: point.offset(x: 16, y: 3),	withColorPair: logoColors.char3)
-			window.drawText("888 \"88b", at: point.offset(x: 16, y: 4),	withColorPair: logoColors.char3)
-			window.drawText("888  888", at: point.offset(x: 16, y: 5),	withColorPair: logoColors.char3)
-			window.drawText("888  888", at: point.offset(x: 16, y: 6),	withColorPair: logoColors.char3)
-			window.drawText("888  888", at: point.offset(x: 16, y: 7),	withColorPair: logoColors.char3)
+				window.drawText("        ", at: point.offset(x: 16),		withColorPair: logoColors.char3)
+				window.drawText("        ", at: point.offset(x: 16, y: 1),	withColorPair: logoColors.char3)
+				window.drawText("        ", at: point.offset(x: 16, y: 2),	withColorPair: logoColors.char3)
+				window.drawText("88888b. ", at: point.offset(x: 16, y: 3),	withColorPair: logoColors.char3)
+				window.drawText("888 \"88b", at: point.offset(x: 16, y: 4),	withColorPair: logoColors.char3)
+				window.drawText("888  888", at: point.offset(x: 16, y: 5),	withColorPair: logoColors.char3)
+				window.drawText("888  888", at: point.offset(x: 16, y: 6),	withColorPair: logoColors.char3)
+				window.drawText("888  888", at: point.offset(x: 16, y: 7),	withColorPair: logoColors.char3)
 
-			window.drawText("        ", at: point.offset(x: 25),		withColorPair: logoColors.char4)
-			window.drawText("        ", at: point.offset(x: 25, y: 1),	withColorPair: logoColors.char4)
-			window.drawText("        ", at: point.offset(x: 25, y: 2),	withColorPair: logoColors.char4)
-			window.drawText(" .d88b. ", at: point.offset(x: 25, y: 3),	withColorPair: logoColors.char4)
-			window.drawText("d8P  Y8b", at: point.offset(x: 25, y: 4),	withColorPair: logoColors.char4)
-			window.drawText("88888888", at: point.offset(x: 25, y: 5),	withColorPair: logoColors.char4)
-			window.drawText("Y8b.    ", at: point.offset(x: 25, y: 6),	withColorPair: logoColors.char4)
-			window.drawText(" \"Y8888 ", at: point.offset(x: 25, y: 7),	withColorPair: logoColors.char4)
+				window.drawText("        ", at: point.offset(x: 25),		withColorPair: logoColors.char4)
+				window.drawText("        ", at: point.offset(x: 25, y: 1),	withColorPair: logoColors.char4)
+				window.drawText("        ", at: point.offset(x: 25, y: 2),	withColorPair: logoColors.char4)
+				window.drawText(" .d88b. ", at: point.offset(x: 25, y: 3),	withColorPair: logoColors.char4)
+				window.drawText("d8P  Y8b", at: point.offset(x: 25, y: 4),	withColorPair: logoColors.char4)
+				window.drawText("88888888", at: point.offset(x: 25, y: 5),	withColorPair: logoColors.char4)
+				window.drawText("Y8b.    ", at: point.offset(x: 25, y: 6),	withColorPair: logoColors.char4)
+				window.drawText(" \"Y8888 ", at: point.offset(x: 25, y: 7),	withColorPair: logoColors.char4)
+			}
+			else
+			{
+				let point = UIPoint((window.frame.width / 2) - 2, 1)
+
+				window.drawText("t", at: point,				 withColorPair: logoColors.char1)
+				window.drawText("u", at: point.offset(x: 1), withColorPair: logoColors.char2)
+				window.drawText("n", at: point.offset(x: 2), withColorPair: logoColors.char3)
+				window.drawText("e", at: point.offset(x: 3), withColorPair: logoColors.char4)
+			}
+
+			needsRedraw = false
 		}
 	}
 

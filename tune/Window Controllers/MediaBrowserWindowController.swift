@@ -40,14 +40,28 @@ class MediaBrowserWindowController: UIWindowController
 		self.windowStorage = UIDialog(frame: UIFrame(x: 40, y: 11, w: userInterface.width - 40, h: userInterface.height - 12))
 		self.windowStorage.controller = self
 
+		window.frame = windowFrame
+
 		buildPanels()
 	}
 
 	func availableSizeChanged(newSize: UISize)
 	{
-		window.frame = UIFrame(x: 40, y: 11, w: newSize.x - 40, h: newSize.y - 12)
+		window.frame = windowFrame
 
 		boxPanel?.frame = boxPanelFrame
+
+		if let frameChars = boxPanel?.frameChars
+		{
+			if (userInterface?.width ?? 70) < 70
+			{
+				boxPanel?.frameChars = frameChars.replacing(topLeft: "┳")
+			}
+			else
+			{
+				boxPanel?.frameChars = frameChars.replacing(topLeft: "╋")
+			}
+		}
 	}
 
 	private func buildPanels()
@@ -66,6 +80,25 @@ class MediaBrowserWindowController: UIWindowController
 			window.container.addSubPanel(boxPanel)
 
 			self.boxPanel = boxPanel
+		}
+	}
+
+	private var windowFrame: UIFrame
+	{
+		if let ui = self.userInterface
+		{
+			if ui.width < 70
+			{
+				return UIFrame(x: 40, y: 13, w: ui.width - 40, h: ui.height - 14)
+			}
+			else
+			{
+				return UIFrame(x: 40, y: 11, w: ui.width - 40, h: ui.height - 12)
+			}
+		}
+		else
+		{
+			return UIFrame(x: 40, y: 11, w: 20, h: 10)
 		}
 	}
 
