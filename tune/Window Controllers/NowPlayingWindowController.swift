@@ -195,7 +195,7 @@ private class SongInfoPanel: UIPanel
 				albumNamePanel?.title = info.album.truncated(to: maxLength)
 
 				// Separator
-				window.drawText("─" * (frame.width - 2), at: UIPoint(frame.origin.x + 1, frame.height - 2), withColorPair: textColor)
+				window.drawText("╍" * frame.width, at: UIPoint(frame.origin.x, frame.height - 2), withColorPair: textColor)
 
 				// Track progress + duration bar
 				let pY = frame.height
