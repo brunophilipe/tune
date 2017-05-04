@@ -55,7 +55,7 @@ class iTunesHandler
 {
 	var currentTrack: MediaPlayerItem?
 	{
-		if let track = iTunesApp?.currentTrack?.get() as? iTunesTrack, track.duration > 0
+		if let track = iTunesApp?.currentTrack, track.duration > 0
 		{
 			return iTunesTrackMediaItem(track: track)
 		}
@@ -67,13 +67,17 @@ class iTunesHandler
 	
 	var currentPlaylist: MediaPlayerPlaylist?
 	{
-		if let track = iTunesApp?.currentTrack?.get() as? iTunesTrack, track.duration > 0,
-		   let playlist = track.container?.get() as? iTunesPlaylist
+		if let track = iTunesApp?.currentTrack, track.duration > 0,
+		   let playlist = track.container?.get() as? iTunesPlaylist, playlist.id!() > 0
 		{
 			// This returns a playlist that's more likely to have the correct track `index` property, since it depends on the sorting.
 			return iTunesMediaPlaylist(playlist: playlist)
 		}
-		else if let playlist = iTunesApp?.currentPlaylist?.get() as? iTunesPlaylist
+		else if let playlist = iTunesApp?.currentPlaylist?.get() as? iTunesPlaylist, playlist.id!() > 0
+		{
+			return iTunesMediaPlaylist(playlist: playlist)
+		}
+		else if let playlist = iTunesApp?.currentPlaylist
 		{
 			return iTunesMediaPlaylist(playlist: playlist)
 		}
