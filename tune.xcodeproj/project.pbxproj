@@ -33,17 +33,6 @@
 		15D00C681EB7DA01000E9782 /* MediaPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D00C671EB7DA01000E9782 /* MediaPlayer.swift */; };
 		15DCCA551EB6E11B00400F8B /* libpanel.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 15DCCA541EB6E11B00400F8B /* libpanel.tbd */; };
 		15DCCA571EB6E2E200400F8B /* UIDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DCCA561EB6E2E200400F8B /* UIDialog.swift */; };
-		15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */; };
-		15E8EE231D46C18B00B8C266 /* CodesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE181D46C18B00B8C266 /* CodesParser.swift */; };
-		15E8EE241D46C18B00B8C266 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE191D46C18B00B8C266 /* Color.swift */; };
-		15E8EE251D46C18B00B8C266 /* ControlCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1A1D46C18B00B8C266 /* ControlCode.swift */; };
-		15E8EE261D46C18B00B8C266 /* ModesExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1B1D46C18B00B8C266 /* ModesExtractor.swift */; };
-		15E8EE271D46C18B00B8C266 /* OutputTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1C1D46C18B00B8C266 /* OutputTarget.swift */; };
-		15E8EE281D46C18B00B8C266 /* Rainbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1D1D46C18B00B8C266 /* Rainbow.swift */; };
-		15E8EE291D46C18B00B8C266 /* String+Rainbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1E1D46C18B00B8C266 /* String+Rainbow.swift */; };
-		15E8EE2A1D46C18B00B8C266 /* StringGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE1F1D46C18B00B8C266 /* StringGenerator.swift */; };
-		15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE201D46C18B00B8C266 /* Style.swift */; };
-		15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */; };
 		15F0CDDE1EB42011009B13CA /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDDD1EB42011009B13CA /* String+Additions.swift */; };
 		15F0CDE01EB426A4009B13CA /* ncurses+missingdefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDDF1EB426A4009B13CA /* ncurses+missingdefs.swift */; };
 		15F0CDE41EB4CAE3009B13CA /* UserInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0CDE31EB4CAE3009B13CA /* UserInterfaceController.swift */; };
@@ -96,17 +85,6 @@
 		15D00C671EB7DA01000E9782 /* MediaPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPlayer.swift; sourceTree = "<group>"; };
 		15DCCA541EB6E11B00400F8B /* libpanel.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpanel.tbd; path = usr/lib/libpanel.tbd; sourceTree = SDKROOT; };
 		15DCCA561EB6E2E200400F8B /* UIDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIDialog.swift; path = "User Interface/UIDialog.swift"; sourceTree = "<group>"; };
-		15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundColor.swift; sourceTree = "<group>"; };
-		15E8EE181D46C18B00B8C266 /* CodesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodesParser.swift; sourceTree = "<group>"; };
-		15E8EE191D46C18B00B8C266 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		15E8EE1A1D46C18B00B8C266 /* ControlCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlCode.swift; sourceTree = "<group>"; };
-		15E8EE1B1D46C18B00B8C266 /* ModesExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModesExtractor.swift; sourceTree = "<group>"; };
-		15E8EE1C1D46C18B00B8C266 /* OutputTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputTarget.swift; sourceTree = "<group>"; };
-		15E8EE1D1D46C18B00B8C266 /* Rainbow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rainbow.swift; sourceTree = "<group>"; };
-		15E8EE1E1D46C18B00B8C266 /* String+Rainbow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Rainbow.swift"; sourceTree = "<group>"; };
-		15E8EE1F1D46C18B00B8C266 /* StringGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringGenerator.swift; sourceTree = "<group>"; };
-		15E8EE201D46C18B00B8C266 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
-		15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XcodeColorsSupport.swift; sourceTree = "<group>"; };
 		15E8EE2E1D4728B200B8C266 /* tune-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tune-Bridging-Header.h"; sourceTree = "<group>"; };
 		15F0CDDD1EB42011009B13CA /* String+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		15F0CDDF1EB426A4009B13CA /* ncurses+missingdefs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ncurses+missingdefs.swift"; sourceTree = "<group>"; };
@@ -134,7 +112,6 @@
 			isa = PBXGroup;
 			children = (
 				150FEB551D46ACF100147D0C /* tune */,
-				15E8EE151D46C18B00B8C266 /* dep */,
 				150FEB541D46ACF100147D0C /* Products */,
 				15FFB3BD1EB1706200634F1A /* Frameworks */,
 			);
@@ -227,32 +204,6 @@
 				15D00C651EB7D923000E9782 /* SearchEngine.swift */,
 			);
 			path = Search;
-			sourceTree = "<group>";
-		};
-		15E8EE151D46C18B00B8C266 /* dep */ = {
-			isa = PBXGroup;
-			children = (
-				15E8EE161D46C18B00B8C266 /* RainbowSwift */,
-			);
-			path = dep;
-			sourceTree = "<group>";
-		};
-		15E8EE161D46C18B00B8C266 /* RainbowSwift */ = {
-			isa = PBXGroup;
-			children = (
-				15E8EE171D46C18B00B8C266 /* BackgroundColor.swift */,
-				15E8EE181D46C18B00B8C266 /* CodesParser.swift */,
-				15E8EE191D46C18B00B8C266 /* Color.swift */,
-				15E8EE1A1D46C18B00B8C266 /* ControlCode.swift */,
-				15E8EE1B1D46C18B00B8C266 /* ModesExtractor.swift */,
-				15E8EE1C1D46C18B00B8C266 /* OutputTarget.swift */,
-				15E8EE1D1D46C18B00B8C266 /* Rainbow.swift */,
-				15E8EE1E1D46C18B00B8C266 /* String+Rainbow.swift */,
-				15E8EE1F1D46C18B00B8C266 /* StringGenerator.swift */,
-				15E8EE201D46C18B00B8C266 /* Style.swift */,
-				15E8EE211D46C18B00B8C266 /* XcodeColorsSupport.swift */,
-			);
-			path = RainbowSwift;
 			sourceTree = "<group>";
 		};
 		15F0CDDC1EB42001009B13CA /* Extensions */ = {
@@ -348,46 +299,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15E8EE251D46C18B00B8C266 /* ControlCode.swift in Sources */,
 				15D00C601EB7D7C4000E9782 /* iTunes.swift in Sources */,
 				1564DF941EB69BE00042EA7F /* MediaBrowserWindowController.swift in Sources */,
 				15D00C621EB7D7C4000E9782 /* iTunesScripting.swift in Sources */,
-				15E8EE271D46C18B00B8C266 /* OutputTarget.swift in Sources */,
 				159679D91EB7F1D6001DC3B6 /* UITextPromptPanel.swift in Sources */,
 				1564DF8C1EB677AF0042EA7F /* NowPlayingWindowController.swift in Sources */,
-				15E8EE281D46C18B00B8C266 /* Rainbow.swift in Sources */,
 				15D00C661EB7D923000E9782 /* SearchEngine.swift in Sources */,
 				15BA30061EB6CFC200AB691B /* SearchWindowController.swift in Sources */,
-				15E8EE291D46C18B00B8C266 /* String+Rainbow.swift in Sources */,
 				15F0CDE01EB426A4009B13CA /* ncurses+missingdefs.swift in Sources */,
 				1564DF8A1EB66E4A0042EA7F /* UIBoxPanel.swift in Sources */,
 				15F0CDDE1EB42011009B13CA /* String+Additions.swift in Sources */,
 				15DCCA571EB6E2E200400F8B /* UIDialog.swift in Sources */,
 				159679D71EB7F0BB001DC3B6 /* main.swift in Sources */,
-				15E8EE2B1D46C18B00B8C266 /* Style.swift in Sources */,
-				15E8EE2C1D46C18B00B8C266 /* XcodeColorsSupport.swift in Sources */,
 				1564DF7D1EB64C020042EA7F /* UIWindow.swift in Sources */,
 				15F0CDE41EB4CAE3009B13CA /* UserInterfaceController.swift in Sources */,
 				1564DF921EB69AEB0042EA7F /* PlayQueueWindowController.swift in Sources */,
 				15D00C681EB7DA01000E9782 /* MediaPlayer.swift in Sources */,
 				15D00C611EB7D7C4000E9782 /* iTunesHandler.swift in Sources */,
 				15F0CDE71EB4D638009B13CA /* UIState.swift in Sources */,
-				15E8EE241D46C18B00B8C266 /* Color.swift in Sources */,
 				1564DF861EB655940042EA7F /* UIWindowController.swift in Sources */,
 				15BA30041EB6B34700AB691B /* UICenteredTitlePanel.swift in Sources */,
 				1564DF981EB6A1E60042EA7F /* UIControlBarPanel.swift in Sources */,
 				1564DF9A1EB6A4890042EA7F /* CommandsBarWindowController.swift in Sources */,
-				15E8EE261D46C18B00B8C266 /* ModesExtractor.swift in Sources */,
 				154EAEF51EB591AF0096A2B6 /* Double+Additions.swift in Sources */,
 				1564DF961EB69FCA0042EA7F /* UIListPanel.swift in Sources */,
-				15E8EE2A1D46C18B00B8C266 /* StringGenerator.swift in Sources */,
-				15E8EE221D46C18B00B8C266 /* BackgroundColor.swift in Sources */,
 				1564DF811EB64CB40042EA7F /* UIPanel.swift in Sources */,
 				15D00C631EB7D7C4000E9782 /* iTunesTools.m in Sources */,
 				159679DB1EB95157001DC3B6 /* Stack.swift in Sources */,
 				15FFB3C81EB2D09D00634F1A /* UserInterface.swift in Sources */,
 				1564DF881EB656370042EA7F /* LogoWindowController.swift in Sources */,
-				15E8EE231D46C18B00B8C266 /* CodesParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

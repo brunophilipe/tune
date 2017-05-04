@@ -17,7 +17,7 @@ You can see the evolution of tune through [some asciicasts I've recorded in asci
 1. Clone or download this repo
 2. Run `cd tune`
 2. Run `make`
-3. Run `./build/tune`
+3. Run `./build/Release/tune`
 
 You can run the following command to add tune to your run path without moving any file. And then when you compile a new version, the link will automatically point to the new binary:
 
