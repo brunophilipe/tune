@@ -25,15 +25,30 @@ import Foundation
 class UICenteredTitlePanel: UIPanel
 {
 	var title: String? = nil
+	{
+		didSet { needsRedraw = true }
+	}
 
 	var textColor: UIColorPair? = nil
+	{
+		didSet { needsRedraw = true }
+	}
 
 	var bgAttributes: UITextAttributes = .reverse
+	{
+		didSet { needsRedraw = true }
+	}
+
 	var attributes: UITextAttributes = [.bold, .reverse]
+	{
+		didSet { needsRedraw = true }
+	}
 
 	override func draw()
 	{
-		if let window = self.window, let textColor = self.textColor ?? window.controller?.userInterface?.sharedColorWhiteOnBlack
+		if needsRedraw,
+			let window = self.window,
+			let textColor = self.textColor ?? window.controller?.userInterface?.sharedColorWhiteOnBlack
 		{
 			let availableTitleWidth = Int(frame.width - 1)
 
@@ -53,6 +68,8 @@ class UICenteredTitlePanel: UIPanel
 					window.drawText(truncatedTitle, at: frame.origin.replacing(x: pX), withColorPair: textColor)
 				}
 			}
+
+			needsRedraw = false
 		}
 	}
 }

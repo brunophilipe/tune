@@ -12,17 +12,40 @@ import Foundation
 class UITextPromptPanel: UIPanel
 {
 	var prompt: String? = nil
+	{
+		didSet { needsRedraw = true }
+	}
+
 	var text: String? = nil
+	{
+		didSet { needsRedraw = true }
+	}
 
 	var textColor: UIColorPair? = nil
+	{
+		didSet { needsRedraw = true }
+	}
 
 	var bgAttributes: UITextAttributes = .reverse
+	{
+		didSet { needsRedraw = true }
+	}
+
 	var promptAttributes: UITextAttributes = [.bold, .reverse]
+	{
+		didSet { needsRedraw = true }
+	}
+
 	var textAttributes: UITextAttributes = [.reverse]
+	{
+		didSet { needsRedraw = true }
+	}
 
 	override func draw()
 	{
-		if let window = self.window, let textColor = self.textColor ?? window.controller?.userInterface?.sharedColorWhiteOnBlack
+		if needsRedraw,
+			let window = self.window,
+			let textColor = self.textColor ?? window.controller?.userInterface?.sharedColorWhiteOnBlack
 		{
 			let availableTitleWidth = Int(frame.width - 2)
 
@@ -61,6 +84,8 @@ class UITextPromptPanel: UIPanel
 					window.drawText(truncatedTitle, at: frame.origin.offset(x: offsetWidth + 1), withColorPair: textColor)
 				}
 			}
+
+			needsRedraw = false
 		}
 	}
 }

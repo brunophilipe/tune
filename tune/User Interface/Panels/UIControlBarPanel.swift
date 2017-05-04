@@ -25,12 +25,21 @@ import Foundation
 class UIControlBarPanel: UIPanel
 {
 	var barItems: [String]? = nil
+	{
+		didSet { needsRedraw = true }
+	}
 
 	var textColor: UIColorPair? = nil
+	{
+		didSet { needsRedraw = true }
+	}
 
 	override func draw()
 	{
-		if let window = self.window, let barItems = self.barItems, let textColor = self.textColor ?? window.controller?.userInterface?.sharedColorWhiteOnBlack
+		if needsRedraw,
+			let window = self.window,
+			let barItems = self.barItems,
+			let textColor = self.textColor ?? window.controller?.userInterface?.sharedColorWhiteOnBlack
 		{
 			let point = UIPoint.zero
 
@@ -59,6 +68,8 @@ class UIControlBarPanel: UIPanel
 					break
 				}
 			}
+
+			needsRedraw = false
 		}
 	}
 }
