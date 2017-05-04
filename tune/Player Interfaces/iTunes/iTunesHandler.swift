@@ -439,7 +439,7 @@ struct iTunesTrackMediaItem: MediaPlayerItem
 	{
 		if let otherItem = otherItem, otherItem.kind == kind, let otherTrack = (otherItem as? iTunesTrackMediaItem)?.track
 		{
-			return otherTrack.persistentID == track.persistentID
+			return otherTrack.persistentID == track.persistentID && otherTrack.name == track.name
 		}
 
 		return false
