@@ -12,6 +12,8 @@ The current version is a reimplementation of the old tune I wrote ages ago, whic
 
 You can see the evolution of tune through [some asciicasts I've recorded in asciinema](https://asciinema.org/~brunophilipe).
 
+This projects includes an advanced Swift wrap around `ncurses`, and that might become an independent project in the future. You can check it out in the source by [clicking here](https://github.com/brunophilipe/tune/blob/master/tune/User%20Interface/UIWindow.swift).
+
 ### Compiling
 
 1. Clone or download this repo
