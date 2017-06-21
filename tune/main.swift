@@ -35,6 +35,7 @@ class Main
 
 	func run()
 	{
+		// The locale has to be set before ncurses does anything
 		setlocale(LC_ALL, "en_US.UTF-8")
 
 		let (rootState, searchBrowseState) = buildStatesChain()
@@ -49,6 +50,7 @@ class Main
 
 		searchEngine.mediaPlayer = iTunes
 
+		// Hook that will be called before each ncurses screen update
 		userInterface.preDrawHook =
 		{
 			let iTunes = self.iTunes
@@ -58,6 +60,8 @@ class Main
 			{
 				for controller in windowControllers
 				{
+					// If a controller implements some protocol(s), send the desired information to them.
+					
 					if var desiree = controller as? DesiresTrackInfo
 					{
 						desiree.track			= iTunes.currentTrack
@@ -82,7 +86,10 @@ class Main
 			}
 		}
 
+		// Start listening to key events. This is a blocking call that won't return until the program is ready to exit.
 		userInterface.startEventLoop()
+		
+		// Exit
 		userInterface.finalize()
 	}
 
@@ -200,5 +207,6 @@ extension UIState
 	}
 }
 
+// Launch the main class
 let main = Main()
 main.run()
